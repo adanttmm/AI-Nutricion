@@ -167,7 +167,7 @@ if [ "$SIN_PUSH" = false ]; then
     git commit -m "actualizar semana $(date +%Y-%m-%d)"
     git push origin master
     echo ""
-    echo "✅ Publicado — https://adanttmm.github.io/nutricion/"
+    echo "✅ Publicado — https://adanttmm.github.io/AI-Nutricion/"
     _record_step "5. Publicar (git push)" "$(_elapsed $T_STEP)" "✅"
   fi
 else

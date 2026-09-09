@@ -33,7 +33,7 @@ This runs all four generation steps in order: menu → shopping list → recipes
 bash actualizar_site.sh
 ```
 Imports ratings, rebuilds the static site in `docs/`, commits, and pushes to GitHub Pages.  
-Live at: **https://adanttmm.github.io/nutricion/**
+Live at: **https://adanttmm.github.io/AI-Nutricion/**
 
 ---
 

@@ -14,7 +14,7 @@
 // yourself: the GITHUB_TOKEN secret and the RATINGS_KV namespace binding.
 
 const GITHUB_OWNER = 'adanttmm';
-const GITHUB_REPO = 'nutricion';
+const GITHUB_REPO = 'AI-Nutricion';
 const GITHUB_BRANCH = 'master';
 const ALLOWED_ORIGIN = 'https://adanttmm.github.io';
 const MAX_BODY_BYTES = 200 * 1024;   // a week of ratings is a few KB; generous headroom

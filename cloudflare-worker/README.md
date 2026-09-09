@@ -18,7 +18,7 @@ No server to maintain — it's a small function that runs on Cloudflare's free t
 ### 1. Create a GitHub token (the Worker's only credential)
 
 1. Go to https://github.com/settings/personal-access-tokens/new
-2. **Repository access** → "Only select repositories" → choose `adanttmm/nutricion`
+2. **Repository access** → "Only select repositories" → choose `adanttmm/AI-Nutricion`
 3. **Permissions** → **Repository permissions** → **Contents** → set to **Read and write**. Leave every other permission at "No access".
 4. Generate the token and copy it — you won't see it again. You'll paste it into Cloudflare in step 4.
 
@@ -50,7 +50,7 @@ Once deployed, send me the `https://....workers.dev` URL from step 2.5 and I'll 
 ## Testing it
 
 After it's wired in, open the live site, rate a dish, and check:
-- https://github.com/adanttmm/nutricion/commits/master — a new commit "ratings: auto-sync from site (...)" should appear within a few seconds.
+- https://github.com/adanttmm/AI-Nutricion/commits/master — a new commit "ratings: auto-sync from site (...)" should appear within a few seconds.
 - Run `bash actualizar.sh` (or just `git pull`) locally — the new `data/ratings/ratings_..._web.json` file should show up, and `importar-ratings` should report it.
 
 ## Notes on the security model
