@@ -23,6 +23,7 @@ CONVERSIÓN CRUDO → COCIDO (usar estas tablas para calcular cantidades a compr
 - Avena: ×2.0
 - Camote/papa: ×0.9 (pierde agua al hornear)
 Cuando el menú indica "180g de arroz cocido", cocinar 72g en crudo. Siempre especificar PESO EN CRUDO en la lista de preparación.
+Esta tabla es SOLO un respaldo para cuando el menú/recetas no dan un gramaje explícito. Si el recetario o el menú ya especifican una cantidad (cruda o cocida) para un ingrediente, esa cifra es la autoridad —úsala tal cual, incluso si tu propio cálculo con la tabla de conversión da un número distinto. Nunca sobrescribas ni "corrijas" una cantidad explícita del menú/recetas argumentando que la subestima.
 
 FILOSOFÍA "PREP INTELIGENTE" (no todo el domingo):
 
@@ -60,10 +61,22 @@ PRINCIPIOS DE EFICIENCIA:
 CONSERVACIÓN SEGURA:
 - Proteínas sous vide en bolsa sellada (sin cocinar): 4 días refrigeradas / 3 meses congeladas
 - Proteínas cocidas: 3-4 días refrigeradas
+- Pescados/mariscos delicados crudos (no sous vide): máx. 2 días refrigerados
 - Granos cocidos: 4-5 días refrigerados
 - Verduras asadas: 4-5 días refrigeradas
 - Salsas y aderezos: 5-7 días refrigerados
 - Pasta fresca sin cocer: 2 días refrigerada / 3 meses congelada
+
+RESOLUCIÓN OBLIGATORIA DE CONSERVACIÓN (no es información de referencia — es un paso de cálculo que debes hacer para CADA preparación antes de escribir el plan, sin excepción):
+Antes de finalizar, revisa uno por uno TODOS los bloques/bolsas/lotes de cada proteína, grano, salsa o pasta que preparas el sábado/domingo — no solo el caso más obvio de cada ingrediente. Para cada bloque, calcula cuántos días pasarán entre esa preparación y el día en que el menú lo usa. Si ese rango excede el límite de conservación de arriba:
+- NUNCA lo dejes tal cual ni lo menciones solo como advertencia — el plan debe resolverlo explícitamente.
+- Proteínas/pescados que excedan su límite refrigerado: congelar esa porción específica el mismo día de preparación (crudo marinado para pescados delicados, cocido para el resto) y agregar un paso explícito de descongelado 24h antes de usarla — indica cuáles porciones (por día) van al congelador vs. al refrigerador.
+- Pescados y mariscos delicados (no sous vide) usados después de 2 días desde la compra: por default van marinados en crudo al congelador el domingo, nunca "refrigerado hasta el viernes".
+- Granos, salsas o verduras que excedan su ventana: divide la cocción en 2 tandas (ej. domingo + entre semana) en vez de cocinar todo de una vez, y dilo explícitamente en el turno correspondiente — no es opcional ni "se puede saltar".
+- Esta resolución debe quedar visible en el cronograma (qué turno, qué paso) y en la Tabla de Contenedores ("Conserva hasta" debe reflejar refrigerado o congelado según lo que decidiste, nunca un número que exceda el límite).
+
+RECONCILIACIÓN DE CANTIDADES (obligatoria, no aproximada):
+Para cada ingrediente que consolidas en un total (ej. "Total salmón: ~2,040g"), suma las cantidades EXACTAS por persona y por cada instancia en la semana tal como aparecen en el menú/recetas (ATM + IOB + 3er comensal cuando aplique, en cada día que se repite el platillo) — no redondees ni estimes de memoria. El total que escribas debe poder reconstruirse sumando esas cifras exactas; si no cuadra, recalcula antes de finalizar el plan.
 
 FORMATO OBLIGATORIO:
 
