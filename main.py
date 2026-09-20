@@ -168,22 +168,45 @@ def generar_compras(menu, recetas, prep):
 
 @cli.command("verificar-compras")
 @click.option("--compras", "-c", default=None, help="Ruta a la lista de compras (default: la más reciente)")
-def verificar_compras(compras):
-    """Verifica que cada ingrediente esté en la tienda correcta; sugiere Mercado Libre o Amazon si no."""
+@click.option("--menu", "-m", default=None, help="Ruta al menú (default: el más reciente en outputs/menus/)")
+@click.option("--recetas", "-r", default=None, help="Ruta al recetario (default: el más reciente en outputs/recipes/)")
+@click.option("--prep", "-p", default=None, help="Ruta al plan de meal prep (default: el más reciente en outputs/meal_prep/)")
+def verificar_compras(compras, menu, recetas, prep):
+    """Audita la lista de compras contra el menú/recetas/prep: completitud, cantidades exactas y tienda."""
     from skills.shopping_validator import ShoppingValidatorSkill
 
     compras = compras or _find_latest_output("shopping", "compras_*.md")
+    menu    = menu    or _find_latest_output("menus",     "menu_*.md")
+    recetas = recetas or _find_latest_output("recipes",   "recetas_*.md")
+    prep    = prep    or _find_latest_output("meal_prep", "meal_prep_*.md")
     if not compras:
         console.print("[red]No se encontró ninguna lista. Genera una primero con 'generar-compras'.[/red]")
         raise SystemExit(1)
     console.print(f"[dim]Verificando: {compras}[/dim]")
 
-    with console.status("[bold cyan]Verificando asignaciones de tienda...", spinner="dots"):
-        output = ShoppingValidatorSkill().validate(compras)
+    with console.status("[bold cyan]Auditando completitud, cantidades y tienda...", spinner="dots"):
+        result = ShoppingValidatorSkill().validate(compras, menu, recetas, prep)
+
+    original_header = "\n".join(
+        line for line in Path(compras).read_text(encoding="utf-8").split("\n")[:3]
+        if line.startswith("#")
+    )
+    validated_header = original_header + "\n\n> ✅ Validado por agente de verificación de compras\n\n"
+    Path(compras).write_text(validated_header + result.report, encoding="utf-8")
+
+    color = "green" if result.passed else "red"
+    icon  = "✅" if result.passed else "❌"
     console.print(Panel(
-        f"[green]✅ Lista verificada y corregida[/green]\n\n📄 [bold]{output}[/bold]",
-        title="Verificación de Compras", border_style="cyan",
+        result.report,
+        title=f"[{color}]{icon} Auditoría de Compras[/{color}]",
+        border_style=color,
     ))
+    if not result.passed and result.feedback:
+        console.print(Panel(
+            result.feedback,
+            title="[yellow]Correcciones aplicadas[/yellow]",
+            border_style="yellow",
+        ))
 
 
 @cli.command("generar-recetas")
@@ -370,17 +393,74 @@ def semana_completa(plan, semana, sin_sitio, nota, sin_historial):
     console.print(f"  [green]✅[/green] Recetas: {outputs['recetas']}")
 
     # Meal prep before shopping so all sauce/marinade ingredients are captured
-    with console.status("[magenta]3/5 · Plan de meal prep...", spinner="dots"):
-        outputs["prep"] = MealPrepPlannerSkill().generate(
-            str(outputs["menu"]), str(outputs["recetas"]), week_notes=nota
-        )
-    console.print(f"  [green]✅[/green] Meal prep: {outputs['prep']}")
+    from skills.meal_prep_validator import MealPrepValidatorSkill
 
-    with console.status("[blue]4/5 · Lista de compras...", spinner="dots"):
-        outputs["compras"] = ShoppingListSkill().generate(
-            str(outputs["menu"]), str(outputs["recetas"]), str(outputs["prep"])
-        )
-    console.print(f"  [green]✅[/green] Compras: {outputs['compras']}")
+    MAX_PREP_RETRIES = 3
+    prep_feedback = ""
+    for attempt in range(MAX_PREP_RETRIES):
+        label = "3/5 · Plan de meal prep" if attempt == 0 else f"  ↺ Corrección #{attempt} · Meal prep"
+        with console.status(f"[magenta]{label}...", spinner="dots"):
+            outputs["prep"] = MealPrepPlannerSkill().generate(
+                str(outputs["menu"]), str(outputs["recetas"]), week_notes=nota, feedback=prep_feedback
+            )
+        console.print(f"  [green]✅[/green] Meal prep generado (intento {attempt + 1}/{MAX_PREP_RETRIES}): {outputs['prep']}")
+
+        with console.status("[yellow]  Auditando cobertura y cantidades...", spinner="dots"):
+            prep_val = MealPrepValidatorSkill().validate(
+                str(outputs["menu"]), str(outputs["prep"]), str(outputs["recetas"])
+            )
+
+        if prep_val.passed:
+            console.print("  [green]✅[/green] Meal prep validado — cobertura y cantidades correctas")
+            break
+
+        console.print(f"  [yellow]⚠️[/yellow]  Meal prep rechazado (intento {attempt + 1}/{MAX_PREP_RETRIES})")
+        console.print(Panel(prep_val.report, title="[yellow]Auditoría de meal prep[/yellow]", border_style="yellow"))
+        prep_feedback = prep_val.feedback
+
+        if attempt == MAX_PREP_RETRIES - 1:
+            console.print(
+                "[red]❌ No se pudo validar el meal prep en 3 intentos. "
+                "Se usará el último generado — revisa manualmente.[/red]"
+            )
+
+    from skills.shopping_validator import ShoppingValidatorSkill
+
+    MAX_COMPRAS_RETRIES = 3
+    compras_feedback = ""
+    for attempt in range(MAX_COMPRAS_RETRIES):
+        label = "4/5 · Lista de compras" if attempt == 0 else f"  ↺ Corrección #{attempt} · Lista de compras"
+        with console.status(f"[blue]{label}...", spinner="dots"):
+            outputs["compras"] = ShoppingListSkill().generate(
+                str(outputs["menu"]), str(outputs["recetas"]), str(outputs["prep"]), feedback=compras_feedback
+            )
+        console.print(f"  [green]✅[/green] Compras generadas (intento {attempt + 1}/{MAX_COMPRAS_RETRIES}): {outputs['compras']}")
+
+        with console.status("[blue]  Auditando completitud, cantidades y tienda...", spinner="dots"):
+            compras_val = ShoppingValidatorSkill().validate(
+                str(outputs["compras"]), str(outputs["menu"]), str(outputs["recetas"]), str(outputs["prep"])
+            )
+
+        if compras_val.passed:
+            console.print("  [green]✅[/green] Compras validadas — completas, cantidades y tiendas correctas")
+            break
+
+        console.print(f"  [yellow]⚠️[/yellow]  Compras rechazadas (intento {attempt + 1}/{MAX_COMPRAS_RETRIES})")
+        console.print(Panel(compras_val.report, title="[yellow]Auditoría de compras[/yellow]", border_style="yellow"))
+        compras_feedback = compras_val.feedback
+
+        if attempt == MAX_COMPRAS_RETRIES - 1:
+            console.print(
+                "[red]❌ No se pudo validar la lista de compras en 3 intentos. "
+                "Se usará la última generada, corregida por el auditor — revisa manualmente.[/red]"
+            )
+
+    original_header = "\n".join(
+        line for line in Path(outputs["compras"]).read_text(encoding="utf-8").split("\n")[:3]
+        if line.startswith("#")
+    )
+    validated_header = original_header + "\n\n> ✅ Validado por agente de verificación de compras\n\n"
+    Path(outputs["compras"]).write_text(validated_header + compras_val.report, encoding="utf-8")
 
     if not sin_sitio:
         with console.status("[cyan]5/5 · Sitio web...", spinner="dots"):
@@ -422,9 +502,21 @@ def verificar_prep(menu, prep, recetas):
         console.print(f"[dim]Recetas: {recetas}[/dim]")
 
     with console.status("[bold cyan]Auditando plan de meal prep...", spinner="dots"):
-        report = MealPrepValidatorSkill().validate(menu, prep, recetas)
+        result = MealPrepValidatorSkill().validate(menu, prep, recetas)
 
-    console.print(Panel(report, title="[bold cyan]🔍 Auditoría del Meal Prep[/bold cyan]", border_style="cyan"))
+    color = "green" if result.passed else "red"
+    icon  = "✅" if result.passed else "❌"
+    console.print(Panel(
+        result.report,
+        title=f"[{color}]{icon} Auditoría del Meal Prep[/{color}]",
+        border_style=color,
+    ))
+    if not result.passed and result.feedback:
+        console.print(Panel(
+            result.feedback,
+            title="[yellow]Correcciones para el generador[/yellow]",
+            border_style="yellow",
+        ))
 
 
 @cli.command("importar-ratings")

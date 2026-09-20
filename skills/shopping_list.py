@@ -16,7 +16,7 @@ REGLAS:
 1. Una fila por ingrediente, consolidando TODOS sus usos en la semana.
 2. Ordenar A→Z por Ingrediente, sin excepción.
 3. Tipo: EXACTAMENTE "Perecedero" (proteínas frescas, lácteos, huevo, verduras, frutas, hierbas frescas — se echa a perder en días) o "Despensa" (seco, enlatado, congelado, especias, aceites, vinagres, salsas embotelladas — dura semanas o meses).
-4. Necesario: la suma EXACTA de todos los usos de la semana (sin redondear a presentación comercial), en la unidad correcta (g, kg, piezas, ml). Este número sale de sumar cada uso real en el menú/recetas/meal prep — no adivines ni agregues margen aquí.
+4. Necesario: se te da una tabla "TOTALES SEMANALES CALCULADOS" con las sumas exactas (calculadas por código a partir de las recetas, no estimadas) de cada ingrediente en gramos crudos, por persona. Para cualquier ingrediente que aparezca en esa tabla, "Necesario" DEBE ser exactamente la suma ATM+IOB (+3er comensal donde aplique) de esa tabla — NO la resumes tú a mano, NO la dupliques contando también la versión ya cocida/porcionada de las tarjetas de receta, NO la recalcules leyendo el menú. Para un ingrediente que NO aparezca en esa tabla (p. ej. un componente que el meal prep prepara desde su forma seca/cruda, como frijol o arroz remojado — busca su cantidad seca en el plan de meal prep, no en las recetas) suma tú los usos reales una sola vez cada uno; nunca adivines ni agregues margen aquí.
 5. Comprar: la cantidad que realmente hay que comprar.
    - Despensa: redondear hacia arriba a la presentación comercial estándar más cercana (dura, no hay urgencia en ajustar).
    - Perecedero: redondear ÚNICAMENTE a la unidad mínima real disponible (pieza, manojo, paquete chico, 50g). El excedente de Comprar sobre Necesario NO debe superar 15%, salvo que la unidad mínima de venta obligue a más — en ese caso es obligatorio listar el ingrediente en "Posibles sobras" al final.
@@ -43,25 +43,42 @@ CITY MARKET: pato, cordero, wagyu, bacalao, pulpo, callo de hacha, trucha, burra
 En caso de duda → City Market."""
 
     def generate(self, menu_path: str, recipes_path: str = None,
-                 meal_prep_path: str = None, week_date: date = None) -> Path:
+                 meal_prep_path: str = None, week_date: date = None, feedback: str = "") -> Path:
         if week_date is None:
             week_date = date.today()
 
         sections = [Path(menu_path).read_text(encoding="utf-8")]
 
+        totals_section = ""
         if recipes_path and Path(recipes_path).exists():
-            sections.append(
-                "RECETAS:\n" + Path(recipes_path).read_text(encoding="utf-8")
-            )
+            recipes_content = Path(recipes_path).read_text(encoding="utf-8")
+            sections.append("RECETAS:\n" + recipes_content)
+            table = self._ingredient_totals_table(recipes_content)
+            if table:
+                totals_section = (
+                    "\n\n---\n\nTOTALES SEMANALES CALCULADOS (crudo, suma exacta por código a partir "
+                    "de las recetas — usa esta tabla como referencia autoritativa para la regla 4, "
+                    "no la recalcules):\n" + table
+                )
         if meal_prep_path and Path(meal_prep_path).exists():
             sections.append(
                 "PLAN DE MEAL PREP (contiene ingredientes de salsas y preparaciones componente):\n"
                 + Path(meal_prep_path).read_text(encoding="utf-8")
             )
 
+        correction_block = ""
+        if feedback:
+            correction_block = (
+                f"\n\n---\n\n⚠️  CORRECCIONES OBLIGATORIAS — LA LISTA ANTERIOR FUE RECHAZADA POR EL VALIDADOR:\n"
+                f"{feedback}\n\n"
+                "Genera una lista NUEVA corrigiendo EXACTAMENTE cada punto anterior."
+            )
+
         user_message = (
             "Genera la lista de compras completa para esta semana.\n\n"
             + "\n\n---\n\n".join(sections)
+            + totals_section
+            + correction_block
             + "\n\n---\n\n"
             "Genera la tabla completa ordenada A→Z: | Ingrediente | Tipo | Necesario | Comprar | Uso | Tienda |"
         )

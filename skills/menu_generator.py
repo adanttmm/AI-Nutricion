@@ -265,7 +265,6 @@ NO incluyas una lista de compras ni resumen de ingredientes a comprar en este do
         another block) down to the latest one, so "last 3 weeks" means 3
         distinct calendar weeks — not 3 duplicate attempts at the same week.
         """
-        import re
         matches = list(re.finditer(r'^=== Semana (\S+) ===\s*\n', history_text, re.MULTILINE))
         if not matches:
             return history_text

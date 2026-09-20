@@ -1,14 +1,6 @@
-from dataclasses import dataclass
-from .base_skill import BaseSkill
+from .base_skill import BaseSkill, ValidationResult
 from pathlib import Path
 import yaml
-
-
-@dataclass
-class ValidationResult:
-    passed: bool
-    feedback: str   # Structured corrections → injected back into menu generator
-    report: str     # Human-readable table → shown in console / stored
 
 
 class MenuValidatorSkill(BaseSkill):
@@ -24,10 +16,10 @@ CONTEXTO DEL HOGAR:
 TOLERANCIAS ACEPTABLES (fuera de estas → RECHAZADO):
 - Excluye el sábado del analisis ya que es el dia de comida libre y no se considera, el promedio semanal sólo considera los días de plan completo.
 - DÍAS ESPECIALES (viaje, salida, comida fuera, etc.): si la NOTA DE LA SEMANA menciona que el cocinero estará fuera o que solo necesita ciertos tiempos de comida en algún día, y el menú documenta explícitamente esa excepción para ese día (marcador †, "(viaje)", una nota junto al día, o simplemente ese tiempo de comida ausente del día en el menú), trata ese día igual que el sábado: EXCLÚYELO del análisis estricto diario y del promedio semanal. Nunca lo marques ❌ por no alcanzar la meta diaria completa — esa meta nunca aplicó para ese día.
-- Calorías diarias por persona: ±5 % de la meta del día (rechazo tanto por defecto como por exceso)
-- Proteína diaria: ±5 % (nutriente más crítico — rechazo tanto por defecto como por exceso; el defecto de proteína es falla automática)
+- Calorías diarias por persona: TOLERANCIA ASIMÉTRICA — quedarse POR DEBAJO de la meta nunca es motivo de rechazo (sin importar cuánto por debajo). Rechazar SOLO si el real excede la meta en más de +5 %.
 - Carbohidratos diarios: TOLERANCIA ASIMÉTRICA — quedarse POR DEBAJO de la meta nunca es motivo de rechazo (sin importar cuánto por debajo). Rechazar SOLO si el real excede la meta en más de +5 %.
 - Grasa diaria: misma tolerancia asimétrica que carbohidratos — por debajo de la meta siempre ✅; rechazar SOLO si excede +5 %.
+- Proteína diaria: ±7 % (nutriente más crítico — rechazo tanto por defecto como por exceso; el defecto de proteína es falla automática)
 - Si todos los días pasan, el promedio semanal (excluyendo sábado y cualquier día especial) también debe estar dentro de ±10 % para calorías/proteína, y dentro del mismo criterio asimétrico (solo exceso +10 %) para carbohidratos/grasa.
 
 PROCESO:
@@ -91,7 +83,7 @@ Veredicto final: APROBADO / RECHAZADO — [una línea explicando el principal ha
         )
 
         raw = self._call_claude(self.SYSTEM_PROMPT, user_message, max_tokens=16000)
-        return self._parse_result(raw)
+        return self._parse_verdict_result(raw)
 
     @staticmethod
     def _build_plan_summary(diet_plan: dict) -> str:
@@ -140,27 +132,3 @@ Veredicto final: APROBADO / RECHAZADO — [una línea explicando el principal ha
                         )
 
         return "\n".join(lines)
-
-    @staticmethod
-    def _parse_result(raw: str) -> ValidationResult:
-        passed = "VEREDICTO: APROBADO" in raw
-
-        feedback = ""
-        report = raw
-
-        try:
-            if "FEEDBACK_GENERADOR:" in raw and "REPORTE_HUMANO:" in raw:
-                fb_start = raw.index("FEEDBACK_GENERADOR:") + len("FEEDBACK_GENERADOR:")
-                fb_end   = raw.index("REPORTE_HUMANO:")
-                feedback = raw[fb_start:fb_end].strip()
-                if feedback.lower() in ("ninguno", "ninguno."):
-                    feedback = ""
-
-                rpt_start = raw.index("REPORTE_HUMANO:") + len("REPORTE_HUMANO:")
-                report = raw[rpt_start:].strip()
-        except ValueError:
-            # Malformed output — keep raw as report, treat as failed
-            passed = False
-            report = raw
-
-        return ValidationResult(passed=passed, feedback=feedback, report=report)

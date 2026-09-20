@@ -1,5 +1,6 @@
 import os
 import time
+from dataclasses import dataclass
 from pathlib import Path
 import anthropic
 import httpx
@@ -9,6 +10,13 @@ from dotenv import load_dotenv
 from . import token_tracker
 
 load_dotenv()
+
+
+@dataclass
+class ValidationResult:
+    passed: bool
+    feedback: str   # Structured corrections → injected back into the generator on retry
+    report: str     # Human-readable report → shown in console / stored
 
 
 class BaseSkill:
@@ -31,13 +39,16 @@ class BaseSkill:
 
     MAX_TOKENS_CEILING = 64000
 
-    def _call_claude(self, system: str, user_message: str, max_tokens: int = 4096) -> str:
+    def _call_claude(self, system: str, user_message: str | list, max_tokens: int = 4096) -> str:
         """Call Claude, auto-escalating max_tokens if the response gets truncated.
 
         Some reports (menu validation, meal-prep audits) vary a lot in length run to
         run — a fixed budget that was safe last week can still get clipped this week.
         Rather than fail and wait for a manual max_tokens bump, retry with a bigger
         budget (capped at MAX_TOKENS_CEILING) before giving up.
+
+        user_message can be plain text or a list of content blocks (e.g. images +
+        text, for Vision calls) — the Messages API accepts either as `content`.
         """
         budget = max_tokens
         attempt = 0
@@ -63,7 +74,7 @@ class BaseSkill:
         which has no .text at all)."""
         return "".join(b.text for b in content_blocks if getattr(b, "type", None) == "text")
 
-    def _stream_with_retry(self, system: str, user_message: str, max_tokens: int, max_attempts: int = 3):
+    def _stream_with_retry(self, system: str, user_message: str | list, max_tokens: int, max_attempts: int = 3):
         """Open a streaming request, retrying on transient connection drops.
 
         Large max_tokens requests must stream (see
@@ -113,3 +124,56 @@ class BaseSkill:
         output_path = path / filename
         output_path.write_text(content, encoding="utf-8")
         return output_path
+
+    @staticmethod
+    def _ingredient_totals_table(recipes_content: str) -> str:
+        """Deterministically compute each ingredient's exact weekly raw-gram total
+        from the recipes (same canonicalization the site uses, so name variants
+        like "Salmón" / "Salmón filete" / "Filete de salmón" are already merged).
+        Code-computed sums, shared by every skill that needs an authoritative
+        quantity reference instead of asking the model to re-derive them itself
+        (generating a shopping list, or auditing one against the recipes)."""
+        from .site_builder import SiteBuilderSkill
+
+        totals = SiteBuilderSkill._parse_recipe_ingredient_totals(recipes_content)
+        if not totals:
+            return ""
+
+        rows = "\n".join(
+            f"| {v['name']} | {v['atm_g']:.0f}g | {v['iob_g']:.0f}g |"
+            for v in sorted(totals.values(), key=lambda x: x['name'].lower())
+        )
+        return (
+            "| Ingrediente | 🧔 ATM total | 👤 IOB total |\n"
+            "|---|---|---|\n"
+            f"{rows}"
+        )
+
+    @staticmethod
+    def _parse_verdict_result(raw: str) -> ValidationResult:
+        """Parse the shared VEREDICTO / FEEDBACK_GENERADOR / REPORTE_HUMANO format
+        used by every strict auditor (menu, shopping list, meal prep). Malformed
+        output (missing markers) is treated as a failed validation rather than
+        silently passing — an auditor that can't be parsed can't be trusted."""
+        passed = "VEREDICTO: APROBADO" in raw
+
+        feedback = ""
+        report = raw
+
+        try:
+            if "FEEDBACK_GENERADOR:" in raw and "REPORTE_HUMANO:" in raw:
+                fb_start = raw.index("FEEDBACK_GENERADOR:") + len("FEEDBACK_GENERADOR:")
+                fb_end   = raw.index("REPORTE_HUMANO:")
+                feedback = raw[fb_start:fb_end].strip()
+                if feedback.lower() in ("ninguno", "ninguno."):
+                    feedback = ""
+
+                rpt_start = raw.index("REPORTE_HUMANO:") + len("REPORTE_HUMANO:")
+                report = raw[rpt_start:].strip()
+            else:
+                passed = False
+        except ValueError:
+            passed = False
+            report = raw
+
+        return ValidationResult(passed=passed, feedback=feedback, report=report)

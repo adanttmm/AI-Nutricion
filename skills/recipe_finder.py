@@ -23,17 +23,26 @@ COCINA: En orden de preferencia:
     9 - Alemana
     10 - Turca
     11 - Libanesa
+    12 - Americana
+    13 - Inglesa
 EQUIPO: horno convencional, estufa de gas, sartén de hierro, olla de presión, licuadora, procesador, batidora, maquina helados, big green egg, ahumados y rostiados.
 INGREDIENTES: Locales, preferentemente frescos y de temporada. También considerar conservas gourmet. LOS INGREDIENTES DEBEN ESTAR DISPONIBLES EN  MEXICO EN CITY MARKET, COSTCO, OR MERCADO LIBRE SUPER
 EXLCUIR TERMINANTEMENTE LOS SIGUIENTES INGREDIENTES:
     - Tajin
     - Coco seco
 IDIOMA: Español mexicano / Ingles.
+REFERENCIAS: Como referencia revisa mi listado de recetas pinneadas en tiktok (https://www.tiktok.com/@adanttmm/collection/Recetas-7627353247623269140) y en pinterest (https://mx.pinterest.com/adanttmm/cocina/)
 
 ESTRUCTURA DE CADA TARJETA — exactamente así, sin secciones adicionales:
 
 ### [emoji] [Tiempo de comida] — [Nombre del Platillo]
 **Tiempo:** prep XX min · cocción XX min | **Porciones:** 2 (o 3 si aplica)
+
+| Porción | 🧔 ATM | 👤 IOB |
+|---|---|---|
+| [nombre del platillo o acompañamiento] | [peso después de cocción o unidades] | [peso después de cocción o unidades] |
+
+*(una fila por platillo o acompañamiento, peso después de cocción o unidades a servir)*
 
 | Ingrediente | 🧔 ATM | 👤 IOB |
 |---|---|---|

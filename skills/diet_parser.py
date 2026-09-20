@@ -269,18 +269,19 @@ RESPONDE ÚNICAMENTE con el YAML. Sin texto adicional. Sin markdown fences."""
                 return parsed, yaml_text
             raise ValueError("not a dict")
         except (yaml.YAMLError, ValueError) as first_err:
-            fix_response = self.client.messages.create(
-                model=self.MODEL,
-                max_tokens=4096,
-                messages=[{"role": "user", "content": (
+            fix_text = self._call_claude(
+                system="Eres un experto en YAML. Corriges texto que debería ser YAML puro "
+                       "pero contiene errores de sintaxis o texto adicional.",
+                user_message=(
                     f"El siguiente texto debería ser YAML puro pero contiene texto adicional "
                     f"o errores de sintaxis: {first_err}\n\n"
                     f"Texto a corregir:\n{yaml_text}\n\n"
                     "Extrae y devuelve ÚNICAMENTE el bloque YAML válido con los datos nutricionales. "
                     "Sin explicaciones, sin markdown fences, sin texto adicional."
-                )}],
+                ),
+                max_tokens=4096,
             )
-            fixed = self._clean_yaml_response(self._extract_text(fix_response.content))
+            fixed = self._clean_yaml_response(fix_text)
             parsed = yaml.safe_load(fixed)
             if not isinstance(parsed, dict):
                 raise ValueError(f"El parser no devolvió YAML válido para {source_name}")
@@ -306,14 +307,8 @@ RESPONDE ÚNICAMENTE con el YAML. Sin texto adicional. Sin markdown fences."""
             ),
         }]
 
-        response = self.client.messages.create(
-            model=self.MODEL,
-            max_tokens=8192,
-            system=[{"type": "text", "text": self.PARSER_SYSTEM_PROMPT, "cache_control": {"type": "ephemeral"}}],
-            messages=[{"role": "user", "content": content}],
-        )
-
-        yaml_text = self._clean_yaml_response(self._extract_text(response.content))
+        raw = self._call_claude(self.PARSER_SYSTEM_PROMPT, content, max_tokens=8192)
+        yaml_text = self._clean_yaml_response(raw)
         _, clean_yaml = self._safe_load_with_retry(yaml_text, pdf_path.name)
 
         output_dir = Path("config/parsed_diets")
@@ -347,14 +342,8 @@ RESPONDE ÚNICAMENTE con el YAML. Sin texto adicional. Sin markdown fences."""
             for person, plan in plans.items()
         )
 
-        response = self.client.messages.create(
-            model=self.MODEL,
-            max_tokens=6000,
-            system=[{"type": "text", "text": self.COMBINER_SYSTEM_PROMPT, "cache_control": {"type": "ephemeral"}}],
-            messages=[{"role": "user", "content": plans_yaml}],
-        )
-
-        combined_yaml = self._clean_yaml_response(self._extract_text(response.content))
+        raw = self._call_claude(self.COMBINER_SYSTEM_PROMPT, plans_yaml, max_tokens=6000)
+        combined_yaml = self._clean_yaml_response(raw)
         _, combined_yaml = self._safe_load_with_retry(combined_yaml, "combined plan")
         output_path.write_text(combined_yaml, encoding="utf-8")
         self._apply_profile_overrides(output_path)

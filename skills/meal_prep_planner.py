@@ -107,7 +107,8 @@ Para cada día de la semana:
 ## Lista de Contenedores y Equipo Necesarios
 Cantidades, tamaños de contenedores, bolsas sous vide necesarias"""
 
-    def generate(self, menu_path: str, recipes_path: str = None, week_date: date = None, week_notes: str = "") -> Path:
+    def generate(self, menu_path: str, recipes_path: str = None, week_date: date = None,
+                 week_notes: str = "", feedback: str = "") -> Path:
         if week_date is None:
             week_date = date.today()
 
@@ -124,12 +125,22 @@ Cantidades, tamaños de contenedores, bolsas sous vide necesarias"""
 
         notes_section = f"\nINDICACIONES DEL COCINERO PARA ESTA SEMANA:\n{week_notes}\n" if week_notes else ""
 
+        correction_block = ""
+        if feedback:
+            correction_block = (
+                f"\n\n⚠️  CORRECCIONES OBLIGATORIAS — EL PLAN ANTERIOR FUE RECHAZADO POR EL VALIDADOR:\n"
+                f"{feedback}\n\n"
+                "Crea un plan NUEVO corrigiendo EXACTAMENTE cada punto anterior. "
+                "La cobertura completa del menú y las cantidades exactas son innegociables."
+            )
+
         user_message = f"""Crea el plan de meal prep para la semana del {week_date.strftime('%d de %B de %Y')}.
 
 MENÚ DE LA SEMANA:
 {menu_content}
 {recipes_excerpt}
 {notes_section}
+{correction_block}
 INSTRUCCIONES ESPECIALES:
 - Hay dos personas (ATM e IOB) con porciones diferentes. Cuando las cantidades difieran, etiquetar contenedores separados con las iniciales.
 - El 3er comensal (martes, miércoles y viernes a la comida) recibe la misma porción que IOB.
