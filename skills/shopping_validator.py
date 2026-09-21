@@ -1,5 +1,6 @@
 from .base_skill import BaseSkill, ValidationResult
 from pathlib import Path
+import os
 import re
 
 
@@ -135,7 +136,12 @@ Una línea: APROBADO o RECHAZADO y el motivo principal."""
         LLM web-search calls on them. Fails soft: if Chromium/Selenium isn't
         available or the lookup errors out, this just returns "" and the
         validator falls back to its normal web-search behavior for those
-        rows too — never blocks the audit."""
+        rows too — never blocks the audit.
+
+        SKIP_COSTCO_SCRAPER=1 forces that same fallback path — an escape
+        hatch to isolate the scraper as a variable when debugging."""
+        if os.environ.get("SKIP_COSTCO_SCRAPER"):
+            return ""
         names = cls._parse_costco_despensa_rows(shopping_content)
         if not names:
             return ""

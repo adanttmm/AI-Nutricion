@@ -1,4 +1,5 @@
 import os
+import threading
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -38,6 +39,14 @@ class BaseSkill:
             return yaml.safe_load(f)
 
     MAX_TOKENS_CEILING = 64000
+
+    # Hard wall-clock cap per streaming attempt. httpx's default read timeout
+    # (600s) only resets on each individual chunk, so a response that keeps
+    # trickling bytes without finishing — e.g. a web_search-tool audit stuck
+    # in a bad loop — can block forever with no error (observed: shopping-list
+    # audit hung 2h27m, 2026-09-20). This bounds each attempt independently of
+    # what the underlying client/library considers "still receiving data".
+    STREAM_TIMEOUT_S = 900
 
     # Server-side web search (runs on Anthropic's infrastructure — no client-side
     # tool loop needed; get_final_message() already returns the model's answer
@@ -123,13 +132,38 @@ class BaseSkill:
         if tools:
             kwargs["tools"] = tools
         for attempt in range(1, max_attempts + 1):
-            try:
-                with self.client.messages.stream(**kwargs) as stream:
-                    return stream.get_final_message()
-            except (anthropic.APIConnectionError, httpx.TransportError) as e:
-                last_err = e
-                if attempt < max_attempts:
-                    time.sleep(2 ** attempt)  # 2s, 4s
+            outcome: dict = {}
+
+            def _run(kwargs=kwargs, outcome=outcome):
+                try:
+                    with self.client.messages.stream(**kwargs) as stream:
+                        outcome["message"] = stream.get_final_message()
+                except Exception as e:  # noqa: BLE001 — re-raised on the caller's thread below
+                    outcome["error"] = e
+
+            # Daemon thread + join(timeout=...): a plain call can't be cancelled once
+            # blocked on a socket read, and a non-daemon thread would make the whole
+            # process hang at exit waiting for it. Abandoning the thread on timeout
+            # lets the retry (or the caller) proceed; the leaked thread dies with the
+            # process.
+            worker = threading.Thread(target=_run, daemon=True)
+            worker.start()
+            worker.join(timeout=self.STREAM_TIMEOUT_S)
+
+            if worker.is_alive():
+                last_err = TimeoutError(
+                    f"sin respuesta tras {self.STREAM_TIMEOUT_S}s (intento {attempt})"
+                )
+            elif "message" in outcome:
+                return outcome["message"]
+            else:
+                err = outcome["error"]
+                if not isinstance(err, (anthropic.APIConnectionError, httpx.TransportError)):
+                    raise err
+                last_err = err
+
+            if attempt < max_attempts:
+                time.sleep(2 ** attempt)  # 2s, 4s
         raise RuntimeError(
             f"{self.__class__.__name__}: se perdió la conexión con la API de Claude tras "
             f"{max_attempts} intentos ({last_err.__class__.__name__}: {last_err}). "
