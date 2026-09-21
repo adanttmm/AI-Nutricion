@@ -36,8 +36,8 @@ def _meal_label_key(hdr: str) -> str | None:
 
 
 _MACRO_RE = re.compile(
-    r'\|\s*\*{0,2}kcal · P · C · G\*{0,2}\s*\|\s*\*{0,2}([\d.]+) · ([\d.]+)g · ([\d.]+)g · ([\d.]+)g\*{0,2}'
-    r'.*?\|\s*\*{0,2}([\d.]+) · ([\d.]+)g · ([\d.]+)g · ([\d.]+)g\*{0,2}'
+    r'\|\s*\*{0,2}kcal · P · C · G\*{0,2}\s*\|\s*\*{0,2}([\d.]+) · ([\d.]+)g? · ([\d.]+)g? · ([\d.]+)g?\*{0,2}'
+    r'.*?\|\s*\*{0,2}([\d.]+) · ([\d.]+)g? · ([\d.]+)g? · ([\d.]+)g?\*{0,2}'
 )
 # Maps each meal-slot emoji to the snake_case meal_type vocabulary used by
 # `python main.py registrar` / the tracker DB, so menu-derived and manually
@@ -365,14 +365,18 @@ class SiteBuilderSkill(BaseSkill):
                     i += 1
                     continue
                 if not macro_row_done and cells and 'kcal' in cells[0].lower():
-                    mm = re.search(r'(\d+)\s*·\s*(\d+)g\s*·\s*(\d+)g\s*·\s*(\d+)g', cells[1]) if len(cells) > 1 else None
-                    mm2 = re.search(r'(\d+)\s*·\s*(\d+)g\s*·\s*(\d+)g\s*·\s*(\d+)g', cells[2]) if len(cells) > 2 else None
+                    # "g" units after P/C/G are inconsistently present run-to-run (the
+                    # menu-generation model sometimes omits them), and values can be
+                    # decimal — both optional/decimal-safe or this silently zeroes out
+                    # a whole week's tracking data (2026-09-21 incident).
+                    mm = re.search(r'([\d.]+)\s*·\s*([\d.]+)g?\s*·\s*([\d.]+)g?\s*·\s*([\d.]+)g?', cells[1]) if len(cells) > 1 else None
+                    mm2 = re.search(r'([\d.]+)\s*·\s*([\d.]+)g?\s*·\s*([\d.]+)g?\s*·\s*([\d.]+)g?', cells[2]) if len(cells) > 2 else None
                     if mm:
-                        meals[-1]['atm'] = {'calories': int(mm.group(1)), 'protein_g': int(mm.group(2)),
-                                             'carbs_g': int(mm.group(3)), 'fat_g': int(mm.group(4))}
+                        meals[-1]['atm'] = {'calories': float(mm.group(1)), 'protein_g': float(mm.group(2)),
+                                             'carbs_g': float(mm.group(3)), 'fat_g': float(mm.group(4))}
                     if mm2:
-                        meals[-1]['iob'] = {'calories': int(mm2.group(1)), 'protein_g': int(mm2.group(2)),
-                                              'carbs_g': int(mm2.group(3)), 'fat_g': int(mm2.group(4))}
+                        meals[-1]['iob'] = {'calories': float(mm2.group(1)), 'protein_g': float(mm2.group(2)),
+                                              'carbs_g': float(mm2.group(3)), 'fat_g': float(mm2.group(4))}
                     macro_row_done = True
                     i += 1
                     continue
