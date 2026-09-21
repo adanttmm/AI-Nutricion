@@ -39,7 +39,17 @@ class BaseSkill:
 
     MAX_TOKENS_CEILING = 64000
 
-    def _call_claude(self, system: str, user_message: str | list, max_tokens: int = 4096) -> str:
+    # Server-side web search (runs on Anthropic's infrastructure — no client-side
+    # tool loop needed; get_final_message() already returns the model's answer
+    # after its internal search iterations). No beta header required.
+    WEB_SEARCH_TOOL_TYPE = "web_search_20260209"
+
+    @classmethod
+    def _web_search_tool(cls, max_uses: int = 8) -> dict:
+        return {"type": cls.WEB_SEARCH_TOOL_TYPE, "name": "web_search", "max_uses": max_uses}
+
+    def _call_claude(self, system: str, user_message: str | list, max_tokens: int = 4096,
+                      tools: list | None = None) -> str:
         """Call Claude, auto-escalating max_tokens if the response gets truncated.
 
         Some reports (menu validation, meal-prep audits) vary a lot in length run to
@@ -49,12 +59,17 @@ class BaseSkill:
 
         user_message can be plain text or a list of content blocks (e.g. images +
         text, for Vision calls) — the Messages API accepts either as `content`.
+
+        tools, when given, is passed straight through to the API (e.g. a server-side
+        web_search tool via _web_search_tool()). Keep the tool list identical across
+        calls from the same skill — it renders before `system` in the prompt-cache
+        prefix, so a varying tool set would invalidate the system-prompt cache.
         """
         budget = max_tokens
         attempt = 0
         while True:
             attempt += 1
-            response = self._stream_with_retry(system, user_message, budget)
+            response = self._stream_with_retry(system, user_message, budget, tools=tools)
             token_tracker.record(self.__class__.__name__, response.usage)
             if response.stop_reason != "max_tokens":
                 return self._extract_text(response.content)
@@ -74,7 +89,8 @@ class BaseSkill:
         which has no .text at all)."""
         return "".join(b.text for b in content_blocks if getattr(b, "type", None) == "text")
 
-    def _stream_with_retry(self, system: str, user_message: str | list, max_tokens: int, max_attempts: int = 3):
+    def _stream_with_retry(self, system: str, user_message: str | list, max_tokens: int,
+                            max_attempts: int = 3, tools: list | None = None):
         """Open a streaming request, retrying on transient connection drops.
 
         Large max_tokens requests must stream (see
@@ -104,6 +120,8 @@ class BaseSkill:
             # gap remains on the first pass, same as it always has.
             output_config={"effort": "medium"},
         )
+        if tools:
+            kwargs["tools"] = tools
         for attempt in range(1, max_attempts + 1):
             try:
                 with self.client.messages.stream(**kwargs) as stream:

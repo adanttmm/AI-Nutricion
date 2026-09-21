@@ -20,16 +20,18 @@ VERIFICA ESTOS PUNTOS EN ORDEN:
 
 4. COLUMNA "Comprar" (ajuste, no exceso oculto): "Comprar" debe ser ≥ "Necesario", redondeado solo a presentación comercial (Despensa) o unidad mínima real de venta (Perecedero). Si "Comprar" excede "Necesario" en más de 15% para un Perecedero sin que la nota de "Posibles sobras" lo explique, repórtalo como ⚠️ Advertencia (no crítico, pero corrígelo si es evidente).
 
-5. ASIGNACIÓN DE TIENDA: para cada fila, determina si la tienda asignada realmente vende ese ingrediente, consultando el criterio de tienda de abajo (y si hace falta, https://www.costco.com.mx/ o https://www.lacomer.com.mx/lacomer/#!/home?succId=449&succFmt=200):
-   - Si la tienda asignada SÍ lo vende → mantener, Estado = ✅
-   - Si la tienda asignada NO lo vende pero la otra tienda física sí → cambiar tienda, Estado = ⚠️ Corregido
-   - Si ninguna tienda física lo vende → cambiar a "Amazon-MercadoLibre" (elige el más lógico), Estado = 🌐 Online
-   Un error de tienda es una corrección aplicada en la tabla, no por sí solo motivo de RECHAZADO — pero cuéntalo en el reporte.
+5. ASIGNACIÓN DE TIENDA: para cada fila, determina si la tienda asignada realmente vende ese ingrediente. Tienes una herramienta de búsqueda web real — úsala, no adivines:
+   - Para ingredientes comunes que están claramente en el criterio de abajo (pollo, jitomate, arroz, etc.) puedes confiar en el criterio sin buscar.
+   - Para CUALQUIER ingrediente que NO aparezca explícitamente en el criterio de abajo, o que sea una especialidad étnica/importada/de nicho (pastas de curry, ajíes, salsas asiáticas específicas, quesos poco comunes, hierbas o especias poco comunes en México, etc.), DEBES usar la búsqueda web para verificar si Costco México, City Market o La Comer realmente lo venden antes de decidir la tienda o marcarlo ✅. No asumas que "suena gourmet" significa que City Market lo tiene — confírmalo.
+   - Si la búsqueda confirma que la tienda asignada SÍ lo vende → mantener, Estado = ✅
+   - Si la tienda asignada NO lo vende pero la otra tienda física sí (confirmado por búsqueda) → cambiar tienda, Estado = ⚠️ Corregido
+   - Si la búsqueda no encuentra evidencia de que NINGUNA tienda física mexicana lo venda → cambiar a "Amazon-MercadoLibre" (elige el más lógico), Estado = 🌐 Online, y dilo explícitamente en Advertencias/Problemas — este es exactamente el caso que hace que una receta sea difícil de comprar en CDMX si se deja pasar.
+   Un error de tienda es una corrección aplicada en la tabla, no por sí solo motivo de RECHAZADO — pero cuéntalo en el reporte. Cita brevemente qué encontraste en la búsqueda para cada ingrediente que verificaste (p. ej. "City Market Santa Fe no lista pasta de ají amarillo en su catálogo en línea — reasignado a Amazon/MercadoLibre").
 
-CRITERIO DE TIENDA:
+CRITERIO DE TIENDA (referencia rápida para lo obviamente común — para todo lo demás, verifica con la búsqueda):
 COSTCO: pollo (pechuga/muslo), salmón, camarones congelados, atún en agua, res molida, huevos, leche, yogurt griego, mantequilla, queso crema, mozzarella, cheddar, parmesano Kraft, jitomate, cebolla, ajo, limones, aguacate, espinaca, zanahoria, pimiento, plátano, fresas, arroz, pasta regular, avena, aceite de oliva, aceite de coco, vinagre balsámico, soya Kikkoman, mostaza Dijon, garbanzos/frijoles en lata, leche de coco, caldo Kirkland, almendras, nueces, proteína whey, chile en polvo, especias secas comunes
-CITY MARKET: pato, cordero, wagyu, bacalao, pulpo, callo de hacha, trucha, burrata, queso de cabra, brie, ricotta fresca, halloumi, mascarpone, crème fraîche, hierbas frescas premium, miso, mirin, sake, vinagre de arroz, pasta curry, za'atar, sumac, harissa, tahini artesanal, aceite de sésamo, hongos frescos, chiles secos especiales (mulato/negro/chihuacle/pasilla), chocolate de Oaxaca, pasta italiana premium
-AMAZON/MERCADO LIBRE — cuando ningún supermercado lo tiene: ingredientes muy específicos importados, especias ultra-nicho (galanga fresca, hojas pandanus, pimienta szechuan, asafétida, pasta shrimp fermentado), miso premium de importación, vinagres especiales (champaña, jerez añejo), licores/vinos para cocinar inusuales, utensilios especiales, ingredientes coreanos/japoneses de nicho. En caso de duda entre Costco/City Market → City Market.
+CITY MARKET: pato, cordero, wagyu, bacalao, pulpo, callo de hacha, trucha, burrata, queso de cabra, brie, ricotta fresca, halloumi, mascarpone, crème fraîche, hierbas frescas premium, miso, mirin, sake, vinagre de arroz, pasta curry (tailandesa, la más común), za'atar, sumac, harissa, tahini artesanal, aceite de sésamo, hongos frescos, chiles secos especiales (mulato/negro/chihuacle/pasilla), chocolate de Oaxaca, pasta italiana premium
+AMAZON/MERCADO LIBRE — cuando la búsqueda confirma que ningún supermercado físico lo tiene: ingredientes muy específicos importados, especias ultra-nicho (galanga fresca, hojas pandanus, pimienta szechuan, asafétida, pasta shrimp fermentado, ají amarillo peruano, gochujang, etc.), miso premium de importación, vinagres especiales (champaña, jerez añejo), licores/vinos para cocinar inusuales, utensilios especiales, ingredientes coreanos/japoneses/peruanos de nicho. En caso de duda entre Costco/City Market tras buscar → City Market.
 
 VEREDICTO: RECHAZADO si existe AL MENOS UN ❌ Problema Crítico (elemento ausente, ingrediente inventado, o discrepancia de cantidad fuera de ±10%). Errores de tienda y advertencias de "Comprar" nunca causan RECHAZADO por sí solos — se corrigen en la tabla y se listan como cambios.
 
@@ -90,7 +92,10 @@ Una línea: APROBADO o RECHAZADO y el motivo principal."""
             + "\n\n---\n\nGenera el reporte completo siguiendo el formato indicado."
         )
 
-        raw = self._call_claude(self.SYSTEM_PROMPT, user_message, max_tokens=16000)
+        raw = self._call_claude(
+            self.SYSTEM_PROMPT, user_message, max_tokens=16000,
+            tools=[self._web_search_tool(max_uses=12)],
+        )
         return self._parse_verdict_result(raw)
 
     @classmethod
