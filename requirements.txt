@@ -5,3 +5,4 @@ rich>=13.0
 matplotlib>=3.8
 python-dotenv>=1.0
 pymupdf>=1.23.0
+selenium>=4.9.0
