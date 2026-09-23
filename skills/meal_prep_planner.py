@@ -54,14 +54,14 @@ PORCIONES INDIVIDUALES: cuando ATM e IOB tienen cantidades diferentes, etiquetar
 
 PRINCIPIOS DE EFICIENCIA:
 1. Empezar el domingo por lo de mayor tiempo: caldos, confitados, braseados, horneados largos
-2. Usar todos los quemadores y el horno simultáneamente
+2. Paralelizar quemadores, horno y vaporera para ahorrar tiempo, pero DENTRO DE UN LÍMITE DURO — la estufa tiene 4 quemadores: nunca más de 4 quemadores + horno + vaporera activos al mismo tiempo (eso incluye bases "en paralelo sin fuego" que en realidad sí necesitan un quemador o control de temperatura, como el dashi). Y nunca dos o más tareas que requieran atención activa/termómetro a la vez (sellar, pochar a temperatura controlada, licuar caliente) — secuéncialas en bloques aunque eso alargue el turno, en vez de ponerlas en paralelo. Antes de finalizar cada turno, cuenta explícitamente cuántos focos de calor y cuántas tareas de atención activa coinciden — si excede el límite, resecuencia.
 3. Identificar bases compartidas entre múltiples días → hacer todo de una vez
 4. El menú ya repite comidas (lun=jue, mar=vie, mié=sáb) → solo preparar UNA VEZ para cada par
 
 CONSERVACIÓN SEGURA:
-- Proteínas sous vide en bolsa sellada (sin cocinar): 4 días refrigeradas / 3 meses congeladas
+- Proteínas sous vide en bolsa sellada (sin cocinar) — carnes rojas, cerdo, pollo/pavo: 4 días refrigeradas / 3 meses congeladas
+- Pescados/mariscos delicados crudos — SIEMPRE máx. 2 días refrigerados, INCLUSO si van sellados al vacío para sous vide. El sellado al vacío NO extiende su vida útil en crudo — no aplica la regla de 4 días de arriba. Cualquier bolsa de pescado/marisco delicado que se use más de 2 días después de sellarse va congelada, sin excepción.
 - Proteínas cocidas: 3-4 días refrigeradas
-- Pescados/mariscos delicados crudos (no sous vide): máx. 2 días refrigerados
 - Granos cocidos: 4-5 días refrigerados
 - Verduras asadas: 4-5 días refrigeradas
 - Salsas y aderezos: 5-7 días refrigerados
@@ -71,12 +71,15 @@ RESOLUCIÓN OBLIGATORIA DE CONSERVACIÓN (no es información de referencia — e
 Antes de finalizar, revisa uno por uno TODOS los bloques/bolsas/lotes de cada proteína, grano, salsa o pasta que preparas el sábado/domingo — no solo el caso más obvio de cada ingrediente. Para cada bloque, calcula cuántos días pasarán entre esa preparación y el día en que el menú lo usa. Si ese rango excede el límite de conservación de arriba:
 - NUNCA lo dejes tal cual ni lo menciones solo como advertencia — el plan debe resolverlo explícitamente.
 - Proteínas/pescados que excedan su límite refrigerado: congelar esa porción específica el mismo día de preparación (crudo marinado para pescados delicados, cocido para el resto) y agregar un paso explícito de descongelado 24h antes de usarla — indica cuáles porciones (por día) van al congelador vs. al refrigerador.
-- Pescados y mariscos delicados (no sous vide) usados después de 2 días desde la compra: por default van marinados en crudo al congelador el domingo, nunca "refrigerado hasta el viernes".
+- Pescados y mariscos delicados usados después de 2 días desde la compra (sellados para sous vide o no — el sellado no cambia este límite) van marinados en crudo al congelador el domingo, nunca "refrigerado hasta el miércoles/viernes".
 - Granos, salsas o verduras que excedan su ventana: divide la cocción en 2 tandas (ej. domingo + entre semana) en vez de cocinar todo de una vez, y dilo explícitamente en el turno correspondiente — no es opcional ni "se puede saltar".
 - Esta resolución debe quedar visible en el cronograma (qué turno, qué paso) y en la Tabla de Contenedores ("Conserva hasta" debe reflejar refrigerado o congelado según lo que decidiste, nunca un número que exceda el límite).
 
 RECONCILIACIÓN DE CANTIDADES (obligatoria, no aproximada):
 Para cada ingrediente que consolidas en un total (ej. "Total salmón: ~2,040g"), suma las cantidades EXACTAS por persona y por cada instancia en la semana tal como aparecen en el menú/recetas (ATM + IOB + 3er comensal cuando aplique, en cada día que se repite el platillo) — no redondees ni estimes de memoria. El total que escribas debe poder reconstruirse sumando esas cifras exactas; si no cuadra, recalcula antes de finalizar el plan.
+
+CHECKLIST DE COBERTURA (obligatoria, paso final antes de entregar el plan):
+Haz una pasada component-por-componente: lista cada proteína, grano, salsa, marinada, guarnición y garnish (incluidos los "menores" — frutos secos tostados, hierbas encurtidas, caldos base, elementos marinados tipo ohitashi) que aparezcan en CUALQUIER día del menú o en la tabla de ingredientes de las recetas, y verifica que cada uno tenga un paso de preparación explícito en el cronograma (turno, mini-sesión o "el día mismo" si no requiere prep). Un componente que aparece en un platillo de un día que NO se repite (ej. solo domingo, solo viernes) necesita su propio paso — no asumas que quedó cubierto por el prep de un día distinto solo porque suena similar. Si al terminar el plan encuentras un componente sin paso de preparación asignado, agrégalo antes de entregar — no lo dejes para "el día de servicio" salvo que genuinamente no requiera nada (ej. fruta fresca cortada al momento).
 
 FORMATO OBLIGATORIO:
 

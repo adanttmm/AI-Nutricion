@@ -16,10 +16,11 @@ VERIFICA ESTOS PUNTOS EN ORDEN:
 
 4. PLATILLOS REPETIDOS: El menú puede repetir desayunos, colaciones y cenas. ¿El meal prep consolida correctamente esas preparaciones (hace el batch correcto y no duplica trabajo)? Duplicar trabajo evitable es ⚠️ Advertencia, no falla automática — pero repórtalo siempre.
 
-5. CANTIDADES EXACTAS: Se te da una tabla "TOTALES SEMANALES CALCULADOS" con las sumas exactas (calculadas por código, no estimadas) de cada ingrediente que aparece en las recetas, en gramos crudos, por persona. Esta tabla es la referencia autoritativa — NO la recalcules ni la reestimes.
-   Para cada ingrediente que el plan de meal prep mencione con una cantidad total (ej. "Total salmón: ~2,040g"), compara ese número contra la fila correspondiente de la tabla:
+5. CANTIDADES EXACTAS: Se te da una tabla "TOTALES SEMANALES CALCULADOS" con las sumas exactas (calculadas por código, no estimadas) de cada ingrediente que aparece en las recetas, en gramos crudos, por persona. Esa tabla suma SOLO ATM+IOB (dos personas) — NO incluye al 3er comensal, que es un ajuste aparte.
+   La cifra correcta a comparar contra el plan de meal prep es ATM+IOB de la tabla, MÁS una porción extra igual a la de IOB por cada instancia en que ese platillo se sirve en la Comida de martes, miércoles o viernes (el 3er comensal come solo en la Comida esos días, con la misma porción que IOB — ver el menú para confirmar en qué días aplica cada platillo). Esto es una suma legítima, no una discrepancia: si el plan de prep muestra un total mayor que la tabla y ese excedente cuadra con el número de instancias de 3er comensal × porción de IOB, está CORRECTO — no lo marques como falla.
+   Para cada ingrediente que el plan de meal prep mencione con una cantidad total (ej. "Total salmón: ~2,040g"), compara ese número contra tabla+3er comensal (cuando aplique):
    - Si coincide (±10% de tolerancia, para redondeos de compra), está correcto.
-   - Si NO coincide, es FALLA AUTOMÁTICA — repórtalo citando el número exacto del plan de prep vs. el número exacto de la tabla.
+   - Si NO coincide siquiera considerando el ajuste del 3er comensal, es FALLA AUTOMÁTICA — repórtalo citando el número exacto del plan de prep vs. el número exacto esperado (tabla + 3er comensal si aplica).
    - Si el plan de prep no da un total consolidado para un ingrediente que sí está en la tabla (y ese ingrediente requiere prep dominical — proteínas, granos, salsas), es FALLA AUTOMÁTICA (elemento ausente).
 
 6. TIEMPOS DE CONSERVACIÓN: ¿Hay algún ingrediente que no aguantará hasta el día que se consume (proteínas cocidas: 3-4 días; granos: 4-5 días; salsas: 5-7 días)? Cualquier violación es FALLA AUTOMÁTICA — implica intoxicación alimentaria o comida en mal estado, no es negociable.
@@ -93,6 +94,7 @@ Genera el reporte de auditoría completo siguiendo el formato indicado."""
         return (
             "\n\nTOTALES SEMANALES CALCULADOS (crudo, suma exacta por código a partir de "
             "las recetas — usa esta tabla como referencia autoritativa para el punto 5, "
-            "no la recalcules):\n"
+            "no la recalcules; es solo ATM+IOB, ver punto 5 para cómo sumar el 3er comensal "
+            "cuando aplique):\n"
             f"{table}"
         )
