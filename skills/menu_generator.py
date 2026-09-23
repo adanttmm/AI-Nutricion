@@ -4,6 +4,8 @@ from datetime import date, timedelta
 import re
 import yaml
 
+from . import weather_scraper
+
 
 class MenuGeneratorSkill(BaseSkill):
 
@@ -38,7 +40,7 @@ REGLAS DEL MENÚ:
 6. Ingredientes accesibles en Costco Ciudad de México + City Market Santa Fe + Mercado Libre.
 7. Nombres de platillos elegantes y descriptivos, al estilo de menú de restaurante.
 8. DISEÑO PARA MEAL PREP INTELIGENTE: proteínas, granos y salsas de TODOS los días deben llevar 🏪 o 🌊 (sous vide entre semana). Los únicos elementos frescos entre semana son aguacate, huevo al momento, hierbas frescas o ensalada cruda.
-9. Ajusta ingredientes y platillos a la temporada del mes indicado en el mensaje (frutas/verduras de temporada en México).
+9. Ajusta ingredientes y platillos a la temporada del mes indicado en el mensaje (frutas/verduras de temporada en México) Y, cuando el mensaje incluya un bloque "PRONÓSTICO DEL CLIMA", a las temperaturas reales de esos días (más caldos/guisos/braseados en días fríos o lluviosos; platillos más ligeros y frescos en días cálidos y soleados) — los días fuera del pronóstico siguen solo la temporada del mes.
 10. ASEGURA QUE CUMPLES CON LAS NOTAS DE LA SEMANA RECIBIDAS EN notas_semana.txt
 
 OPTIMIZACIÓN DE CARGA DE COCINA — REPETICIÓN CONTROLADA:
@@ -201,11 +203,21 @@ NO incluyas una lista de compras ni resumen de ingredientes a comprar en este do
 
         ratings_block = f"\n\n{ratings_context}" if ratings_context else ""
 
+        # Fails soft to "" (unreachable endpoint, unexpected response shape,
+        # etc.) — the model then falls back to the season-only instruction in
+        # rule 9, same as before this existed.
+        weather_block = ""
+        forecast = weather_scraper.get_forecast()
+        formatted_forecast = weather_scraper.format_forecast_for_prompt(forecast)
+        if formatted_forecast:
+            weather_block = f"\n\n{formatted_forecast}"
+
         user_message = (
             f"Genera el menú completo para la semana del {week_start.strftime('%d de %B de %Y')} (lunes a domingo).\n\n"
             f"{plan_context}\n\n"
             f"ACTIVIDAD DE LA SEMANA:\n{chr(10).join(days_info)}\n\n"
             f"Comida trampa: {cheat_day.capitalize()} en la {cheat_time}"
+            f"{weather_block}"
             f"{history}"
             f"{ratings_block}"
             f"{notes_block}"
