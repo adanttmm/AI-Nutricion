@@ -130,6 +130,7 @@ def generar_menu(plan, semana, nota, sin_historial):
     week_start = date.fromisoformat(semana) if semana else None
     with console.status("[bold green]Generando menú con IA...", spinner="dots"):
         output = MenuGeneratorSkill().generate(plan, week_start, week_notes=nota, use_history=not sin_historial)
+    _mark_refs_used(output)
     console.print(Panel(
         f"[green]✅ Menú generado[/green]\n\n"
         f"📄 [bold]{output}[/bold]\n\n"
@@ -312,7 +313,10 @@ def validar_menu(plan, menu, nota):
 @click.option("--sin-historial", is_flag=True, default=False,
               help="Omite el historial de menús anteriores (data/menu_history.txt). "
                    "Por default SÍ se usa — es lo que evita repetir los mismos platillos semana tras semana.")
-def semana_completa(plan, semana, sin_sitio, nota, sin_historial):
+@click.option("--sin-refs", is_flag=True, default=False,
+              help="No actualiza el catálogo de recetas de referencia (TikTok/Pinterest) antes de generar. "
+                   "El catálogo existente se usa igual.")
+def semana_completa(plan, semana, sin_sitio, nota, sin_historial, sin_refs):
     """Genera TODO de una vez: menú · compras · recetas · plan de prep.
 
     Si no se especifica --plan, busca automáticamente el último plan parseado en
@@ -350,6 +354,9 @@ def semana_completa(plan, semana, sin_sitio, nota, sin_historial):
     elif n_new == 0:
         console.print("  [dim]⭐ Sin valoraciones previas — omitiendo contexto[/dim]")
 
+    if not sin_refs:
+        _refresh_recipe_refs_soft()
+
     if nota:
         console.print(f"  [cyan]📋[/cyan] Nota de semana: [dim]{nota[:120]}{'…' if len(nota) > 120 else ''}[/dim]")
 
@@ -380,6 +387,7 @@ def semana_completa(plan, semana, sin_sitio, nota, sin_historial):
                 "[red]❌ No se pudo validar el menú en 3 intentos. "
                 "Se usará el último generado — revisa manualmente.[/red]"
             )
+    _mark_refs_used(outputs["menu"])
 
     with console.status("[yellow]2/5 · Recetario...", spinner="dots") as status:
         def _recetas_progress(i, total, elapsed=None):
@@ -586,6 +594,78 @@ def generar_sitio(semana):
         "  [yellow]python -m http.server --directory docs 8080[/yellow]\n"
         "  Abre: [dim]http://localhost:8080[/dim]",
         title="🌐 GitHub Pages", border_style="cyan",
+    ))
+
+
+def _mark_refs_used(menu_path) -> None:
+    from skills import recipe_refs
+
+    used = recipe_refs.mark_used(menu_path)
+    if used:
+        console.print(f"  [cyan]📌[/cyan] Basado en {len(used)} receta(s) de referencia: [dim]{' · '.join(used)}[/dim]")
+
+
+def _refresh_recipe_refs_soft() -> None:
+    """Incremental catalog refresh inside semana-completa. Never blocks the week:
+    a missing login, a site change or a network error just means this week uses
+    the catalog as it already is."""
+    from skills import recipe_refs
+    from skills.recipe_refs_scraper import LoginRequired, SOURCES
+
+    try:
+        with console.status("[cyan]📌 Buscando recetas nuevas en TikTok/Pinterest...", spinner="dots"):
+            stats = recipe_refs.update(list(SOURCES), log=lambda m: None)
+    except LoginRequired as e:
+        console.print(f"  [yellow]📌 Catálogo de referencias sin actualizar:[/yellow] [dim]{e}[/dim]")
+        return
+    except Exception as e:  # noqa: BLE001
+        console.print(f"  [yellow]📌 Catálogo de referencias sin actualizar ({e.__class__.__name__}: {e})[/yellow]")
+        return
+    total = len(recipe_refs.load_catalog()["recetas"])
+    console.print(
+        f"  [cyan]📌[/cyan] Catálogo de referencias: {stats['nuevas_recetas']} nuevas · {total} en total"
+        + (f" [yellow]({len(stats['errores'])} error(es), ver data/recipe_refs_log.txt)[/yellow]" if stats["errores"] else "")
+    )
+
+
+@cli.command("actualizar-recetas-ref")
+@click.option("--login", is_flag=True, default=False,
+              help="Abre Chromium con el perfil del scraper para iniciar sesión en TikTok y Pinterest "
+                   "(solo la primera vez o cuando expire la sesión). Cierra la ventana al terminar.")
+@click.option("--fuente", type=click.Choice(["todas", "tiktok", "pinterest"]), default="todas")
+@click.option("--completo", is_flag=True, default=False,
+              help="Recorre la colección completa en vez de detenerse al llegar a publicaciones ya catalogadas.")
+@click.option("--ver-navegador", is_flag=True, default=False,
+              help="Muestra el navegador mientras lee (útil si TikTok pide captcha).")
+def actualizar_recetas_ref(login, fuente, completo, ver_navegador):
+    """Agrega al catálogo (config/recetas_referencia.yaml) solo las recetas NUEVAS
+    guardadas en tu colección de TikTok y tu tablero de Pinterest."""
+    from skills import recipe_refs
+    from skills.recipe_refs_scraper import LoginRequired, SOURCES, open_login_browser
+
+    if login:
+        console.print(
+            "Se abrirá Chromium con TikTok y Pinterest. Inicia sesión en ambos y [bold]cierra la ventana[/bold] al terminar."
+        )
+        open_login_browser()
+        console.print("[green]✅ Sesión guardada.[/green] Ahora corre: [yellow]python main.py actualizar-recetas-ref[/yellow]")
+        return
+
+    sources = list(SOURCES) if fuente == "todas" else [fuente]
+    try:
+        stats = recipe_refs.update(sources, full=completo, headless=not ver_navegador,
+                                   log=lambda m: console.print(f"  [dim]{m}[/dim]"))
+    except LoginRequired as e:
+        console.print(f"[red]❌ {e}[/red]")
+        raise SystemExit(1)
+
+    total = len(recipe_refs.load_catalog()["recetas"])
+    console.print(Panel(
+        f"Publicaciones leídas: {stats['leidos']}\n"
+        f"[green]Recetas nuevas: {stats['nuevas_recetas']}[/green] · descartadas (no son receta): {stats['descartados']}\n"
+        f"Total en catálogo: [bold]{total}[/bold] → {recipe_refs.CATALOG_PATH}"
+        + ("\n\n[yellow]" + "\n".join(stats["errores"]) + "[/yellow]" if stats["errores"] else ""),
+        title="📌 Recetas de referencia", border_style="cyan",
     ))
 
 

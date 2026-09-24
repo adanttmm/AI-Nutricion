@@ -1,4 +1,5 @@
 from .base_skill import BaseSkill
+from . import recipe_refs
 from pathlib import Path
 from datetime import date
 import re
@@ -31,12 +32,13 @@ EXLCUIR TERMINANTEMENTE LOS SIGUIENTES INGREDIENTES:
     - Tajin
     - Coco seco
 IDIOMA: Español mexicano / Ingles.
-REFERENCIAS: Como referencia revisa mi listado de recetas pinneadas en tiktok (https://www.tiktok.com/@adanttmm/collection/Recetas-7627353247623269140) y en pinterest (https://mx.pinterest.com/adanttmm/cocina/)
+REFERENCIAS: Los platillos del menú marcados con "📌 *Inspirado en: … (ref: <id>)*" se basan en una receta que el cocinero guardó en TikTok/Pinterest; cuando recibas el bloque "RECETAS DE REFERENCIA USADAS EN ESTE MENÚ", usa esa referencia como plantilla de la tarjeta (su técnica, perfil de sabor e ingredientes característicos) y adáptala a lo que dicta el menú: nombre del platillo, porciones y gramajes por persona, ingredientes disponibles en México y las exclusiones de arriba. Si el menú cambió algo respecto a la referencia (proteína, guarnición, técnica para meal prep), manda el menú. Los platillos sin 📌 se crean desde cero.
 
 ESTRUCTURA DE CADA TARJETA — exactamente así, sin secciones adicionales:
 
 ### [emoji] [Tiempo de comida] — [Nombre del Platillo]
 **Tiempo:** prep XX min · cocción XX min | **Porciones:** 2 (o 3 si aplica)
+📌 Basado en: [nombre de la referencia](URL de la referencia)   ← SOLO si el platillo del menú tiene 📌; omite la línea si no
 
 | Porción | 🧔 ATM | 👤 IOB |
 |---|---|---|
@@ -80,6 +82,10 @@ REGLAS:
             week_date = date.today()
 
         menu_content = Path(menu_path).read_text(encoding="utf-8")
+        # Refs go in the system prompt, not the per-chunk message: every chunk
+        # needs the same block, and the system prompt is what's cached.
+        refs = recipe_refs.recipe_context(menu_content)
+        system = f"{self.SYSTEM_PROMPT}\n\n{refs}" if refs else self.SYSTEM_PROMPT
         chunks = self._split_menu_into_chunks(menu_content, chunk_size=2)
 
         day_hdr = (
@@ -112,7 +118,7 @@ REGLAS:
                 if i == len(chunks) - 1 else ""
             )
             raw = self._call_claude(
-                self.SYSTEM_PROMPT,
+                system,
                 f"{base} {day_hdr}{notes_block}\n\n{chunk}{extra}",
                 max_tokens=16000,
             )
@@ -192,4 +198,14 @@ REGLAS:
 
     def find_single(self, dish_name: str) -> str:
         user_message = f"Crea la tarjeta de receta completa para: **{dish_name}**"
+        catalog = recipe_refs.catalog_compact()
+        if catalog:
+            user_message += (
+                "\n\nCATÁLOGO DE RECETAS DE REFERENCIA DEL COCINERO:\n"
+                f"{catalog}\n\n"
+                "Si alguna referencia es el mismo platillo o uno muy afín (misma proteína y técnica, "
+                "o mismo perfil de sabor), úsala como plantilla, adáptala a las reglas de arriba y "
+                "agrega la línea '📌 Basado en: [nombre](URL)' con la URL de esa referencia. "
+                "Si ninguna es afín, créala desde cero sin esa línea."
+            )
         return self._call_claude(self.SYSTEM_PROMPT, user_message, max_tokens=2000)

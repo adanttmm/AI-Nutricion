@@ -4,7 +4,7 @@ from datetime import date, timedelta
 import re
 import yaml
 
-from . import weather_scraper
+from . import recipe_refs, weather_scraper
 
 
 class MenuGeneratorSkill(BaseSkill):
@@ -42,6 +42,7 @@ REGLAS DEL MENÚ:
 8. DISEÑO PARA MEAL PREP INTELIGENTE: proteínas, granos y salsas de TODOS los días deben llevar 🏪 o 🌊 (sous vide entre semana). Los únicos elementos frescos entre semana son aguacate, huevo al momento, hierbas frescas o ensalada cruda.
 9. Ajusta ingredientes y platillos a la temporada del mes indicado en el mensaje (frutas/verduras de temporada en México) Y, cuando el mensaje incluya un bloque "PRONÓSTICO DEL CLIMA", a las temperaturas reales de esos días (más caldos/guisos/braseados en días fríos o lluviosos; platillos más ligeros y frescos en días cálidos y soleados) — los días fuera del pronóstico siguen solo la temporada del mes.
 10. ASEGURA QUE CUMPLES CON LAS NOTAS DE LA SEMANA RECIBIDAS EN notas_semana.txt
+11. RECETAS DE REFERENCIA — cuando el mensaje incluya "RECETAS DE REFERENCIA DEL COCINERO", son platillos que el cocinero guardó en TikTok/Pinterest porque quiere cocinarlos. Revísalas PRIMERO, antes de inventar platillos: entre 3 y 5 de los ~11 platillos únicos de la semana deben basarse en una referencia (elige la más afín a ese tiempo de comida — campo tipo —, a la temporada, al clima y a las gastronomías preferidas; prefiere las que no dicen "usado" o las usadas hace más tiempo). Adáptala libremente para cumplir las metas de kcal/macros, porciones, ingredientes disponibles, meal prep (🏪/🌊) y TODAS las reglas anteriores — la regla dura de no repetir platillos de semanas anteriores sigue aplicando. Cada platillo basado en una referencia lleva, en la línea inmediatamente debajo de su nombre en negritas y en cada día que aparece: `📌 *Inspirado en: [nombre de la referencia] (ref: <id exacto de la lista>)*`. Nunca inventes ids; los platillos originales no llevan esa línea.
 
 OPTIMIZACIÓN DE CARGA DE COCINA — REPETICIÓN CONTROLADA:
 Para reducir el número de recetas únicas a preparar, usa este esquema OBLIGATORIO:
@@ -68,6 +69,7 @@ FORMATO OBLIGATORIO — cada tiempo de comida:
 
 ### 🌅 Desayuno 🏪 [bandera]
 **[Nombre del platillo]**
+[📌 *Inspirado en: ... (ref: ...)* — solo si aplica la regla 11]
 *[descripción gourmet 1 línea]*
 | | 🧔 ATM | 👤 IOB |
 |---|---|---|
@@ -203,6 +205,9 @@ NO incluyas una lista de compras ni resumen de ingredientes a comprar en este do
 
         ratings_block = f"\n\n{ratings_context}" if ratings_context else ""
 
+        refs = recipe_refs.menu_context()
+        refs_block = f"\n\n{refs}" if refs else ""
+
         # Fails soft to "" (unreachable endpoint, unexpected response shape,
         # etc.) — the model then falls back to the season-only instruction in
         # rule 9, same as before this existed.
@@ -219,6 +224,7 @@ NO incluyas una lista de compras ni resumen de ingredientes a comprar en este do
             f"Comida trampa: {cheat_day.capitalize()} en la {cheat_time}"
             f"{weather_block}"
             f"{history}"
+            f"{refs_block}"
             f"{ratings_block}"
             f"{notes_block}"
             f"{correction_block}\n\n"
