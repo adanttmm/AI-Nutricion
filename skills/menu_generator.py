@@ -44,14 +44,14 @@ REGLAS DEL MENÚ:
 10. ASEGURA QUE CUMPLES CON LAS NOTAS DE LA SEMANA RECIBIDAS EN notas_semana.txt
 11. RECETAS DE REFERENCIA — cuando el mensaje incluya "RECETAS DE REFERENCIA DEL COCINERO", son platillos que el cocinero guardó en TikTok/Pinterest porque quiere cocinarlos. Revísalas PRIMERO, antes de inventar platillos: entre 3 y 5 de los ~11 platillos únicos de la semana deben basarse en una referencia (elige la más afín a ese tiempo de comida — campo tipo —, a la temporada, al clima y a las gastronomías preferidas; prefiere las que no dicen "usado" o las usadas hace más tiempo). Adáptala libremente para cumplir las metas de kcal/macros, porciones, ingredientes disponibles, meal prep (🏪/🌊) y TODAS las reglas anteriores — la regla dura de no repetir platillos de semanas anteriores sigue aplicando. Cada platillo basado en una referencia lleva, en la línea inmediatamente debajo de su nombre en negritas y en cada día que aparece: `📌 *Inspirado en: [nombre de la referencia] (ref: <id exacto de la lista>)*`. Nunca inventes ids; los platillos originales no llevan esa línea.
 
-OPTIMIZACIÓN DE CARGA DE COCINA — REPETICIÓN CONTROLADA:
-Para reducir el número de recetas únicas a preparar, usa este esquema OBLIGATORIO:
-- DESAYUNO: exactamente 2 variantes. Variante A: lunes+martes+miércoles. Variante B: jueves+viernes+sábado+domingo. Nombrarlos idéntico en todos los días que los usan.
-- COLACIÓN AM: exactamente 2 variantes. Variante A: lunes+martes+miércoles+jueves. Variante B: viernes+sábado+domingo.
-- COLACIÓN PM: exactamente 2 variantes de PLATILLO. Variante A: lunes+miércoles+viernes (días de gym). Variante B: martes+jueves+sábado+domingo (días de salsa o descanso). El PLATILLO es el mismo dentro de cada variante, pero la PORCIÓN no: martes/jueves (salsa, IOB) llevan más cantidad que sábado/domingo (descanso) del mismo platillo. La sección "ACTIVIDAD DE LA SEMANA" del mensaje te da, para cada día, el objetivo EXACTO en kcal de Colación PM por persona (base + bono ya sumado) — usa ese número directamente, no vuelvas a sumar el bono tú mismo.
-- COMIDA: exactamente 3 platillos únicos de comida rotando toda la semana: Variante A: lunes+jueves (mismo platillo exacto); Variante B: martes+viernes (mismo platillo exacto); Variante C: miércoles+sábado+domingo (mismo platillo exacto). Total: solo 3 recetas únicas de comida. El sábado y domingo reutilizan el prep del miércoles — cero cocción adicional el fin de semana.
-- CENA: exactamente 2 variantes. Variante A: lunes+martes+miércoles. Variante B: jueves+viernes+domingo. Sábado: comida trampa 🎉 (no requiere cena de prep).
-Esta optimización significa solo ~11 recetas únicas. El fin de semana se libera significativamente al tener solo 3 comidas únicas en lugar de 4.
+OPTIMIZACIÓN DE CARGA DE COCINA — REPETICIÓN MÁXIMA PARA MEAL PREP RÁPIDO (≤4 HRS SAB+DOM):
+VARIEDAD CONCENTRADA EN COMIDA (LUNCH). Todo lo demás = 1 solo platillo la semana entera.
+- DESAYUNO: exactamente 1 platillo IDÉNTICO lunes a domingo. Mismo nombre, mismas porciones todos los días.
+- COLACIÓN AM: exactamente 1 platillo IDÉNTICO lunes a domingo. Mismo nombre, mismas porciones todos los días.
+- COLACIÓN PM: exactamente 1 platillo IDÉNTICO lunes a domingo con PORCIONES variables por día. La sección "ACTIVIDAD DE LA SEMANA" del mensaje te da, para cada día, el objetivo EXACTO en kcal de Colación PM por persona (base + bono ya sumado) — usa ese número directamente para ajustar el gramaje, no vuelvas a sumar el bono tú mismo. El PLATILLO es idéntico; solo cambian los gramos.
+- COMIDA: exactamente 3 platillos únicos rotando toda la semana (AQUÍ va la ÚNICA variedad): Variante A: lunes+jueves (mismo exacto); Variante B: martes+viernes (mismo exacto); Variante C: miércoles+sábado+domingo (mismo exacto). Total: solo 3 recetas únicas de comida. Sábado y domingo reutilizan el prep del miércoles — cero cocción adicional fin de semana.
+- CENA: exactamente 1 platillo IDÉNTICO lunes a domingo (menos sábado: comida trampa 🎉). Mismo nombre, mismas porciones todos los días que come (lun-vie, dom).
+Esta optimización significa solo ~6 recetas únicas totales. El prep se distribuye eficientemente: casi todo el domingo (granos + salsas + proteínas + porciones), sábado solo marinadas/pasta. Tiempo total objetivo: ≤4 horas activas (Sábado 30-45min + Domingo 3-3.5hrs).
 
 USO DEL PLAN NUTRICIONAL:
 - El plan del nutriólogo define METAS NUMÉRICAS por tiempo de comida (kcal, proteína, carbohidratos, grasa). Esos números son obligatorios.

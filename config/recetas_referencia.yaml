@@ -1,7 +1,7 @@
 # Generado automáticamente por `python main.py actualizar-recetas-ref`
 # desde la colección de TikTok y el tablero de Pinterest del cocinero.
 # Puedes corregir campos a mano; los ids existentes nunca se re-analizan.
-actualizado: '2026-09-23'
+actualizado: '2026-09-24'
 recetas:
 - id: pinterest-399553798164680346
   platillo: Roles de canela caseros
@@ -5587,6 +5587,7 @@ recetas:
     - 1 tsp fresh thyme - 12oz egg noodles - salt & pepper - 2 tbsp flour - 2 cups beef broth - 1 cup heavy cream - 1/4 cup
     sour cream - 1 tbsp Worcestershire sauce - 1 tbs'
   agregado: '2026-09-23'
+  ultimo_uso: '2026-09-28'
 - id: tiktok-7653584160761580831
   platillo: Spam musubi estilo Asanebo
   cocina: Japonesa
@@ -5742,6 +5743,7 @@ recetas:
     #fypシ゚viral creado por COCINA CON LAS 3B con la música sonido original de Club de Fans Miguel Gallardo COCINA CON LAS
     3B'
   agregado: '2026-09-23'
+  ultimo_uso: '2026-09-28'
 - id: tiktok-7653936074158263573
   platillo: Tacos de cochinita pibil con cebolla encurtida
   cocina: Mexicana
@@ -5922,6 +5924,7 @@ recetas:
     clove (grated) 1 tsp baking soda 1 tbsp cornstarch For the Sauce: 2 tbsp soy sauce (low sodium) 1 tbsp chili crisp 2 tsp
     rice vinegar 1 tsp sesame oil 2 tbsp peanut butt'
   agregado: '2026-09-23'
+  ultimo_uso: '2026-09-28'
 - id: tiktok-7648657929641495839
   platillo: Ensalada de huevo con tocino y cebollín
   cocina: Americana
@@ -6650,6 +6653,7 @@ recetas:
     60+ recipes including Tacos, salsas, and cocktails! I also show how to open a beer with my boot. Link in bio or see h
     it on Amazon creado por zrod0390 con la música Por Tu Maldito Amor de Vicente Fernández zrod0390
   agregado: '2026-09-23'
+  ultimo_uso: '2026-09-28'
 - id: tiktok-7677307091131829534
   platillo: Beurre monté de jitomate con aceite de tomate
   cocina: Francesa
@@ -6921,6 +6925,153 @@ recetas:
     at once, then freeze everything raw. when dinner comes around, we can pull out whatever we actually feel like eating and
     cook it fresh. the tandoori + bulgogi ar
   agregado: '2026-09-23'
+- id: pinterest-399553798218349975
+  platillo: Bolitas de arroz coreanas sazonadas (jumeokbap)
+  cocina: Coreana
+  tipo: colación
+  proteina: vegetal
+  tecnica: mezclado y moldeado del arroz
+  ingredientes_clave:
+  - arroz cocido
+  - alga nori
+  - ajonjolí
+  - aceite de ajonjolí
+  - zanahoria
+  - cebollín
+  perfil: salado, tostado, umami suave
+  fuente: pinterest
+  url: https://mx.pinterest.com/pin/399553798218349975/
+  caption: 'Página del Pin Easy Flavorful Korean Rice Balls Snack Esto contiene: Korean‐style seasoned rice balls on a plate'
+  agregado: '2026-09-24'
+- id: pinterest-399553798218349982
+  platillo: Musubi de pollo katsu crujiente
+  cocina: Japonesa
+  tipo: comida
+  proteina: pollo
+  tecnica: empanizado y fritura + armado con arroz y nori
+  ingredientes_clave:
+  - pechuga de pollo
+  - panko
+  - arroz para sushi
+  - nori
+  - salsa tonkatsu
+  perfil: crujiente, dulce-salado, umami
+  fuente: pinterest
+  url: https://mx.pinterest.com/pin/399553798218349982/
+  caption: 'Página del Pin Chicken Katsu Musubi That Stays Crispy 😋 Esto contiene una imagen de: Chicken Katsu Musubi That
+    Stays Crispy 😋'
+  agregado: '2026-09-24'
+- id: pinterest-399553798218349988
+  platillo: 'Tsukune: albóndigas japonesas de pollo con teriyaki'
+  cocina: Japonesa
+  tipo: cena
+  proteina: pollo molido
+  tecnica: asado en sartén + glaseado con teriyaki
+  ingredientes_clave:
+  - pollo molido
+  - jengibre
+  - cebollín
+  - salsa de soya
+  - mirin
+  - azúcar
+  perfil: dulce-salado, jugoso, glaseado umami
+  fuente: pinterest
+  url: https://mx.pinterest.com/pin/399553798218349988/
+  caption: 'Página del Pin Easy Tsukune Japanese Chicken Meatballs with Teriyaki Sauce Esto contiene: Easy Tsukune Japanese
+    Chicken Meatballs with Teriyaki Sauce'
+  agregado: '2026-09-24'
+- id: pinterest-399553798218349999
+  platillo: Mole rosa tradicional con pollo
+  cocina: Mexicana
+  tipo: comida
+  proteina: pollo
+  tecnica: molido y frito del mole + cocción en caldo
+  ingredientes_clave:
+  - pollo
+  - betabel
+  - piñones
+  - almendras
+  - ajonjolí
+  - caldo de pollo
+  perfil: dulce, terroso, cremoso y especiado
+  fuente: pinterest
+  url: https://mx.pinterest.com/pin/399553798218349999/
+  caption: 'Página del Pin Sin título Esto contiene una imagen de:'
+  agregado: '2026-09-24'
+- id: pinterest-399553798218350000
+  platillo: Mole blanco (mole de novia) con pollo
+  cocina: Mexicana
+  tipo: comida
+  proteina: pollo
+  tecnica: molido de frutos secos + cocción cremosa
+  ingredientes_clave:
+  - pollo
+  - almendra
+  - piñón
+  - chocolate blanco
+  - crema
+  - chile güero
+  perfil: cremoso, suave, dulce y delicado
+  fuente: pinterest
+  url: https://mx.pinterest.com/pin/399553798218350000/
+  caption: 'Página del Pin Sin título Esto contiene una imagen de:'
+  agregado: '2026-09-24'
+- id: pinterest-399553798218350006
+  platillo: Gyozas japonesas caseras crujientes
+  cocina: Japonesa
+  tipo: cena
+  proteina: cerdo molido
+  tecnica: relleno, sellado y cocción vapor-sartén
+  ingredientes_clave:
+  - masa para gyoza
+  - cerdo molido
+  - col
+  - ajo
+  - jengibre
+  - salsa de soya
+  perfil: crujiente abajo, jugoso, umami aromático
+  fuente: pinterest
+  url: https://mx.pinterest.com/pin/399553798218350006/
+  caption: 'Página del Pin Gyoza Recipe 🥟 | Crispy Japanese Dumplings Esto contiene una imagen de: Gyoza Recipe 🥟 | Crispy
+    Japanese Dumplings'
+  agregado: '2026-09-24'
+- id: pinterest-399553798218350008
+  platillo: Chiles anchos rellenos de plátano macho
+  cocina: Mexicana
+  tipo: comida
+  proteina: vegetal
+  tecnica: hidratado de chiles + relleno y horneado
+  ingredientes_clave:
+  - chiles anchos
+  - plátano macho
+  - queso cotija
+  - crema
+  - piloncillo
+  - canela
+  perfil: dulce, ahumado y cremoso
+  fuente: pinterest
+  url: https://mx.pinterest.com/pin/399553798218350008/
+  caption: 'Página del Pin Sin título Esto contiene una imagen de:'
+  agregado: '2026-09-24'
+- id: pinterest-399553798218355967
+  platillo: Hotteok coreano relleno de queso
+  cocina: Coreana
+  tipo: colación
+  proteina: queso
+  tecnica: masa levada rellena y dorada en sartén
+  ingredientes_clave:
+  - harina
+  - levadura
+  - queso mozzarella
+  - leche
+  - azúcar
+  perfil: dorado, elástico, salado y reconfortante
+  fuente: pinterest
+  url: https://mx.pinterest.com/pin/399553798218355967/
+  caption: 'Página del Pin Easy Snack: Korean Cheese Hotteok Recipe Making Delightful &amp; Irresistible Snack Esto contiene:
+    A close-up shot shows golden brown Korean Cheese Hotteok, with melted mozzarella cheese stretching out. This easy recipe
+    helps you create this delightful and irresistible snack right at your kitchen counter.'
+  agregado: '2026-09-24'
 descartados:
 - id: pinterest-399553798164757632
   url: https://mx.pinterest.com/pin/399553798164757632/

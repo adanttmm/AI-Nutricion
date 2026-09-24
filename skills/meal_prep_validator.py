@@ -27,7 +27,7 @@ VERIFICA ESTOS PUNTOS EN ORDEN:
 
 7. ELEMENTOS AUSENTES: ¿Hay ingredientes o preparaciones del menú que no aparecen en ningún paso del cronograma del domingo? FALLA AUTOMÁTICA.
 
-8. COHERENCIA TEMPORAL: ¿Los turnos del domingo tienen sentido en tiempo y paralelismo? ¿El cronograma total es realista (≤5 horas)? Un cronograma que excede 5 horas o tiene conflictos de tiempo obvios (dos tareas que requieren atención simultánea del cocinero sin ser paralelizables) es FALLA AUTOMÁTICA — un plan que no se puede ejecutar en un domingo real no es un plan válido.
+8. COHERENCIA TEMPORAL Y PRESUPUESTO: ¿Los turnos del domingo tienen sentido en tiempo y paralelismo? ¿El cronograma total respeta el presupuesto de 4 horas Sab+Dom (Sábado ≤45 min + Domingo ≤3.5 hrs)? Un cronograma que excede 4 horas TOTALES, o que no declara explícitamente sus tiempos estimados por turno, o que tiene conflictos de tiempo obvios (dos tareas que requieren atención simultánea del cocinero sin ser paralelizables) es FALLA AUTOMÁTICA — un plan que no se puede ejecutar en un fin de semana real no es un plan válido. El plan DEBE incluir la línea "TIEMPO TOTAL: X horas Y minutos" al final.
 
 VEREDICTO: RECHAZADO si existe AL MENOS UNA falla automática de los puntos 1-3 y 5-8. Solo las duplicaciones de trabajo evitables del punto 4 son advertencias no bloqueantes.
 
