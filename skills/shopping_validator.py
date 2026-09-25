@@ -37,7 +37,13 @@ COSTCO: pollo (pechuga/muslo), salmón, camarones congelados, atún en agua, res
 CITY MARKET: pato, cordero, wagyu, bacalao, pulpo, callo de hacha, trucha, burrata, queso de cabra, brie, ricotta fresca, halloumi, mascarpone, crème fraîche, hierbas frescas premium, miso, mirin, sake, vinagre de arroz, pasta curry (tailandesa, la más común), za'atar, sumac, harissa, tahini artesanal, aceite de sésamo, hongos frescos, chiles secos especiales (mulato/negro/chihuacle/pasilla), chocolate de Oaxaca, pasta italiana premium
 AMAZON/MERCADO LIBRE — cuando la búsqueda confirma que ningún supermercado físico lo tiene: ingredientes muy específicos importados, especias ultra-nicho (galanga fresca, hojas pandanus, pimienta szechuan, asafétida, pasta shrimp fermentado, ají amarillo peruano, gochujang, etc.), miso premium de importación, vinagres especiales (champaña, jerez añejo), licores/vinos para cocinar inusuales, utensilios especiales, ingredientes coreanos/japoneses/peruanos de nicho. En caso de duda entre Costco/City Market tras buscar → City Market.
 
-VEREDICTO: RECHAZADO si existe AL MENOS UN ❌ Problema Crítico (elemento ausente, ingrediente inventado, o discrepancia de cantidad fuera de ±10%). Errores de tienda y advertencias de "Comprar" nunca causan RECHAZADO por sí solos — se corrigen en la tabla y se listan como cambios.
+VERIFICACIÓN DE DISPONIBILIDAD:
+9. ¿Hay una sección "🔍 Notas de Disponibilidad" que reporta si la disponibilidad fue verificada en línea?
+   - Si TODOS los ingredientes fueron verificados → debe decir "✅ Todos los ingredientes verificados..."
+   - Si algunos ingredientes se reasignaron o marcaron como Amazon/MercadoLibre → debe listarse la razón breve
+   - Si NO hay esta sección y la lista incluye ingredientes especiales (miso, curry, za'atar, etc.) → es ⚠️ Advertencia: la lista no reporta si fue verificada la disponibilidad. Pide regeneración CON verificación en línea.
+
+VEREDICTO: RECHAZADO si existe AL MENOS UN ❌ Problema Crítico (elemento ausente, ingrediente inventado, o discrepancia de cantidad fuera de ±10%) O si la lista contiene ingredientes especiales sin sección de Notas de Disponibilidad (significa no se verificó). Errores de tienda y advertencias de "Comprar" nunca causan RECHAZADO por sí solos — se corrigen en la tabla y se listan como cambios.
 
 FORMATO DE RESPUESTA — usa EXACTAMENTE esta estructura, sin variaciones:
 

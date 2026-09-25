@@ -1,6 +1,7 @@
 from .base_skill import BaseSkill
 from pathlib import Path
 from datetime import date
+import logging
 
 
 class ShoppingListSkill(BaseSkill):
@@ -22,12 +23,28 @@ REGLAS:
    - Perecedero: redondear ÚNICAMENTE a la unidad mínima real disponible (pieza, manojo, paquete chico, 50g). El excedente de Comprar sobre Necesario NO debe superar 15%, salvo que la unidad mínima de venta obligue a más — en ese caso es obligatorio listar el ingrediente en "Posibles sobras" al final.
    - Nunca agregues margen oculto (evaporación, merma, "por si acaso") dentro de Comprar sin decirlo explícitamente en Uso.
 6. Uso: una sola línea compacta por ingrediente — nombre(s) corto(s) de receta + día(s) abreviado(s) (Lun/Mar/Mié/Jue/Vie/Sáb/Dom, varios días "Lun+Jue"). No repitas por tiempo de comida si el nombre de receta ya lo deja claro.
-7. Tienda: "Costco" o "City Market" según disponibilidad real.
+7. Tienda: "Costco" o "City Market" según disponibilidad real EN LÍNEA VERIFICADA. IMPORTANTE:
+   - NO asignes una tienda sin verificación si el ingrediente es especialidad/importado/nicho (miso, curry, za'atar, etc.)
+   - Para ingredientes comunes (pollo, arroz, aceite) puedes confiar en el criterio de abajo sin búsqueda
+   - Para CUALQUIER ingrediente especialidad/importado/peu común: DEBES usar búsqueda web para verificar si la tienda realmente lo tiene ANTES de asignarlo. No adivines.
+   - Si el ingrediente NO se encuentra en la tienda asignada por criterio, busca en la otra tienda. Si tampoco está → marca como "Amazon/MercadoLibre" y reporta en Notas.
 8. Incluir ABSOLUTAMENTE TODOS los ingredientes: proteínas principales, granos, verduras, lácteos, especias, ingredientes de salsas, marinados y preparaciones componente del meal prep.
 9. No omitir ningún ingrediente por ser "básico" — si se necesita esta semana, va en la lista.
 10. No agregar ningún ingrediente que no esté en el menú, recetas o meal prep de la semana.
 
+IMPORTANTE — VERIFICACIÓN ANTES DE ENTREGAR:
+Antes de finalizar la tabla, revisa CADA FILA especialidad/importada (miso, curry, za'atar, vinagres especiales, quesos poco comunes, etc.):
+- Si asignaste Costco → busca el nombre exacto en Costco.com.mx para confirmar
+- Si asignaste City Market → busca en City Market Santa Fe para confirmar
+- Si no está en la tienda asignada → cámbiala a la otra tienda (si existe allí) o a Amazon/MercadoLibre + reporta en Notas
+
 DESPUÉS DE LA TABLA, agrega (solo si aplica):
+## 🔍 Notas de Disponibilidad
+Reporta UNA SOLA VEZ si verificaste disponibilidad en línea. Incluye:
+- Cualquier ingrediente que NO está disponible en la tienda asignada por criterio (y se reasignó o marcó como online)
+- Cualquier ingrediente muy especializado que va a Amazon/MercadoLibre (con razón breve: "miso importado no disponible en Costco/City Market")
+Si TODOS los ingredientes fueron verificados como disponibles en las tiendas asignadas, escribe: "✅ Todos los ingredientes verificados en línea en Costco / City Market Santa Fe."
+
 ## 📋 Posibles sobras esta semana
 Lista SOLO los ingredientes Perecederos donde Comprar > Necesario × 1.15 (por unidad mínima de venta). Un renglón por ingrediente:
 - **[Ingrediente]**: sobran ~[cantidad] — [sugerencia concreta de 1 línea: congelar, usar en tal receta de la semana, incorporar a otra comida]
@@ -83,7 +100,13 @@ En caso de duda → City Market."""
             "Genera la tabla completa ordenada A→Z: | Ingrediente | Tipo | Necesario | Comprar | Uso | Tienda |"
         )
 
-        content = self._call_claude(self.SYSTEM_PROMPT, user_message, max_tokens=16000)
+        # Pass web_search tool so Claude can verify store availability in real time
+        content = self._call_claude(
+            self.SYSTEM_PROMPT,
+            user_message,
+            max_tokens=16000,
+            tools=[self._web_search_tool(max_uses=20)]
+        )
 
         header = (
             f"# 🛒 Lista de Compras\n"
