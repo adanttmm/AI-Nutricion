@@ -1,0 +1,36 @@
+{
+  "desayuno-burrito-horneado-de-huevo-cremoso-requeson-cottage-y-frijol-negro-con-papaya-al-limon": {
+    "title": "🌅 Desayuno — Burrito Horneado de Huevo Cremoso, Requesón Cottage y Frijol Negro con Papaya al Limón",
+    "day": "Lun",
+    "atm": {
+      "stars": 0
+    },
+    "iob": {
+      "stars": 4
+    }
+  },
+  "colacion-am-panque-de-calabaza-de-castilla-y-especias-con-proteina-de-vainilla-pepitas-y-yogur-griego": {
+    "title": "🍎 Colación AM — Panqué de Calabaza de Castilla y Especias con Proteína de Vainilla, Pepitas y Yogur Griego",
+    "day": "Lun"
+  },
+  "comida-mapo-tofu-de-res-magra-y-tofu-sedoso-al-doubanjiang-con-arroz-jazmin-y-ejotes-al-wok": {
+    "title": "🍽️ Comida — Mapo Tofu de Res Magra y Tofu Sedoso al Doubanjiang con Arroz Jazmín y Ejotes al Wok",
+    "day": "Lun"
+  },
+  "colacion-pm-bebida-fria-de-guayaba-rosa-avena-tostada-y-proteina-de-vainilla-con-chia": {
+    "title": "🌿 Colación PM — Bebida Fría de Guayaba Rosa, Avena Tostada y Proteína de Vainilla con Chía",
+    "day": "Lun"
+  },
+  "cena-pasta-integral-al-alfredo-de-cottage-y-limon-con-salmon-sous-vide-y-esparragos": {
+    "title": "🌙 Cena — Pasta Integral al Alfredo de Cottage y Limón con Salmón Sous Vide y Espárragos",
+    "day": "Lun"
+  },
+  "comida-kofta-de-pavo-al-perejil-horneada-en-salsa-de-tahini-y-limon-con-pilaf-de-arroz-y-fideo-y-ensalada-campesina": {
+    "title": "🍽️ Comida — Kofta de Pavo al Perejil Horneada en Salsa de Tahini y Limón, con Pilaf de Arroz y Fideo y Ensalada Campesina",
+    "day": "Mar"
+  },
+  "comida-pollo-tikka-masala-en-salsa-especiada-de-jitomate-y-yogur-con-arroz-basmati-y-espinaca-salteada": {
+    "title": "🍽️ Comida — Pollo Tikka Masala en Salsa Especiada de Jitomate y Yogur con Arroz Basmati y Espinaca Salteada",
+    "day": "Mié"
+  }
+}
