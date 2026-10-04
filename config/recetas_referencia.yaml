@@ -1,7 +1,7 @@
 # Generado automáticamente por `python main.py actualizar-recetas-ref`
 # desde la colección de TikTok y el tablero de Pinterest del cocinero.
 # Puedes corregir campos a mano; los ids existentes nunca se re-analizan.
-actualizado: '2026-09-24'
+actualizado: '2026-10-04'
 recetas:
 - id: pinterest-399553798164680346
   platillo: Roles de canela caseros
@@ -38,6 +38,7 @@ recetas:
   caption: 'Página del Pin Having a party but don&#39;t know what to serve? We&#39;ve got some party dishes you can&#39;t
     miss! Esto contiene una imagen de:'
   agregado: '2026-09-23'
+  ultimo_uso: '2026-10-05'
 - id: pinterest-399553798164754206
   platillo: Mini pasteles de chocolate con buttercream de cardamomo
   cocina: Americana
@@ -2441,6 +2442,7 @@ recetas:
   caption: 'Página del Pin Sopa thai de calabaza con curry y leche de coco (butternut squash) www.pizcadesabor.com Esto contiene
     una imagen de:'
   agregado: '2026-09-23'
+  ultimo_uso: '2026-10-05'
 - id: pinterest-399553798183421954
   platillo: Bizcocho de chocolate jugoso y esponjoso
   cocina: Otra
@@ -2603,6 +2605,7 @@ recetas:
   url: https://mx.pinterest.com/pin/399553798183489855/
   caption: 'Página del Pin Cómo hacer salsa teriyaki #receta #salsa Más Esto contiene una imagen de:'
   agregado: '2026-09-23'
+  ultimo_uso: '2026-10-05'
 - id: pinterest-399553798183490000
   platillo: Postres rápidos en microondas (6 ideas)
   cocina: Americana
@@ -3249,6 +3252,7 @@ recetas:
   caption: 'Página del Pin Cómo hacer un Bizcocho de Yogur Esponjoso - Esto contiene una imagen de: Cómo hacer un Bizcocho
     de Yogur Esponjoso -'
   agregado: '2026-09-23'
+  ultimo_uso: '2026-10-05'
 - id: pinterest-399553798187465782
   platillo: Coulant de chocolate
   cocina: Francesa
@@ -3512,6 +3516,7 @@ recetas:
   url: https://mx.pinterest.com/pin/399553798189038865/
   caption: Página del Pin Kiano&#39;s Chicken Jollof Rice Kiano's Chicken Jollof Rice
   agregado: '2026-09-23'
+  ultimo_uso: '2026-10-05'
 - id: pinterest-399553798189038886
   platillo: Mousse de matcha cubierto de chocolate brillante
   cocina: Japonesa
@@ -3801,6 +3806,7 @@ recetas:
   caption: 'Página del Pin Quick and Flavorful Beef Black Pepper Udon Esto contiene una imagen de: Quick and Flavorful Beef
     Black Pepper Udon'
   agregado: '2026-09-23'
+  ultimo_uso: '2026-10-05'
 - id: pinterest-399553798214429198
   platillo: Dulce de tapioca con leche de coco
   cocina: Otra
@@ -4328,6 +4334,7 @@ recetas:
   url: https://mx.pinterest.com/pin/399553798216871924/
   caption: 'Página del Pin Atole de Mazapan Esto contiene una imagen de: Atole de Mazapan'
   agregado: '2026-09-23'
+  ultimo_uso: '2026-10-05'
 - id: pinterest-399553798216871926
   platillo: Buñuelos mexicanos crujientes
   cocina: Mexicana
@@ -5570,6 +5577,7 @@ recetas:
     シンプルだけど、何度でも食べたくなる日本の定番「牛丼」です。 #gyudon #japanesefood #donburi #homecooking #comfortfood creado por Yoshiko con la música
     She Share Story (for Vlog) d'
   agregado: '2026-09-23'
+  ultimo_uso: '2026-10-05'
 - id: tiktok-7643598328541859086
   platillo: Stroganoff de res con fideos de huevo
   cocina: Otra
@@ -5906,6 +5914,7 @@ recetas:
   caption: 'Mi comida favoritaaa es el pad thai #padthai #thainoodles #recetas #comidasaludable creado por Montserrat Benavides
     con la música original sound de Montserrat Benavides Montserrat Benavides'
   agregado: '2026-09-23'
+  ultimo_uso: '2026-10-05'
 - id: tiktok-7645342315439066398
   platillo: Pollo con salsa de cacahuate y ajonjolí sobre arroz
   cocina: China
@@ -6174,6 +6183,7 @@ recetas:
     y con ingredientes que tenemos en Casa les va a encantar! ##chefpolo##pollo##chileajo##fyp##recetas creado por Chef Polo
     con la música sonido original de Chef Polo Chef Polo'
   agregado: '2026-09-23'
+  ultimo_uso: '2026-10-05'
 - id: tiktok-7655521949879241998
   platillo: Bistec con papas en chile de molcajete
   cocina: Mexicana
@@ -6533,6 +6543,7 @@ recetas:
     50g de bayas de goji rehidratadas 200g de mezcla de frutos secos y pipas crudos 50 de semillas de chía o lino molidas
     150g de chocolate al 72% fundido 40g de'
   agregado: '2026-09-23'
+  ultimo_uso: '2026-10-05'
 - id: tiktok-7676131462378245398
   platillo: Wraps de pollo al chipotle con salsa de piña
   cocina: Mexicana
@@ -6595,6 +6606,7 @@ recetas:
     Cheesy Naan 🫓 Makes 4 naan Ingredients * 190g self-raising flour * 250g 0% Greek yoghurt * Pinch of salt * 120g low-fat
     cheese * Cooking spray Optional garl
   agregado: '2026-09-23'
+  ultimo_uso: '2026-10-05'
 - id: tiktok-7678592662966111511
   platillo: Tarta tatin de chalotas caramelizadas con queso de cabra
   cocina: Francesa
@@ -7096,6 +7108,265 @@ recetas:
   caption: 'Making dinner because my doctor hates hot pockets 😒 Mapo Tofu #cooking #recipe #quickrecipes #easyrecipes #newdad
     creado por Ian Fujimoto con la música Honey Glaze Groove de Marrow Fields Ian Fujimoto'
   agregado: '2026-09-24'
+- id: pinterest-399553798218376830
+  platillo: Huevos marinados coreanos (mayak gyeran)
+  cocina: Coreana
+  tipo: colación
+  proteina: huevo
+  tecnica: hervido + marinado en frío
+  ingredientes_clave:
+  - huevo
+  - salsa de soya
+  - ajo
+  - cebollín
+  - chile
+  - ajonjolí
+  perfil: Salado, dulce, umami, ligeramente picante
+  fuente: pinterest
+  url: https://mx.pinterest.com/pin/399553798218376830/
+  caption: 'Página del Pin Korean Marinated Eggs Recipes Esto contiene una imagen de: Korean Marinated Eggs Recipes'
+  agregado: '2026-10-04'
+- id: tiktok-7690657176515284254
+  platillo: Aguachile de ribeye
+  cocina: Mexicana
+  tipo: comida
+  proteina: res
+  tecnica: sellado a la parrilla + marinado cítrico
+  ingredientes_clave:
+  - ribeye
+  - limón
+  - pepino
+  - cebolla morada
+  - chile
+  - cilantro
+  perfil: Cítrico, picante, fresco y carnoso
+  fuente: tiktok
+  url: https://www.tiktok.com/@zachwiththefatback/video/7690657176515284254
+  caption: 'Ribeye aguachile 🥵 Full recipe on my website cocinarodriguez.com or use link in bio. Preorder my new cookbook
+    Taco Party! 60+ recipes including tacos, salsas, and cocktails! Search it on Amazon or use the link in my bio. #aguachile
+    #steak #recipe creado por zrod0390 con la música Es Verdad de Daniel, Me Estás Matando zrod0390'
+  agregado: '2026-10-04'
+- id: tiktok-7691002308976495902
+  platillo: Short ribs de res braseados
+  cocina: Americana
+  tipo: comida
+  proteina: res
+  tecnica: sellado + braseado lento
+  ingredientes_clave:
+  - short rib
+  - sal
+  - pimienta
+  - caldo
+  - aromáticos
+  perfil: Profundo, carnoso, untuoso
+  fuente: tiktok
+  url: https://www.tiktok.com/@joshuaweissman.fanpages/video/7691002308976495902
+  caption: 'Part 1: The Best Beef Short Ribs Ever #food #cooking #beef #beefribs creado por Joshua Weissman (FP) con la música
+    original sound - Joshua Weissman (FP) de Joshua Weissman (FP) Joshua Weissman (FP)'
+  agregado: '2026-10-04'
+- id: tiktok-7691164947404868895
+  platillo: Hotcakes de requesón altos en proteína
+  cocina: Americana
+  tipo: desayuno
+  proteina: queso cottage y huevo
+  tecnica: licuado + cocción en sartén
+  ingredientes_clave:
+  - queso cottage
+  - huevo
+  - harina leudante
+  - vainilla
+  - jarabe de maple
+  perfil: Esponjoso, dulce suave, proteico
+  fuente: tiktok
+  url: https://www.tiktok.com/@noahperlofit/video/7691164947404868895
+  caption: 'Save Time, Money, And Eat Better‼️ These are so good, Lower calorie, and super easy. Meal Plans linked in my bio
+    ❤️ 🔥Macros for Each Pancakes (Recipe Makes 10): ~ 122 Calories ~ 10g Protein ~ 12.5g Carbs ~ 3.5 Fat Ingredients for 30
+    (Divide by 3 for normal batch) ✅ - 6 Cups Low Fat Cottage Cheese ✅ - 12 Whole Eggs ✅ - 3 Tsp Vanilla Extract ✅ - 12 Tbsp
+    SF Maple Syrup ✅ - 3.75 Cups Self Rising Flour'
+  agregado: '2026-10-04'
+  ultimo_uso: '2026-10-05'
+- id: tiktok-7692103107970370830
+  platillo: Bowl de arrachera con papas y salsa cremosa
+  cocina: Americana
+  tipo: comida
+  proteina: res
+  tecnica: asado de papas + sellado de carne
+  ingredientes_clave:
+  - carne de res
+  - papa
+  - salsa cremosa
+  - perejil
+  - especias
+  perfil: Sabroso, cremoso, saciante
+  fuente: tiktok
+  url: https://www.tiktok.com/@hunt4shredz/video/7692103107970370830
+  caption: DM me “bowls” & i’ll send them to you🙌🏻 creado por hunt4shredz con la música original sound de hunt4shredz hunt4shredz
+  agregado: '2026-10-04'
+- id: tiktok-7692554200902896926
+  platillo: Sopa cremosa de poro y papa
+  cocina: Francesa
+  tipo: comida
+  proteina: vegetal
+  tecnica: sudado + cocción y licuado
+  ingredientes_clave:
+  - poro
+  - papa
+  - mantequilla
+  - crema
+  - caldo de pollo
+  - tomillo
+  perfil: Cremosa, suave, mantequillosa
+  fuente: tiktok
+  url: https://www.tiktok.com/@sad_papi/video/7692554200902896926
+  caption: 'I’m a tater thot Potato leek soup! Ofc I’m going to make it during soup season. What you’ll need: 2 lb Yukon gold
+    potatoes 4 big ass leeks 5 cloves garlic 1/2 c (1 stick) unsalted butter 6 cups chicken stock 2 cups heavy cream 5 sprigs
+    thyme 1 bay leaf Salt and white pepper to taste Separate the green from the white parts of the leek and rinse them separately.
+    Peel and cut your potatoes, keep them'
+  agregado: '2026-10-04'
+- id: tiktok-7689146415238417695
+  platillo: Sopa de jitomate rostizado con chile calabrés
+  cocina: Italiana
+  tipo: comida
+  proteina: vegetal
+  tecnica: rostizado al horno + licuado
+  ingredientes_clave:
+  - jitomate
+  - chile calabrés
+  - pimiento rostizado
+  - ajo
+  - orégano
+  - crema
+  perfil: Sedosa, dulce, ligeramente picante
+  fuente: tiktok
+  url: https://www.tiktok.com/@sad_papi/video/7689146415238417695
+  caption: 'The silkiest tomato soup to kick off soup season What you’ll need: 15 Roma tomatoes 1 big ol yellow onion or two
+    small ones 1 large head of garlic 3 tbsp Calabrian chili 3 tbsp tomato paste 1 c roasted red peppers- I like @eatdivina
+    2 tbsp dried oregano 5 sprigs thyme 1 large fresh bay leaf 3c- 1qt vegetable stock 1c milk or cream (optional, I used
+    more vegetable stock) 1/4 c olive oil Preheat ove'
+  agregado: '2026-10-04'
+- id: tiktok-7684017149467168031
+  platillo: Pan francés proteico de brioche
+  cocina: Americana
+  tipo: desayuno
+  proteina: huevo
+  tecnica: remojo en mezcla de huevo + sartén
+  ingredientes_clave:
+  - brioche
+  - huevo
+  - claras
+  - canela
+  - jarabe
+  perfil: Dulce, cremoso, aroma a canela
+  fuente: tiktok
+  url: https://www.tiktok.com/@noahperlofit/video/7684017149467168031
+  caption: 'Meal Prep French Toasts‼️ These are not a low calorie food!! But if you want something amazing with some extra
+    protein, you better try them. Meal prep these bad BOYS and get my meal plans in my bio ❤️ 😱Macros For Each Slice: 224
+    Calories 13g Protein 25g Carbs 8g Fat 🔥The Best Protein French Toast (makes 20): ✅ - 2 Medium Loaves Brioche ✅ - 4 Whole
+    Eggs ✅ - 4.5 Cups Egg Whites ✅ - 1 Tbsp Cinnamon ✅'
+  agregado: '2026-10-04'
+  ultimo_uso: '2026-10-05'
+- id: tiktok-7685911449130110239
+  platillo: Res dulce y picante deshebrada con arroz
+  cocina: Americana
+  tipo: comida
+  proteina: res
+  tecnica: cocción lenta + deshebrado y glaseado
+  ingredientes_clave:
+  - chuck roast
+  - arroz
+  - ajo en polvo
+  - paprika ahumada
+  - salsa dulce picante
+  perfil: Dulce, picante, ahumado
+  fuente: tiktok
+  url: https://www.tiktok.com/@noahperlofit/video/7685911449130110239
+  caption: 'Meal Prep Sweet And Spicy Beef‼️ Meal prep these bad BOYS and get my meal plans in my bio ❤️ 😱Macros For Each
+    Serving (without rice): 465 Calories 48g Protein 21g Carbs 21g Fat 🔥The Best Sweet & Spicy Beef (makes 10): ✅ - 3 Cups
+    Dry Rice (Optional) ✅ - 2kg chuck roast, trimmed well and cut into 4–6 large chunks ✅ - 1½ Tbsp kosher salt ✅ - 2 tsp
+    black pepper ✅ - 1 Tbsp garlic powder ✅ - 2 tsp smoke'
+  agregado: '2026-10-04'
+- id: tiktok-7692557058322877727
+  platillo: Panini de steak con queso suizo
+  cocina: Americana
+  tipo: comida
+  proteina: res
+  tecnica: marinado + plancha prensada
+  ingredientes_clave:
+  - steak
+  - pan panini
+  - queso suizo
+  - salsa inglesa
+  - salsa de soya
+  - cebolla morada
+  perfil: Umami, quesoso, crujiente
+  fuente: tiktok
+  url: https://www.tiktok.com/@noahperlofit/video/7692557058322877727
+  caption: 'Make This Once Per Week‼️ These are so good, Lower calorie, and super easy. Meal Plans linked in my bio ❤️ 🔥Macros
+    For Each: 644 Calories 52g Protein 22g Fat 59g Carbs Ingredients for 14 Sandwiches: ✅ - 28 Slices Panini Bread Or Sourdough
+    ✅ - 2 Slices THIN CUT Swiss Cheese Per Sandwich (28 Total, 35 cal each) Steak ✅ - 2,000 g lean, trimmed steak ✅ - 1/2
+    cup Worcestershire sauce ✅ - 1/2 cup soy sa'
+  agregado: '2026-10-04'
+- id: tiktok-7682939184218246431
+  platillo: Orzo cremoso de jitomate con aceite de albahaca
+  cocina: Italiana
+  tipo: comida
+  proteina: vegetal
+  tecnica: cocción tipo risotto + aceite infusionado
+  ingredientes_clave:
+  - orzo
+  - jitomate cherry
+  - chile calabrés
+  - parmesano
+  - albahaca
+  - ajo
+  perfil: Cremoso, ácido, picante, herbal
+  fuente: tiktok
+  url: https://www.tiktok.com/@sad_papi/video/7682939184218246431
+  caption: 'Tomato orzo 🍅 easy homemade dinner What you need: 1 pt cherry or sungold tomato 2-3 tbsp Calabrian chili(depending
+    on how much spice you want) 4 cloves garlic 1 c orzo 3 c vegetable stock 4oz Parmesan 2c picked basil (loose pack) 1/2
+    c cold oil To begin, place your oil for the basil in the fridge or freezer until it’s cold. Once it’s super cold blend
+    with the basil and reserve. Cut your tomato’s i'
+  agregado: '2026-10-04'
+- id: tiktok-7689492508086242591
+  platillo: Sub de pollo búfalo con queso
+  cocina: Americana
+  tipo: comida
+  proteina: pollo
+  tecnica: horneado + gratinado en baguette
+  ingredientes_clave:
+  - muslo de pollo
+  - sazonador búfalo
+  - provolone
+  - baguette
+  - aderezo ranch
+  perfil: Picante, quesoso, crujiente
+  fuente: tiktok
+  url: https://www.tiktok.com/@noahperlofit/video/7689492508086242591
+  caption: 'Save Your Life With Meal Prep‼️ Meal prep these bad BOYS and get my meal plans in my bio ❤️ 😱Macros For Each Sub:
+    481 Calories 43g Protein 39g Carbs 17g Fat 🔥The Best Buff Chicken Subs (makes 12): Chicken: ✅ - 1.5kg Trimmed Chicken
+    Thighs ✅ - 4 Packets Buffalo Seasoning ✅ - Cooking Spray (I use avocado oil) Other: ✅ - 16 Slices Low ULTRA THIN Sliced
+    Provolone or Swiss ✅ - 4 Baguettes (Fully hollow'
+  agregado: '2026-10-04'
+- id: tiktok-7684689529592139038
+  platillo: Crunchwraps de pollo empanizado estilo Nashville
+  cocina: Americana
+  tipo: comida
+  proteina: pollo
+  tecnica: empanizado al horno + doblado y sellado en plancha
+  ingredientes_clave:
+  - pechuga de pollo
+  - pan molido
+  - salsa Frank's
+  - tortilla de harina
+  - chile en polvo
+  perfil: Picante, crujiente, saciante
+  fuente: tiktok
+  url: https://www.tiktok.com/@noahperlofit/video/7684689529592139038
+  caption: 'Crunchwraps For The Week‼️ These are so good, I eat them every day. Meal Plans linked in my bio ❤️ 🔥Macros For
+    Each Wrap (Approximated based on size) 511 Calories 56g Protein 15g Fat 35g Carbs Ingredients (about 18 Wraps): Chicken
+    Cutlets ✅ - 2,700 g (2.7 kg) Chicken Breast ✅ - Salt & black pepper ✅ - Garlic powder ✅ - Chili powder ✅ - 400g Bread
+    Crumbs Nashville Glaze: ✅ - 1/2 Cup Franks Redhot ✅'
+  agregado: '2026-10-04'
 descartados:
 - id: pinterest-399553798164757632
   url: https://mx.pinterest.com/pin/399553798164757632/
@@ -7259,3 +7530,9 @@ descartados:
 - id: tiktok-7296588562294639878
   url: https://www.tiktok.com/@7271583301163664389/video/7296588562294639878
   motivo: no identificable
+- id: tiktok-7689474771850923277
+  url: https://www.tiktok.com/@barefoodtim/video/7689474771850923277
+  motivo: compilado semanal sin receta específica
+- id: tiktok-7692083781393501454
+  url: https://www.tiktok.com/@barefoodtim/video/7692083781393501454
+  motivo: compilado semanal sin receta específica
