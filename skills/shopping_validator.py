@@ -22,28 +22,20 @@ VERIFICA ESTOS PUNTOS EN ORDEN:
 
 4. COLUMNA "Comprar" (ajuste, no exceso oculto): "Comprar" debe ser ≥ "Necesario", redondeado solo a presentación comercial (Despensa) o unidad mínima real de venta (Perecedero). Si "Comprar" excede "Necesario" en más de 15% para un Perecedero sin que la nota de "Posibles sobras" lo explique, repórtalo como ⚠️ Advertencia (no crítico, pero corrígelo si es evidente).
 
-5. ASIGNACIÓN DE TIENDA: para cada fila, determina si la tienda asignada realmente vende ese ingrediente.
-   - Si el bloque "COSTCO — VERIFICADO POR SCRIPT" (más abajo, cuando esté presente) cubre ese ingrediente con resultado POSITIVO, eso es autoritativo — no la vuelvas a buscar, márcala ✅ Costco directamente. Un resultado NEGATIVO del script NO es autoritativo (ver nota de confianza asimétrica en ese bloque) — para esa fila sigue las reglas normales de abajo como si el script no la hubiera cubierto.
-   - Para cualquier fila que el script no cubra o haya dado negativo (ingredientes City Market, Perecederos, o Despensa/Costco sin confirmación positiva) tienes una herramienta de búsqueda web real — úsala, no adivines:
-     - Para ingredientes comunes que están claramente en el criterio de abajo (pollo, jitomate, arroz, etc.) puedes confiar en el criterio sin buscar.
-     - Para CUALQUIER ingrediente que NO aparezca explícitamente en el criterio de abajo, o que sea una especialidad étnica/importada/de nicho (pastas de curry, ajíes, salsas asiáticas específicas, quesos poco comunes, hierbas o especias poco comunes en México, etc.), DEBES usar la búsqueda web para verificar si Costco México, City Market o La Comer realmente lo venden antes de decidir la tienda o marcarlo ✅. No asumas que "suena gourmet" significa que City Market lo tiene — confírmalo.
-   - Si la verificación (script o búsqueda) confirma que la tienda asignada SÍ lo vende → mantener, Estado = ✅
-   - Si la tienda asignada NO lo vende pero la otra tienda física sí (confirmado) → cambiar tienda, Estado = ⚠️ Corregido
-   - Si no hay evidencia de que NINGUNA tienda física mexicana lo venda → cambiar a "Amazon-MercadoLibre" (elige el más lógico), Estado = 🌐 Online, y dilo explícitamente en Advertencias/Problemas — este es exactamente el caso que hace que una receta sea difícil de comprar en CDMX si se deja pasar.
-   Un error de tienda es una corrección aplicada en la tabla, no por sí solo motivo de RECHAZADO — pero cuéntalo en el reporte. Cita brevemente qué encontraste (script o búsqueda) para cada ingrediente que verificaste (p. ej. "City Market Santa Fe no lista pasta de ají amarillo en su catálogo en línea — reasignado a Amazon/MercadoLibre").
+5. ASIGNACIÓN DE TIENDA (verificación SUAVE — nunca causa RECHAZADO, nunca cambia el menú ni las cantidades "Necesario"; no tienes búsqueda web, no la necesitas):
+   - Si el bloque "COSTCO — VERIFICADO POR SCRIPT" (más abajo, cuando esté presente) da POSITIVO para la fila → Estado = ✅ Costco. Sus títulos de producto muestran la PRESENTACIÓN real que vende Costco: si esa presentación es mucho mayor que "Necesario" (más de ~5× y no es algo que dure meses en despensa), cambia la Tienda a City Market y anota "⚠️ Presentación Costco muy grande (<presentación>)"; si la presentación es razonable, ajusta "Comprar" a esa presentación real.
+   - Un NEGATIVO del script NO es concluyente (el catálogo en línea de Costco es incompleto) — trátalo como si el script no lo hubiera cubierto.
+   - Filas sin confirmación del script: si el ingrediente está claramente en el criterio de abajo para la tienda asignada → Estado = ✅ (criterio). Si no lo está (especialidad, importado, poco común) → deja la tienda más lógica según el criterio y Estado = ❔ Confirmar en tienda. No inventes evidencia ni marques ✅ sin ella.
+   - Perecederos asignados a Costco: Costco vende producto fresco en paquetes grandes. Si "Comprar" es una cantidad chica que Costco no vende así (un manojo, una cabeza de ajo, un trozo de jengibre, <300 g de una verdura), cambia la Tienda a City Market y anótalo como ⚠️ Corregido.
+   - Solo usa "Amazon-MercadoLibre" (Estado = 🌐 Online) para especialidades de nicho que claramente no se venden en supermercados de CDMX (ver criterio de abajo).
+   Los cambios de tienda se aplican en la tabla y se listan en Advertencias; nunca son motivo de RECHAZADO.
 
-CRITERIO DE TIENDA (referencia rápida para lo obviamente común — para todo lo demás, verifica con la búsqueda):
+CRITERIO DE TIENDA (referencia para asignar sin verificación):
 COSTCO: pollo (pechuga/muslo), salmón, camarones congelados, atún en agua, res molida, huevos, leche, yogurt griego, mantequilla, queso crema, mozzarella, cheddar, parmesano Kraft, jitomate, cebolla, ajo, limones, aguacate, espinaca, zanahoria, pimiento, plátano, fresas, arroz, pasta regular, avena, aceite de oliva, aceite de coco, vinagre balsámico, soya Kikkoman, mostaza Dijon, garbanzos/frijoles en lata, leche de coco, caldo Kirkland, almendras, nueces, proteína whey, chile en polvo, especias secas comunes
 CITY MARKET: pato, cordero, wagyu, bacalao, pulpo, callo de hacha, trucha, burrata, queso de cabra, brie, ricotta fresca, halloumi, mascarpone, crème fraîche, hierbas frescas premium, miso, mirin, sake, vinagre de arroz, pasta curry (tailandesa, la más común), za'atar, sumac, harissa, tahini artesanal, aceite de sésamo, hongos frescos, chiles secos especiales (mulato/negro/chihuacle/pasilla), chocolate de Oaxaca, pasta italiana premium
-AMAZON/MERCADO LIBRE — cuando la búsqueda confirma que ningún supermercado físico lo tiene: ingredientes muy específicos importados, especias ultra-nicho (galanga fresca, hojas pandanus, pimienta szechuan, asafétida, pasta shrimp fermentado, ají amarillo peruano, gochujang, etc.), miso premium de importación, vinagres especiales (champaña, jerez añejo), licores/vinos para cocinar inusuales, utensilios especiales, ingredientes coreanos/japoneses/peruanos de nicho. En caso de duda entre Costco/City Market tras buscar → City Market.
+AMAZON/MERCADO LIBRE — especialidades de nicho que los supermercados de CDMX normalmente no tienen: ingredientes muy específicos importados, especias ultra-nicho (galanga fresca, hojas pandanus, pimienta szechuan, asafétida, pasta shrimp fermentado, ají amarillo peruano, gochujang, etc.), miso premium de importación, vinagres especiales (champaña, jerez añejo), licores/vinos para cocinar inusuales, utensilios especiales, ingredientes coreanos/japoneses/peruanos de nicho. En caso de duda entre Costco/City Market → City Market.
 
-VERIFICACIÓN DE DISPONIBILIDAD:
-9. ¿Hay una sección "🔍 Notas de Disponibilidad" que reporta si la disponibilidad fue verificada en línea?
-   - Si TODOS los ingredientes fueron verificados → debe decir "✅ Todos los ingredientes verificados..."
-   - Si algunos ingredientes se reasignaron o marcaron como Amazon/MercadoLibre → debe listarse la razón breve
-   - Si NO hay esta sección y la lista incluye ingredientes especiales (miso, curry, za'atar, etc.) → es ⚠️ Advertencia: la lista no reporta si fue verificada la disponibilidad. Pide regeneración CON verificación en línea.
-
-VEREDICTO: RECHAZADO si existe AL MENOS UN ❌ Problema Crítico (elemento ausente, ingrediente inventado, o discrepancia de cantidad fuera de ±10%) O si la lista contiene ingredientes especiales sin sección de Notas de Disponibilidad (significa no se verificó). Errores de tienda y advertencias de "Comprar" nunca causan RECHAZADO por sí solos — se corrigen en la tabla y se listan como cambios.
+VEREDICTO: RECHAZADO si existe AL MENOS UN ❌ Problema Crítico (elemento ausente, ingrediente inventado, o discrepancia de cantidad fuera de ±10%). Errores de tienda y advertencias de "Comprar" nunca causan RECHAZADO por sí solos — se corrigen en la tabla y se listan como cambios.
 
 FORMATO DE RESPUESTA — usa EXACTAMENTE esta estructura, sin variaciones:
 
@@ -106,10 +98,7 @@ Una línea: APROBADO o RECHAZADO y el motivo principal."""
             + "\n\n---\n\nGenera el reporte completo siguiendo el formato indicado."
         )
 
-        raw = self._call_claude(
-            self.SYSTEM_PROMPT, user_message, max_tokens=16000,
-            tools=[self._web_search_tool(max_uses=12)],
-        )
+        raw = self._call_claude(self.SYSTEM_PROMPT, user_message, max_tokens=16000)
         return self._parse_verdict_result(raw)
 
     _ROW_RE = re.compile(
@@ -138,11 +127,10 @@ Una línea: APROBADO o RECHAZADO y el motivo principal."""
     @classmethod
     def _build_costco_verification(cls, shopping_content: str) -> str:
         """Pre-verify Despensa/Costco rows against costco.com.mx via a free,
-        local headless-browser search (costco_scraper.py) instead of burning
-        LLM web-search calls on them. Fails soft: if Chromium/Selenium isn't
-        available or the lookup errors out, this just returns "" and the
-        validator falls back to its normal web-search behavior for those
-        rows too — never blocks the audit.
+        local headless-browser search (costco_scraper.py, cached). Fails soft:
+        if Chromium/Selenium isn't available or the lookup errors out, this
+        returns "" and those rows fall back to the store criterion — never
+        blocks the audit.
 
         SKIP_COSTCO_SCRAPER=1 forces that same fallback path — an escape
         hatch to isolate the scraper as a variable when debugging."""
@@ -161,13 +149,10 @@ Una línea: APROBADO o RECHAZADO y el motivo principal."""
         lines = [
             "COSTCO — VERIFICADO POR SCRIPT (búsqueda real en costco.com.mx, no adivinado). "
             "IMPORTANTE — confianza asimétrica: un resultado POSITIVO es evidencia fuerte y es "
-            "autoritativo para esa fila (no la vuelvas a buscar, márcala ✅ Costco). Un resultado "
+            "autoritativo para esa fila (márcala ✅ Costco). Un resultado "
             "NEGATIVO NO significa 'Costco no lo vende' — el catálogo en línea de Costco no "
-            "representa bien su surtido completo (ni todos los productos empacados tienen página "
-            "propia). Para una fila NEGATIVA, sigue las reglas normales (criterio conocido de abajo "
-            "o búsqueda web) en vez de reasignarla automáticamente — el script solo te ahorra "
-            "buscar en los casos positivos, nunca decide un negativo por sí solo. Ingredientes no "
-            "listados aquí siguen las reglas normales de búsqueda/criterio:"
+            "representa bien su surtido completo. Para una fila NEGATIVA sigue el criterio del punto 5. "
+            "Los títulos de los positivos muestran la presentación real a la venta:"
         ]
         for name, r in results.items():
             if r.get("found") is None:
@@ -176,7 +161,7 @@ Una línea: APROBADO o RECHAZADO y el motivo principal."""
                 sample = "; ".join(r.get("top_matches", [])[:3])
                 lines.append(f"- {name}: POSITIVO, sí aparece en costco.com.mx ({sample})" if sample else f"- {name}: POSITIVO, sí aparece en costco.com.mx")
             else:
-                lines.append(f"- {name}: negativo en la búsqueda del sitio — no concluyente, verifica con el criterio conocido o búsqueda web antes de reasignar.")
+                lines.append(f"- {name}: negativo en la búsqueda del sitio — no concluyente, sigue el criterio del punto 5.")
         return "\n".join(lines)
 
     @classmethod

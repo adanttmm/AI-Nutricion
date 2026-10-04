@@ -12,6 +12,7 @@ no/irrelevant results despite both being genuine Costco staples. Callers
 Perecedero ones — the caller does that filtering, this module trusts its
 input.
 """
+import json
 import re
 import shutil
 import tempfile
@@ -23,6 +24,11 @@ from contextlib import contextmanager
 SEARCH_URL = "https://www.costco.com.mx/search?q={query}"
 WAIT_TIMEOUT_S = 10
 POLL_INTERVAL_S = 0.5
+# Soft check: cached results keep weekly runs near-instant, and a per-run
+# budget caps how long a cold cache can hold up the shopping audit.
+CACHE_PATH = "data/costco_cache.json"
+CACHE_TTL_S = 30 * 24 * 3600
+RUN_BUDGET_S = 120
 
 # Costco's own search does loose substring matching — "sal" (salt) matches
 # "Sala" (living-room furniture) — and the results page also renders a
@@ -145,20 +151,56 @@ def _search(driver, query: str) -> dict:
     return {"found": bool(titles), "count": count, "top_matches": titles}
 
 
+def _load_cache() -> dict:
+    try:
+        with open(CACHE_PATH, encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return {}
+
+
+def _save_cache(cache: dict) -> None:
+    import os
+    os.makedirs(os.path.dirname(CACHE_PATH), exist_ok=True)
+    with open(CACHE_PATH, "w", encoding="utf-8") as f:
+        json.dump(cache, f, ensure_ascii=False, indent=1)
+
+
 def lookup_many(ingredient_names: list[str]) -> dict[str, dict]:
     """Search costco.com.mx for each ingredient name, reusing a single
-    browser session (much faster than relaunching Chromium per item).
+    browser session and a 30-day on-disk cache (only definite found/not-found
+    answers are cached). Lookups stop once RUN_BUDGET_S is spent.
 
     Returns {name: {"found": bool, "count": int|None, "top_matches": [...]}}.
-    On a per-item failure (page error, etc.) that item's entry instead has
-    {"found": None, "error": "..."} — the caller should treat None as
-    "couldn't verify" (fall back to the LLM), never as "not found".
+    Items that errored or didn't fit in the time budget get {"found": None,
+    "error": "..."} — the caller should treat None as "couldn't verify",
+    never as "not found".
     """
+    cache = _load_cache()
+    now = time.time()
     results: dict[str, dict] = {}
-    with _driver() as d:
-        for name in ingredient_names:
-            try:
-                results[name] = _search(d, name)
-            except Exception as e:  # noqa: BLE001 — one bad query shouldn't sink the batch
-                results[name] = {"found": None, "count": None, "top_matches": [], "error": str(e)}
-    return results
+    pending = []
+    for name in ingredient_names:
+        hit = cache.get(_normalize(name))
+        if hit and now - hit.get("ts", 0) < CACHE_TTL_S:
+            results[name] = {k: v for k, v in hit.items() if k != "ts"}
+        else:
+            pending.append(name)
+
+    if pending:
+        deadline = time.monotonic() + RUN_BUDGET_S
+        with _driver() as d:
+            for name in pending:
+                if time.monotonic() > deadline:
+                    results[name] = {"found": None, "count": None, "top_matches": [], "error": "sin tiempo en esta corrida"}
+                    continue
+                try:
+                    r = _search(d, name)
+                except Exception as e:  # noqa: BLE001 — one bad query shouldn't sink the batch
+                    results[name] = {"found": None, "count": None, "top_matches": [], "error": str(e)}
+                    continue
+                results[name] = r
+                cache[_normalize(name)] = {**r, "ts": now}
+        _save_cache(cache)
+
+    return {name: results[name] for name in ingredient_names}
