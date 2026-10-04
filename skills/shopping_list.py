@@ -43,7 +43,7 @@ CITY MARKET: pato, cordero, wagyu, bacalao, pulpo, callo de hacha, trucha, burra
 En caso de duda → City Market."""
 
     def generate(self, menu_path: str, recipes_path: str = None,
-                 meal_prep_path: str = None, week_date: date = None, feedback: str = "") -> Path:
+                 meal_prep_path: str = None, week_date: date = None, week_notes: str = "") -> Path:
         if week_date is None:
             week_date = date.today()
 
@@ -66,19 +66,18 @@ En caso de duda → City Market."""
                 + Path(meal_prep_path).read_text(encoding="utf-8")
             )
 
-        correction_block = ""
-        if feedback:
-            correction_block = (
-                f"\n\n---\n\n⚠️  CORRECCIONES OBLIGATORIAS — LA LISTA ANTERIOR FUE RECHAZADA POR EL VALIDADOR:\n"
-                f"{feedback}\n\n"
-                "Genera una lista NUEVA corrigiendo EXACTAMENTE cada punto anterior."
+        if week_notes:
+            sections.append(
+                "NOTA DE LA SEMANA DEL COCINERO (inventario en casa / sobrantes):\n" + week_notes + "\n\n"
+                "Lo que la nota dice que YA HAY EN CASA se descuenta de \"Comprar\": \"Necesario\" sigue siendo el total de la "
+                "semana, y \"Comprar\" = Necesario − lo que hay (0 si alcanza; en ese caso Comprar = \"0 — en casa\"). "
+                "Lo que la nota dice que FALTA se compra."
             )
 
         user_message = (
             "Genera la lista de compras completa para esta semana.\n\n"
             + "\n\n---\n\n".join(sections)
             + totals_section
-            + correction_block
             + "\n\n---\n\n"
             "Genera la tabla completa ordenada A→Z: | Ingrediente | Tipo | Necesario | Comprar | Uso | Tienda |"
         )

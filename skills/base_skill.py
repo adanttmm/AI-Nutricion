@@ -195,10 +195,17 @@ class BaseSkill:
             f"| {v['name']} | {v['atm_g']:.0f}g | {v['iob_g']:.0f}g |"
             for v in sorted(totals.values(), key=lambda x: x['name'].lower())
         )
+        note = ""
+        if any("(por tanda)" in v["name"] for v in totals.values()):
+            note = (
+                "\n\nFilas \"(por tanda)\": cantidades de UNA tanda/molde de una receta en lote (no por día). "
+                "Multiplícalas por el número de tandas que la semana necesita según el rendimiento de la "
+                "receta (porciones que rinde vs. porciones que se comen en la semana)."
+            )
         return (
             "| Ingrediente | 🧔 ATM total | 👤 IOB total |\n"
             "|---|---|---|\n"
-            f"{rows}"
+            f"{rows}{note}"
         )
 
     @staticmethod

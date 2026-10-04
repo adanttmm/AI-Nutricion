@@ -25,6 +25,9 @@ Dependencies include `pymupdf` for rendering scanned PDFs to images before Visio
 python main.py parsear-dietas
 #    Reads Dietas/YYYYMMDD_ATM.pdf + Dietas/YYYYMMDD_IOB.pdf via Claude Vision
 #    Saves config/parsed_diets/YYYYMMDD_ATM.yaml, YYYYMMDD_IOB.yaml, combined_YYYYMMDD.yaml
+#    Only PDFs without a matching YYYYMMDD_PERSONA.yaml are sent to Vision; with no new
+#    PDFs it makes zero API calls and reuses the latest combined plan (--forzar re-parses).
+#    semana-completa runs this same check automatically when --plan isn't given.
 
 # 2. Generate everything for the week (auto-picks the latest parsed plan):
 python main.py semana-completa

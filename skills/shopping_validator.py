@@ -51,7 +51,7 @@ ninguno
 
 REPORTE_HUMANO:
 ## 🛒 Tabla Corregida
-Tabla completa corregida con TODAS las columnas originales más una columna extra al final "Estado":
+Tabla completa corregida con TODAS las columnas originales más una columna extra al final "Estado". ESTA TABLA ES LA LISTA FINAL (no habrá regeneración): aplica en ella TODAS las correcciones — agrega los ingredientes faltantes, elimina los inventados, corrige cantidades y tiendas — y conserva la sección "📋 Posibles sobras" si la lista original la tenía:
 | Ingrediente | Tipo | Necesario | Comprar | Uso | Tienda | Estado |
 
 ## ✅ Correcto
@@ -67,7 +67,7 @@ Elementos ausentes, ingredientes inventados y discrepancias de cantidad — cita
 Una línea: APROBADO o RECHAZADO y el motivo principal."""
 
     def validate(self, shopping_path: str, menu_path: str = None,
-                  recipes_path: str = None, prep_path: str = None) -> ValidationResult:
+                  recipes_path: str = None, prep_path: str = None, week_notes: str = "") -> ValidationResult:
         shopping_content = Path(shopping_path).read_text(encoding="utf-8")
 
         sections = [f"LISTA DE COMPRAS A AUDITAR:\n{shopping_content}"]
@@ -85,6 +85,14 @@ Una línea: APROBADO o RECHAZADO y el motivo principal."""
             sections.append(
                 f"PLAN DE MEAL PREP (puede añadir ingredientes de salsas/preparaciones no listados en el menú):\n"
                 f"{Path(prep_path).read_text(encoding='utf-8')}"
+            )
+
+        if week_notes:
+            sections.append(
+                "NOTA DE LA SEMANA DEL COCINERO (inventario en casa / sobrantes):\n" + week_notes + "\n"
+                "Lo que ya hay en casa se descuenta de \"Comprar\" (no de \"Necesario\") — un Comprar menor que "
+                "Necesario por esa razón es CORRECTO. Si la lista compra algo que la nota dice que ya hay en "
+                "cantidad suficiente, corrígelo en la tabla (Comprar = \"0 — en casa\")."
             )
 
         costco_section = self._build_costco_verification(shopping_content)

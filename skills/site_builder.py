@@ -15,6 +15,8 @@ _DAY_SHORT = {
     'JUEVES': 'Jue', 'VIERNES': 'Vie', 'SÁBADO': 'Sáb', 'SABADO': 'Sáb', 'DOMINGO': 'Dom',
 }
 _MEAL_EMOJIS = ['🌅', '🍎', '🍽', '🌿', '🌙', '🎉']
+_MEAL_NAME_RE = re.compile(r'\b(Desayuno|Colaci[oó]n|Comida|Cena)\b', re.IGNORECASE)
+_BATCH_RE = re.compile(r'complet[oa]|tanda|lote|molde', re.IGNORECASE)
 # Recipe cards use a free-choice dish emoji (e.g. 🥩 for beef), not the fixed
 # meal-time emoji the menu uses — matching recipes to menu slots by emoji only
 # works by coincidence. The meal-time name itself ("Desayuno", "Comida", ...)
@@ -969,6 +971,7 @@ class SiteBuilderSkill(BaseSkill):
         totals: dict = {}
         seen_table_keys: set = set()   # (day, recipe_key) — skip exact duplicate tables
         in_ingr_table = False
+        is_batch = False
         current_day_key = ''
         current_recipe_key = ''
 
@@ -981,8 +984,11 @@ class SiteBuilderSkill(BaseSkill):
                 in_ingr_table = False
                 continue
 
-            # Track recipe sections by ### header with meal emoji
-            if s.startswith('### ') and any(e in s for e in _MEAL_EMOJIS):
+            # Track recipe sections by ### header. Match the meal-time name, not just
+            # the emoji: cards use free-choice dish emojis (🌯, 🐟, 🥣…), and missing
+            # the header made every table after the first one in a day look like a
+            # duplicate of it — only breakfast got counted.
+            if s.startswith('### ') and (any(e in s for e in _MEAL_EMOJIS) or _MEAL_NAME_RE.search(s)):
                 raw_key = re.sub(r'[^a-z0-9]+', '-', s.lower())[:60]
                 current_recipe_key = raw_key
                 in_ingr_table = False
@@ -1000,7 +1006,11 @@ class SiteBuilderSkill(BaseSkill):
 
             # Header row with "Ingrediente"
             if len(cells) >= 2 and 'Ingrediente' in cells[0]:
-                table_key = f'{current_day_key}|{current_recipe_key}'
+                # Whole-batch tables ("molde completo", "tanda completa") repeat the
+                # same batch on every day's card — count them once per week.
+                is_batch = bool(_BATCH_RE.search(cells[0]))
+                table_key = (f'batch|{current_recipe_key}' if is_batch
+                             else f'{current_day_key}|{current_recipe_key}')
                 if table_key in seen_table_keys:
                     in_ingr_table = False
                 else:
@@ -1041,6 +1051,9 @@ class SiteBuilderSkill(BaseSkill):
             if not key:
                 continue
             display = _clean_name(name)  # state/prep-qualifier-free display name
+            if is_batch:
+                key += '|tanda'
+                display += ' (por tanda)'
             if key not in totals:
                 totals[key] = {'name': display, 'atm_g': 0.0, 'iob_g': 0.0}
             else:

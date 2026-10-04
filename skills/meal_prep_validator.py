@@ -1,5 +1,6 @@
 from .base_skill import BaseSkill, ValidationResult
 from pathlib import Path
+import re
 
 
 class MealPrepValidatorSkill(BaseSkill):
@@ -8,7 +9,7 @@ class MealPrepValidatorSkill(BaseSkill):
 
 VERIFICA ESTOS PUNTOS EN ORDEN:
 
-1. COBERTURA DE PROTEÍNAS: ¿Cada proteína del menú está en el plan de prep? Cualquier proteína del menú ausente del prep es FALLA AUTOMÁTICA. Recuerda que pescados y mariscos delicados no aguantan más de 2 días refrigerados — deben congelarse en crudo marinado o cocinarse en 2 tandas; si el prep no contempla esto para un pescado/marisco que se consume tarde en la semana, es FALLA AUTOMÁTICA.
+1. COBERTURA DE PROTEÍNAS: ¿Cada proteína del menú está en el plan de prep? Cualquier proteína del menú ausente del prep es FALLA AUTOMÁTICA.
 
 2. GRANOS Y CARBOHIDRATOS: ¿Todos los granos/carbohidratos (arroz, pasta, quinoa, camote, etc.) del menú están incluidos en el prep? Cualquiera ausente es FALLA AUTOMÁTICA. Cantidades incoherentes con el menú son FALLA AUTOMÁTICA (ver punto 5).
 
@@ -23,13 +24,15 @@ VERIFICA ESTOS PUNTOS EN ORDEN:
    - Si NO coincide siquiera considerando el ajuste del 3er comensal, es FALLA AUTOMÁTICA — repórtalo citando el número exacto del plan de prep vs. el número exacto esperado (tabla + 3er comensal si aplica).
    - Si el plan de prep no da un total consolidado para un ingrediente que sí está en la tabla (y ese ingrediente requiere prep dominical — proteínas, granos, salsas), es FALLA AUTOMÁTICA (elemento ausente).
 
-6. TIEMPOS DE CONSERVACIÓN: ¿Hay algún ingrediente que no aguantará hasta el día que se consume (proteínas cocidas: 3-4 días; granos: 4-5 días; salsas: 5-7 días)? Cualquier violación es FALLA AUTOMÁTICA — implica intoxicación alimentaria o comida en mal estado, no es negociable.
+6. TIEMPOS DE CONSERVACIÓN (solo ⚠️ Advertencia, NUNCA causa RECHAZADO): ¿algo se usaría después de su límite (pescado/marisco delicado crudo: 2 días; proteínas cocidas: 3-4 días; granos: 4-5 días; salsas: 5-7 días)? Repórtalo en Advertencias con una sugerencia concreta de una línea (ej. "congelar las porciones de jue-dom y descongelar la noche anterior", "comprar el pescado fresco el martes"). No lo incluyas en FEEDBACK_GENERADOR.
 
-7. ELEMENTOS AUSENTES: ¿Hay ingredientes o preparaciones del menú que no aparecen en ningún paso del cronograma del domingo? FALLA AUTOMÁTICA.
+7. PRIORIDAD DEL PREP: desayuno, colaciones y cena deben quedar 100% listos y porcionados (entre semana solo calentar/servir). Las comidas pueden quedar como mise en place (verduras cortadas/blanqueadas, salsas, granos, proteína lista para terminar). Si desayuno/colaciones/cena requieren cocción real entre semana (más allá de un paso final de ≤5 min), es ⚠️ Advertencia.
 
-8. COHERENCIA TEMPORAL Y PRESUPUESTO: ¿Los turnos del domingo tienen sentido en tiempo y paralelismo? ¿El cronograma total respeta el presupuesto de 4 horas Sab+Dom (Sábado ≤45 min + Domingo ≤3.5 hrs)? Un cronograma que excede 4 horas TOTALES, o que no declara explícitamente sus tiempos estimados por turno, o que tiene conflictos de tiempo obvios (dos tareas que requieren atención simultánea del cocinero sin ser paralelizables) es FALLA AUTOMÁTICA — un plan que no se puede ejecutar en un fin de semana real no es un plan válido. El plan DEBE incluir la línea "TIEMPO TOTAL: X horas Y minutos" al final.
+8. ELEMENTOS AUSENTES: ¿Hay ingredientes o preparaciones del menú que no aparecen en ningún paso del plan (fin de semana, mini-sesión o paso del día de servicio)? FALLA AUTOMÁTICA.
 
-VEREDICTO: RECHAZADO si existe AL MENOS UNA falla automática de los puntos 1-3 y 5-8. Solo las duplicaciones de trabajo evitables del punto 4 son advertencias no bloqueantes.
+9. COHERENCIA TEMPORAL Y PRESUPUESTO: ¿Los turnos del domingo tienen sentido en tiempo y paralelismo? ¿El cronograma total respeta el presupuesto de 4 horas Sab+Dom (Sábado ≤45 min + Domingo ≤3.5 hrs)? Un cronograma que excede 4 horas TOTALES, o que no declara explícitamente sus tiempos estimados por turno, o que tiene conflictos de tiempo obvios (dos tareas que requieren atención simultánea del cocinero sin ser paralelizables) es FALLA AUTOMÁTICA — un plan que no se puede ejecutar en un fin de semana real no es un plan válido. El plan DEBE incluir la línea "TIEMPO TOTAL: X horas Y minutos" al final.
+
+VEREDICTO: RECHAZADO solo si existe AL MENOS UNA falla automática de los puntos 1-3, 5, 8 o 9. Los puntos 4, 6 y 7 (duplicaciones, conservación, prioridad del prep) son advertencias no bloqueantes — van en el reporte, nunca en FEEDBACK_GENERADOR.
 
 FORMATO DE RESPUESTA — usa EXACTAMENTE esta estructura, sin variaciones:
 
@@ -41,22 +44,22 @@ ninguno
 (o, si RECHAZADO, lista específica y accionable para quien regenera el plan de meal prep, un punto por problema concreto:)
 - Falta el prep de "quinoa" — el menú la usa en Comida Martes/Viernes pero no aparece en ningún turno del domingo. Agregar como parte del TURNO 2.
 - "Total salmón" en el prep dice ~1,800g pero TOTALES SEMANALES indica 2,040g — corregir la cantidad y ajustar el turno correspondiente.
-- Pollo cocido del domingo se usa hasta el Viernes (5 días) — excede el límite de 3-4 días refrigerado; mover a congelación o re-planificar cocción a media semana.
 
 REPORTE_HUMANO:
 ## ✅ Correcto
 Lista concisa de lo que está bien cubierto.
 
 ## ⚠️ Advertencias
-Duplicaciones de trabajo evitables u optimizaciones menores (nunca causan RECHAZADO).
+Duplicaciones evitables, avisos de conservación con su sugerencia, y prioridad del prep (nunca causan RECHAZADO).
 
 ## ❌ Problemas Críticos
-Cada falla automática detectada en los puntos 1-3 y 5-8. Incluye aquí toda discrepancia de cantidad del punto 5, citando ambos números, y toda violación de conservación del punto 6. "ninguno" si no hay.
+Cada falla automática detectada en los puntos 1-3, 5, 8 y 9. Incluye aquí toda discrepancia de cantidad del punto 5, citando ambos números. "ninguno" si no hay.
 
 ## 📝 Veredicto
 Calificación (1–10) y una línea: APROBADO o RECHAZADO y el motivo principal."""
 
-    def validate(self, menu_path: str, meal_prep_path: str, recipes_path: str = None) -> ValidationResult:
+    def validate(self, menu_path: str, meal_prep_path: str, recipes_path: str = None,
+                 week_notes: str = "") -> ValidationResult:
         menu_content = Path(menu_path).read_text(encoding="utf-8")
         prep_content = Path(meal_prep_path).read_text(encoding="utf-8")
 
@@ -69,12 +72,19 @@ Calificación (1–10) y una línea: APROBADO o RECHAZADO y el motivo principal.
             recipes_section = f"\n\nRECETAS (ingredientes y técnicas de referencia):\n{recipes_content}"
             totals_section = self._build_totals_reference(recipes_content)
 
+        notes_section = (
+            "\nNOTA DE LA SEMANA DEL COCINERO (sobrantes / inventario — lo que ya está preparado no "
+            f"necesita paso de prep; respeta lo que la nota indica):\n{week_notes}\n"
+        ) if week_notes else ""
+
         user_message = f"""Audita el siguiente plan de meal prep comparándolo con el menú de la semana.
 
 MENÚ DE LA SEMANA:
 {menu_content}
 {recipes_section}
 {totals_section}
+{self._time_check(prep_content)}
+{notes_section}
 
 PLAN DE MEAL PREP A AUDITAR:
 {prep_content}
@@ -83,6 +93,49 @@ Genera el reporte de auditoría completo siguiendo el formato indicado."""
 
         raw = self._call_claude(self.SYSTEM_PROMPT, user_message, max_tokens=16000)
         return self._parse_verdict_result(raw)
+
+    _CLOCK_RE = re.compile(r"(\d{1,2}):(\d{2})\s*(?:–|-|a)\s*(\d{1,2}):(\d{2})")
+    _MIN_RE = re.compile(r"\((\d+)\s*min")
+
+    @classmethod
+    def _heading_minutes(cls, heading: str) -> int | None:
+        """Minutes for one heading: clock range if present (harder to fudge),
+        otherwise the "(NN min)" it declares."""
+        m = cls._CLOCK_RE.search(heading)
+        if m:
+            h1, m1, h2, m2 = map(int, m.groups())
+            return (h2 * 60 + m2) - (h1 * 60 + m1)
+        m = cls._MIN_RE.search(heading) or re.search(r"(\d+)\s*min", heading)
+        return int(m.group(1)) if m else None
+
+    @classmethod
+    def compute_weekend_minutes(cls, prep_content: str) -> tuple[int | None, int | None]:
+        """(saturday_min, sunday_min) summed by code from the plan's own headings —
+        the planner's self-reported TIEMPO TOTAL has been wrong in both directions."""
+        sat = None
+        turnos = []
+        for line in prep_content.splitlines():
+            s = line.strip()
+            if sat is None and re.match(r"^#{1,2} .*s[áa]bado", s, re.IGNORECASE):
+                sat = cls._heading_minutes(s)
+            elif re.match(r"^#{2,4}\s*TURNO", s, re.IGNORECASE):
+                mins = cls._heading_minutes(s)
+                if mins is not None:
+                    turnos.append(mins)
+        return sat, (sum(turnos) if turnos else None)
+
+    @classmethod
+    def _time_check(cls, prep_content: str) -> str:
+        sat, sun = cls.compute_weekend_minutes(prep_content)
+        if sun is None:
+            return ""
+        total = (sat or 0) + sun
+        return (
+            "\nTIEMPO CALCULADO POR CÓDIGO (suma de los encabezados del propio plan — autoritativo para el "
+            "punto 9; si el TIEMPO TOTAL que declara el plan no coincide, es un error del plan): "
+            f"Sábado {sat if sat is not None else '?'} min + Domingo {sun} min (suma de TURNOS) = "
+            f"{total // 60} h {total % 60:02d} min. Límite: 4 h 00 min.\n"
+        )
 
     @classmethod
     def _build_totals_reference(cls, recipes_content: str) -> str:

@@ -32,7 +32,9 @@ def cli():
               help="Carpeta con los PDFs del nutriólogo (default: Dietas/)")
 @click.option("--persona", "-p", default=None,
               help="Parsear solo a una persona (ej: ATM). Default: todas.")
-def parsear_dietas(dietas_dir, persona):
+@click.option("--forzar", is_flag=True, default=False,
+              help="Vuelve a parsear aunque el PDF ya tenga su YAML en config/parsed_diets/.")
+def parsear_dietas(dietas_dir, persona, forzar):
     """Lee los PDFs del nutriólogo en ./Dietas/ y genera YAMLs estructurados con calorías calculadas."""
     from skills.diet_parser import DietParserSkill
     from rich.table import Table as RTable
@@ -60,27 +62,10 @@ def parsear_dietas(dietas_dir, persona):
         table.add_row(p, str(path))
     console.print(table)
 
-    parsed_paths = {}
-    for person, pdf_path in diets.items():
-        with console.status(f"[bold green]Parseando {person} ({pdf_path.name}) con Claude Vision...", spinner="dots"):
-            try:
-                out = parser.parse_pdf(str(pdf_path))
-                parsed_paths[person] = out
-                console.print(f"  [green]✅[/green] {person}: {out}")
-            except Exception as e:
-                console.print(f"  [red]❌ Error parseando {person}: {e}[/red]")
-
-    if len(parsed_paths) == 0:
+    parsed_paths, combined = _parse_diets(parser, diets, force=forzar)
+    if not parsed_paths:
         console.print("[red]No se pudo parsear ningún archivo.[/red]")
         return
-
-    with console.status("[bold blue]Creando plan combinado...", spinner="dots"):
-        try:
-            combined = parser.create_combined_plan(parsed_paths)
-            console.print(f"\n[green]✅ Plan combinado:[/green] [bold]{combined}[/bold]")
-        except ValueError as e:
-            console.print(f"[yellow]⚠️  Plan combinado no generado: {e}[/yellow]")
-            combined = None
 
     console.print(Panel(
         "\n".join(f"• {p}: {path}" for p, path in parsed_paths.items())
@@ -92,6 +77,60 @@ def parsear_dietas(dietas_dir, persona):
         "\n💡 Siguiente paso:\n"
         f"   [yellow]python main.py semana-completa --plan {combined or list(parsed_paths.values())[0]}[/yellow]"
     )
+
+
+def _parse_diets(parser, diets: dict, force: bool = False) -> tuple[dict, str | None]:
+    """Parse only PDFs without a YAML yet (Claude Vision is the expensive step),
+    reuse existing YAMLs for the rest, and rebuild the combined plan only when a
+    person YAML is newer than the latest combined one. Returns
+    ({person: yaml_path}, combined_path_or_None)."""
+    parsed_paths: dict = {}
+    any_new = False
+    for person, pdf_path in diets.items():
+        existing = Path("config/parsed_diets") / f"{pdf_path.stem.split('_', 1)[0]}_{person}.yaml"
+        if existing.exists() and not force:
+            parsed_paths[person] = existing
+            console.print(f"  [dim]⏭  {person}: {pdf_path.name} ya parseado → {existing}[/dim]")
+            continue
+        with console.status(f"[bold green]Parseando {person} ({pdf_path.name}) con Claude Vision...", spinner="dots"):
+            try:
+                parsed_paths[person] = parser.parse_pdf(str(pdf_path))
+                any_new = True
+                console.print(f"  [green]✅[/green] {person}: {parsed_paths[person]}")
+            except Exception as e:
+                console.print(f"  [red]❌ Error parseando {person}: {e}[/red]")
+
+    if not parsed_paths:
+        return parsed_paths, None
+
+    latest = _find_latest_combined_plan()
+    newest_person = max(Path(p).stat().st_mtime for p in parsed_paths.values())
+    if (not any_new and not force and latest and Path(latest).name.startswith("combined_")
+            and Path(latest).stat().st_mtime >= newest_person):
+        console.print(f"  [dim]⏭  Sin dietas nuevas — se usa el plan combinado existente: {latest}[/dim]")
+        return parsed_paths, latest
+
+    with console.status("[bold blue]Creando plan combinado...", spinner="dots"):
+        try:
+            combined = str(parser.create_combined_plan(parsed_paths))
+            console.print(f"\n[green]✅ Plan combinado:[/green] [bold]{combined}[/bold]")
+        except ValueError as e:
+            console.print(f"[yellow]⚠️  Plan combinado no generado: {e}[/yellow]")
+            combined = None
+    return parsed_paths, combined
+
+
+def _new_diet_pdfs(dietas_dir: str = "Dietas") -> dict:
+    """{person: pdf} for each person's latest PDF that has no parsed YAML yet."""
+    from skills.diet_parser import DietParserSkill
+    try:
+        diets = DietParserSkill.find_latest_diets(dietas_dir)
+    except FileNotFoundError:
+        return {}
+    return {
+        person: pdf for person, pdf in diets.items()
+        if not (Path("config/parsed_diets") / f"{pdf.stem.split('_', 1)[0]}_{person}.yaml").exists()
+    }
 
 
 def _find_latest_combined_plan() -> str | None:
@@ -303,6 +342,89 @@ def validar_menu(plan, menu, nota):
         ))
 
 
+def _run_meal_prep(outputs: dict, nota: str) -> None:
+    """Plan → one audit → targeted fixes; outputs needs 'menu' and 'recetas'."""
+    from skills.meal_prep_planner import MealPrepPlannerSkill
+    from skills.meal_prep_validator import MealPrepValidatorSkill
+
+    with console.status("[magenta]3/5 · Plan de meal prep...", spinner="dots"):
+        outputs["prep"] = MealPrepPlannerSkill().generate(
+            str(outputs["menu"]), str(outputs["recetas"]), week_notes=nota
+        )
+    console.print(f"  [green]✅[/green] Meal prep generado: {outputs['prep']}")
+
+    with console.status("[yellow]  Auditando cobertura, cantidades y tiempo...", spinner="dots"):
+        prep_val = MealPrepValidatorSkill().validate(
+            str(outputs["menu"]), str(outputs["prep"]), str(outputs["recetas"]), week_notes=nota
+        )
+
+    # One audit, then targeted edits for just the errors it found — no full
+    # regeneration and no second audit (storage issues are warnings only).
+    fix_note = ""
+    if prep_val.passed:
+        console.print("  [green]✅[/green] Meal prep validado — cobertura, cantidades y tiempo correctos")
+    else:
+        console.print(Panel(prep_val.report, title="[yellow]Auditoría de meal prep[/yellow]", border_style="yellow"))
+        with console.status("[magenta]  Corrigiendo solo los errores encontrados...", spinner="dots"):
+            applied, missed = MealPrepPlannerSkill().fix(
+                str(outputs["prep"]), prep_val.feedback, str(outputs["recetas"])
+            )
+        console.print(f"  [green]✅[/green] {len(applied)} corrección(es) aplicadas"
+                      + (f" · [yellow]{len(missed)} sin aplicar (ver final del archivo)[/yellow]" if missed else ""))
+        fix_note = "\n\n## 🛠️ Correcciones aplicadas tras la auditoría\n" + "\n".join(f"- {x}" for x in applied)
+        if missed:
+            fix_note += "\n\n**⚠️ No se pudieron aplicar automáticamente — revisar a mano:**\n" + "\n".join(f"- {x}" for x in missed)
+
+    prep_text = Path(outputs["prep"]).read_text(encoding="utf-8")
+    sat, sun = MealPrepValidatorSkill.compute_weekend_minutes(prep_text)
+    if sun is not None:
+        # The model's own TIEMPO TOTAL lines have been wrong; replace them with the code sum.
+        prep_text = "\n".join(l for l in prep_text.splitlines() if "TIEMPO TOTAL" not in l.upper())
+        total = (sat or 0) + sun
+        color = "green" if total <= 240 else "red"
+        console.print(f"  [{color}]⏱  Tiempo de prep (calculado): {total // 60} h {total % 60:02d} min "
+                      f"(Sábado {sat or 0} + Domingo {sun})[/{color}]")
+        fix_note += f"\n\n**⏱ Tiempo calculado por código (suma de turnos):** {total // 60} h {total % 60:02d} min" \
+                    + ("" if total <= 240 else " — ⚠️ excede el límite de 4 h")
+    Path(outputs["prep"]).write_text(
+        prep_text.rstrip() + "\n\n---\n\n# 🔎 Auditoría del meal prep\n\n" + prep_val.report.strip()
+        + fix_note + "\n",
+        encoding="utf-8",
+    )
+
+
+
+def _run_shopping(outputs: dict, nota: str) -> None:
+    """List → one audit whose corrected table is saved as final."""
+    from skills.shopping_list import ShoppingListSkill
+    from skills.shopping_validator import ShoppingValidatorSkill
+
+    with console.status("[blue]4/5 · Lista de compras...", spinner="dots"):
+        outputs["compras"] = ShoppingListSkill().generate(
+            str(outputs["menu"]), str(outputs["recetas"]), str(outputs["prep"]), week_notes=nota
+        )
+    console.print(f"  [green]✅[/green] Compras generadas: {outputs['compras']}")
+
+    # One audit; its corrected table is the final list — no regeneration.
+    with console.status("[blue]  Auditando y corrigiendo completitud, cantidades y tienda...", spinner="dots"):
+        compras_val = ShoppingValidatorSkill().validate(
+            str(outputs["compras"]), str(outputs["menu"]), str(outputs["recetas"]), str(outputs["prep"]),
+            week_notes=nota,
+        )
+    if compras_val.passed:
+        console.print("  [green]✅[/green] Compras validadas — completas, cantidades y tiendas correctas")
+    else:
+        console.print("  [yellow]⚠️[/yellow]  Auditoría encontró errores — se guardó la tabla ya corregida por el auditor")
+        console.print(Panel(compras_val.report, title="[yellow]Auditoría de compras[/yellow]", border_style="yellow"))
+
+    original_header = "\n".join(
+        line for line in Path(outputs["compras"]).read_text(encoding="utf-8").split("\n")[:3]
+        if line.startswith("#")
+    )
+    validated_header = original_header + "\n\n> ✅ Validado por agente de verificación de compras\n\n"
+    Path(outputs["compras"]).write_text(validated_header + compras_val.report, encoding="utf-8")
+
+
 @cli.command("semana-completa")
 @click.option("--plan", "-p", default=None,
               help="Ruta al plan nutricional YAML. Si se omite, usa el plan más reciente parseado del nutriólogo.")
@@ -328,10 +450,16 @@ def semana_completa(plan, semana, sin_sitio, nota, sin_historial, sin_refs):
     from skills.meal_prep_planner import MealPrepPlannerSkill
     from skills.ratings_loader import RatingsLoader
 
-    # Auto-detect plan
+    # Auto-detect plan — parse diets only when a new PDF is in Dietas/
     if plan is None:
-        plan = _find_latest_combined_plan() or "config/diet_plan_example.yaml"
-        console.print(f"[dim]Usando plan: {plan}[/dim]")
+        new_pdfs = _new_diet_pdfs()
+        if new_pdfs:
+            from skills.diet_parser import DietParserSkill
+            console.print(f"[cyan]📄 Dietas nuevas detectadas: {', '.join(p.name for p in new_pdfs.values())}[/cyan]")
+            parser = DietParserSkill()
+            _, plan = _parse_diets(parser, parser.find_latest_diets("Dietas"))
+        plan = plan or _find_latest_combined_plan() or "config/diet_plan_example.yaml"
+        console.print(f"[dim]Usando plan: {plan}{'' if new_pdfs else ' (sin dietas nuevas)'}[/dim]")
 
     week_start = date.fromisoformat(semana) if semana else None
     outputs = {}
@@ -401,74 +529,8 @@ def semana_completa(plan, semana, sin_sitio, nota, sin_historial, sin_refs):
     console.print(f"  [green]✅[/green] Recetas: {outputs['recetas']}")
 
     # Meal prep before shopping so all sauce/marinade ingredients are captured
-    from skills.meal_prep_validator import MealPrepValidatorSkill
-
-    MAX_PREP_RETRIES = 3
-    prep_feedback = ""
-    for attempt in range(MAX_PREP_RETRIES):
-        label = "3/5 · Plan de meal prep" if attempt == 0 else f"  ↺ Corrección #{attempt} · Meal prep"
-        with console.status(f"[magenta]{label}...", spinner="dots"):
-            outputs["prep"] = MealPrepPlannerSkill().generate(
-                str(outputs["menu"]), str(outputs["recetas"]), week_notes=nota, feedback=prep_feedback
-            )
-        console.print(f"  [green]✅[/green] Meal prep generado (intento {attempt + 1}/{MAX_PREP_RETRIES}): {outputs['prep']}")
-
-        with console.status("[yellow]  Auditando cobertura y cantidades...", spinner="dots"):
-            prep_val = MealPrepValidatorSkill().validate(
-                str(outputs["menu"]), str(outputs["prep"]), str(outputs["recetas"])
-            )
-
-        if prep_val.passed:
-            console.print("  [green]✅[/green] Meal prep validado — cobertura y cantidades correctas")
-            break
-
-        console.print(f"  [yellow]⚠️[/yellow]  Meal prep rechazado (intento {attempt + 1}/{MAX_PREP_RETRIES})")
-        console.print(Panel(prep_val.report, title="[yellow]Auditoría de meal prep[/yellow]", border_style="yellow"))
-        prep_feedback = prep_val.feedback
-
-        if attempt == MAX_PREP_RETRIES - 1:
-            console.print(
-                "[red]❌ No se pudo validar el meal prep en 3 intentos. "
-                "Se usará el último generado — revisa manualmente.[/red]"
-            )
-
-    from skills.shopping_validator import ShoppingValidatorSkill
-
-    MAX_COMPRAS_RETRIES = 3
-    compras_feedback = ""
-    for attempt in range(MAX_COMPRAS_RETRIES):
-        label = "4/5 · Lista de compras" if attempt == 0 else f"  ↺ Corrección #{attempt} · Lista de compras"
-        with console.status(f"[blue]{label}...", spinner="dots"):
-            outputs["compras"] = ShoppingListSkill().generate(
-                str(outputs["menu"]), str(outputs["recetas"]), str(outputs["prep"]), feedback=compras_feedback
-            )
-        console.print(f"  [green]✅[/green] Compras generadas (intento {attempt + 1}/{MAX_COMPRAS_RETRIES}): {outputs['compras']}")
-
-        with console.status("[blue]  Auditando completitud, cantidades y tienda...", spinner="dots"):
-            compras_val = ShoppingValidatorSkill().validate(
-                str(outputs["compras"]), str(outputs["menu"]), str(outputs["recetas"]), str(outputs["prep"])
-            )
-
-        if compras_val.passed:
-            console.print("  [green]✅[/green] Compras validadas — completas, cantidades y tiendas correctas")
-            break
-
-        console.print(f"  [yellow]⚠️[/yellow]  Compras rechazadas (intento {attempt + 1}/{MAX_COMPRAS_RETRIES})")
-        console.print(Panel(compras_val.report, title="[yellow]Auditoría de compras[/yellow]", border_style="yellow"))
-        compras_feedback = compras_val.feedback
-
-        if attempt == MAX_COMPRAS_RETRIES - 1:
-            console.print(
-                "[red]❌ No se pudo validar la lista de compras en 3 intentos. "
-                "Se usará la última generada, corregida por el auditor — revisa manualmente.[/red]"
-            )
-
-    original_header = "\n".join(
-        line for line in Path(outputs["compras"]).read_text(encoding="utf-8").split("\n")[:3]
-        if line.startswith("#")
-    )
-    validated_header = original_header + "\n\n> ✅ Validado por agente de verificación de compras\n\n"
-    Path(outputs["compras"]).write_text(validated_header + compras_val.report, encoding="utf-8")
+    _run_meal_prep(outputs, nota)
+    _run_shopping(outputs, nota)
 
     if not sin_sitio:
         with console.status("[cyan]5/5 · Sitio web...", spinner="dots"):
