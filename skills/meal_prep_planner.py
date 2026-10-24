@@ -184,9 +184,6 @@ REGLAS:
         """Apply the auditor's corrections as targeted find/replace edits instead of
         regenerating the whole plan (≈10x fewer output tokens). Returns
         (applied, missed) — missed edits are reported, never retried."""
-        import json
-        import re
-
         path = Path(prep_path)
         plan = path.read_text(encoding="utf-8")
         totals = ""
@@ -201,21 +198,6 @@ REGLAS:
             "Devuelve el arreglo JSON de ediciones."
         )
         raw = self._call_claude(self.FIX_SYSTEM_PROMPT, user_message, max_tokens=16000)
-        m = re.search(r"\[.*\]", raw, re.DOTALL)
-        try:
-            edits = json.loads(m.group(0)) if m else []
-        except json.JSONDecodeError:
-            edits = []
-
-        applied, missed = [], []
-        for e in edits:
-            old, new = e.get("buscar", ""), e.get("reemplazar", "")
-            if old and old in plan:
-                plan = plan.replace(old, new, 1)
-                applied.append(new.strip().splitlines()[0][:120] if new.strip() else old[:120])
-            elif old:
-                missed.append(old.strip().splitlines()[0][:120])
-        if not edits:
-            missed.append("El editor no devolvió ediciones válidas.")
+        plan, applied, missed = self._apply_edits(plan, raw)
         path.write_text(plan, encoding="utf-8")
         return applied, missed

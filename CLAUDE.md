@@ -41,6 +41,9 @@ python main.py semana-completa
 # Parse only one person:
 python main.py parsear-dietas --persona ATM
 
+# Resume from a step, reusing the latest earlier outputs (doesn't pay for them again):
+python main.py semana-completa --desde prep        # menu | recetas | prep | compras | sitio
+
 # Explicit plan or date:
 python main.py semana-completa --plan config/parsed_diets/combined_20260604.yaml --semana 2026-06-09
 
@@ -109,6 +112,8 @@ data/                      # SQLite DB + menu_history.txt for variety across wee
 - **Menu generator is format-agnostic**: `_is_parsed_diet()` checks for `foods[]` lists in `meal_structure`; if found, it presents the nutritionist's exact foods as the model to vary — not just calorie targets.
 - **Skills use prompt caching** (`cache_control: ephemeral`) on all system prompts.
 - **Menu history** (`data/menu_history.txt`) accumulates dish names so the AI avoids repeating meals across weeks.
+- **API spend guardrails**: `token_tracker.check_budget()` runs before every API call and stops the run (exit 2, files kept) at `api_budget.per_run_usd` / `per_day_usd` in `config/user_profile.yaml`; warns at 80 %. `NUTRI_SIN_LIMITE=1` overrides once. Costs are priced per model (`skills/token_tracker.py`); `usage.input_tokens` already excludes cached tokens.
+- **Audit → targeted fix, never regenerate**: menu, meal prep and shopping each generate once; on rejection the auditor's feedback becomes find/replace edits (`BaseSkill._apply_edits`). Menu re-validates up to 2 fix rounds. RecipeFinder and ShoppingList run on `claude-sonnet-5`; everything else on `claude-opus-5`.
 - **Recipe video links** are dynamic YouTube/Google search URLs, always valid.
 - **Reference recipes**: both collections require login (logged-out they show nothing usable), so scraping uses a persistent Chromium profile. New post ids only are sent to Claude (caption + thumbnail) and classified; non-recipes go to `descartados` so they're never re-analyzed. The menu generator (rule 11) bases 3–5 dishes/week on catalog entries and tags them `📌 *Inspirado en: … (ref: <id>)*`; the recipe finder receives full detail for just those ids and cites `📌 Basado en: [..](url)`. `ultimo_uso` rotates the catalog.
 - **Meal prep strategy**: all-in-one repeated recipes (breakfast, AM snack, PM snack, dinner) across the whole week — variety concentrated in 3 unique lunches only. This reduces total prep time to **≤4 hours Sat+Sun** (Sat: 30-45 min for marinades/pasta, Sun: ≤3.5 hrs for grains/proteins/sauces/portioning). Between-week active time capped at ≤30 min/day using sous vide. The simplified structure (6-7 unique recipes vs. 11) means less cognitive load and lower risk of errors during prep.

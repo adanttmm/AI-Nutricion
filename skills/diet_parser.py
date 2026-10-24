@@ -220,12 +220,15 @@ RESPONDE ÚNICAMENTE con el YAML. Sin texto adicional. Sin markdown fences."""
             for key in ("calories", "protein_g", "carbs_g", "fat_g"):
                 if key in overrides:
                     t[key] = overrides[key]
-            for meal_name, meal_info in person_data.get("meal_structure", {}).items():
-                pct = meal_pct.get(meal_name, 0.20)
-                meal_info["calories"]  = round(t["calories"]  * pct, 1)
-                meal_info["protein_g"] = round(t["protein_g"] * pct, 1)
-                meal_info["carbs_g"]   = round(t["carbs_g"]   * pct, 1)
-                meal_info["fat_g"]     = round(t["fat_g"]     * pct, 1)
+            meals = person_data.get("meal_structure", {})
+            for key in ("calories", "protein_g", "carbs_g", "fat_g"):
+                # Keep the plan's own split across meals (e.g. a carb-only merienda);
+                # the fixed meal_pct fallback is only for plans without per-meal numbers.
+                plan_total = sum((m.get(key) or 0) for m in meals.values())
+                for meal_name, meal_info in meals.items():
+                    share = ((meal_info.get(key) or 0) / plan_total if plan_total
+                             else meal_pct.get(meal_name, 0.20))
+                    meal_info[key] = round(t[key] * share, 1)
 
         if plan.get("document_type") == "combined_diet_plan":
             for person_key, person_data in plan.get("persons", {}).items():

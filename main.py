@@ -342,6 +342,83 @@ def validar_menu(plan, menu, nota):
         ))
 
 
+_STAGES = ["menu", "recetas", "prep", "compras", "sitio"]
+_STAGE_OUTPUTS = {
+    "menu":    ("menus", "menu_*.md"),
+    "recetas": ("recipes", "recetas_*.md"),
+    "prep":    ("meal_prep", "meal_prep_*.md"),
+    "compras": ("shopping", "compras_*.md"),
+}
+MAX_MENU_FIX_ROUNDS = 2
+
+
+def _run_menu(outputs: dict, plan: str, week_start, nota: str, sin_historial: bool, sin_refs: bool) -> None:
+    """Generate once, then audit → targeted fixes (≤2 rounds) instead of regenerating."""
+    from skills.menu_generator import MenuGeneratorSkill
+    from skills.menu_validator import MenuValidatorSkill
+    from skills.ratings_loader import RatingsLoader
+
+    ratings_loader = RatingsLoader()
+    n_new = ratings_loader.ingest_pending()
+    ratings_context = ratings_loader.build_menu_context()
+    if ratings_context:
+        s = ratings_loader.summary()
+        console.print(
+            f"  [cyan]⭐[/cyan] Valoraciones cargadas — "
+            f"{s['favorites']} favoritos · {s['avoid']} a evitar "
+            f"({s['weeks_ingested']} semanas)"
+        )
+    elif n_new == 0:
+        console.print("  [dim]⭐ Sin valoraciones previas — omitiendo contexto[/dim]")
+
+    if not sin_refs:
+        _refresh_recipe_refs_soft()
+
+    if nota:
+        console.print(f"  [cyan]📋[/cyan] Nota de semana: [dim]{nota[:120]}{'…' if len(nota) > 120 else ''}[/dim]")
+
+    with console.status("[green]1/5 · Menú semanal...", spinner="dots"):
+        outputs["menu"] = MenuGeneratorSkill().generate(
+            plan, week_start, ratings_context=ratings_context, week_notes=nota,
+            use_history=not sin_historial,
+        )
+    console.print(f"  [green]✅[/green] Menú generado: {outputs['menu']}")
+
+    for round_ in range(MAX_MENU_FIX_ROUNDS + 1):
+        with console.status("[yellow]  Validando calorías y macros...", spinner="dots"):
+            val = MenuValidatorSkill().validate(plan, str(outputs["menu"]), week_notes=nota)
+        if val.passed:
+            console.print("  [green]✅[/green] Menú validado — calorías y macros dentro de tolerancia")
+            break
+        console.print(Panel(val.report, title="[yellow]Auditoría nutricional[/yellow]", border_style="yellow"))
+        if round_ == MAX_MENU_FIX_ROUNDS:
+            console.print(
+                f"[red]❌ El menú sigue fuera de tolerancia tras {MAX_MENU_FIX_ROUNDS} correcciones. "
+                "Se usará así — revisa los días marcados en la auditoría.[/red]"
+            )
+            break
+        with console.status(f"[green]  ↺ Corrección #{round_ + 1} · solo los días señalados...", spinner="dots"):
+            applied, missed = MenuGeneratorSkill().fix(plan, str(outputs["menu"]), val.feedback)
+        console.print(f"  [green]✅[/green] {len(applied)} corrección(es) aplicadas"
+                      + (f" · [yellow]{len(missed)} sin aplicar[/yellow]" if missed else ""))
+    _mark_refs_used(outputs["menu"])
+
+
+def _run_recipes(outputs: dict, week_start, nota: str) -> None:
+    from skills.recipe_finder import RecipeFinderSkill
+
+    with console.status("[yellow]2/5 · Recetario...", spinner="dots") as status:
+        def _recetas_progress(i, total, elapsed=None):
+            if elapsed is None:
+                status.update(f"[yellow]2/5 · Recetario (parte {i}/{total})...[/yellow]")
+            else:
+                console.print(f"  [dim]· parte {i}/{total} lista ({elapsed:.0f}s)[/dim]")
+        outputs["recetas"] = RecipeFinderSkill().generate_for_menu(
+            str(outputs["menu"]), week_start, week_notes=nota, on_progress=_recetas_progress
+        )
+    console.print(f"  [green]✅[/green] Recetas: {outputs['recetas']}")
+
+
 def _run_meal_prep(outputs: dict, nota: str) -> None:
     """Plan → one audit → targeted fixes; outputs needs 'menu' and 'recetas'."""
     from skills.meal_prep_planner import MealPrepPlannerSkill
@@ -438,20 +515,18 @@ def _run_shopping(outputs: dict, nota: str) -> None:
 @click.option("--sin-refs", is_flag=True, default=False,
               help="No actualiza el catálogo de recetas de referencia (TikTok/Pinterest) antes de generar. "
                    "El catálogo existente se usa igual.")
-def semana_completa(plan, semana, sin_sitio, nota, sin_historial, sin_refs):
+@click.option("--desde", type=click.Choice(_STAGES), default="menu",
+              help="Reanuda desde este paso reutilizando los archivos más recientes de los pasos anteriores "
+                   "(ej. --desde prep no vuelve a pagar menú ni recetas).")
+def semana_completa(plan, semana, sin_sitio, nota, sin_historial, sin_refs, desde):
     """Genera TODO de una vez: menú · compras · recetas · plan de prep.
 
     Si no se especifica --plan, busca automáticamente el último plan parseado en
     config/parsed_diets/. Si no hay ninguno, usa config/diet_plan_example.yaml.
     """
-    from skills.menu_generator import MenuGeneratorSkill
-    from skills.shopping_list import ShoppingListSkill
-    from skills.recipe_finder import RecipeFinderSkill
-    from skills.meal_prep_planner import MealPrepPlannerSkill
-    from skills.ratings_loader import RatingsLoader
-
-    # Auto-detect plan — parse diets only when a new PDF is in Dietas/
-    if plan is None:
+    # Auto-detect plan — parse diets only when a new PDF is in Dietas/ (and only
+    # when the menu is being generated; later stages don't use the plan)
+    if plan is None and desde == "menu":
         new_pdfs = _new_diet_pdfs()
         if new_pdfs:
             from skills.diet_parser import DietParserSkill
@@ -463,74 +538,34 @@ def semana_completa(plan, semana, sin_sitio, nota, sin_historial, sin_refs):
 
     week_start = date.fromisoformat(semana) if semana else None
     outputs = {}
+    first = _STAGES.index(desde)
 
-    from skills.menu_validator import MenuValidatorSkill
+    if first > 0:
+        # Reuse what an earlier run already produced instead of paying for it again.
+        for stage, (subdir, pattern) in _STAGE_OUTPUTS.items():
+            if _STAGES.index(stage) < first:
+                found = _find_latest_output(subdir, pattern)
+                if not found:
+                    console.print(f"[red]No hay {subdir} previo para reutilizar — corre sin --desde.[/red]")
+                    raise SystemExit(1)
+                outputs[stage] = found
+        console.print(Panel(
+            f"⏭  Reanudando desde [bold]{desde}[/bold] — se reutiliza: "
+            + ", ".join(f"{k} ({Path(v).name})" for k, v in outputs.items()),
+            border_style="bold green",
+        ))
+    else:
+        console.print(Panel("🚀 Generando paquete completo para la semana...", border_style="bold green"))
 
-    console.print(Panel("🚀 Generando paquete completo para la semana...", border_style="bold green"))
-
-    # Load ratings — ingest any pending files first, then build context
-    ratings_loader = RatingsLoader()
-    n_new = ratings_loader.ingest_pending()
-    ratings_context = ratings_loader.build_menu_context()
-    if ratings_context:
-        s = ratings_loader.summary()
-        console.print(
-            f"  [cyan]⭐[/cyan] Valoraciones cargadas — "
-            f"{s['favorites']} favoritos · {s['avoid']} a evitar "
-            f"({s['weeks_ingested']} semanas)"
-        )
-    elif n_new == 0:
-        console.print("  [dim]⭐ Sin valoraciones previas — omitiendo contexto[/dim]")
-
-    if not sin_refs:
-        _refresh_recipe_refs_soft()
-
-    if nota:
-        console.print(f"  [cyan]📋[/cyan] Nota de semana: [dim]{nota[:120]}{'…' if len(nota) > 120 else ''}[/dim]")
-
-    MAX_MENU_RETRIES = 3
-    feedback = ""
-    for attempt in range(MAX_MENU_RETRIES):
-        attempt_label = "1/5 · Menú semanal" if attempt == 0 else f"  ↺ Corrección #{attempt} · Menú"
-        with console.status(f"[green]{attempt_label}...", spinner="dots"):
-            outputs["menu"] = MenuGeneratorSkill().generate(
-                plan, week_start, feedback=feedback, ratings_context=ratings_context, week_notes=nota,
-                use_history=not sin_historial,
-            )
-        console.print(f"  [green]✅[/green] Menú generado (intento {attempt + 1}/{MAX_MENU_RETRIES}): {outputs['menu']}")
-
-        with console.status("[yellow]  Validando calorías y macros...", spinner="dots"):
-            val = MenuValidatorSkill().validate(plan, str(outputs["menu"]), week_notes=nota)
-
-        if val.passed:
-            console.print("  [green]✅[/green] Menú validado — calorías y macros dentro de tolerancia")
-            break
-
-        console.print(f"  [yellow]⚠️[/yellow]  Menú rechazado (intento {attempt + 1}/{MAX_MENU_RETRIES})")
-        console.print(Panel(val.report, title="[yellow]Auditoría nutricional[/yellow]", border_style="yellow"))
-        feedback = val.feedback
-
-        if attempt == MAX_MENU_RETRIES - 1:
-            console.print(
-                "[red]❌ No se pudo validar el menú en 3 intentos. "
-                "Se usará el último generado — revisa manualmente.[/red]"
-            )
-    _mark_refs_used(outputs["menu"])
-
-    with console.status("[yellow]2/5 · Recetario...", spinner="dots") as status:
-        def _recetas_progress(i, total, elapsed=None):
-            if elapsed is None:
-                status.update(f"[yellow]2/5 · Recetario (parte {i}/{total})...[/yellow]")
-            else:
-                console.print(f"  [dim]· parte {i}/{total} lista ({elapsed:.0f}s)[/dim]")
-        outputs["recetas"] = RecipeFinderSkill().generate_for_menu(
-            str(outputs["menu"]), week_start, week_notes=nota, on_progress=_recetas_progress
-        )
-    console.print(f"  [green]✅[/green] Recetas: {outputs['recetas']}")
-
+    if first <= _STAGES.index("menu"):
+        _run_menu(outputs, plan, week_start, nota, sin_historial, sin_refs)
+    if first <= _STAGES.index("recetas"):
+        _run_recipes(outputs, week_start, nota)
     # Meal prep before shopping so all sauce/marinade ingredients are captured
-    _run_meal_prep(outputs, nota)
-    _run_shopping(outputs, nota)
+    if first <= _STAGES.index("prep"):
+        _run_meal_prep(outputs, nota)
+    if first <= _STAGES.index("compras"):
+        _run_shopping(outputs, nota)
 
     if not sin_sitio:
         with console.status("[cyan]5/5 · Sitio web...", spinner="dots"):
@@ -913,4 +948,15 @@ def configurar_meta(kcal, proteina, carbs, grasas, plan, persona):
 
 
 if __name__ == "__main__":
-    cli()
+    from skills.token_tracker import BudgetExceeded
+    try:
+        cli()
+    except BudgetExceeded as e:
+        console.print(
+            f"\n[red]💸 {e}[/red]\n"
+            "[dim]Los archivos ya generados se conservaron. Para continuar desde donde se quedó: "
+            "python main.py semana-completa --desde <recetas|prep|compras|sitio>. "
+            "Para pasar el límite a propósito: NUTRI_SIN_LIMITE=1 delante del comando. "
+            "Límites en config/user_profile.yaml → api_budget.[/dim]"
+        )
+        raise SystemExit(2)

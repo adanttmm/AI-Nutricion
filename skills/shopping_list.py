@@ -5,6 +5,10 @@ from datetime import date
 
 class ShoppingListSkill(BaseSkill):
 
+    # Sonnet 5 ($2/$10 vs Opus $5/$25): long, mostly-formatting output where the
+    # quantities come from code-computed totals and the next audit runs on Opus.
+    MODEL = "claude-sonnet-5"
+
     SYSTEM_PROMPT = """Eres un experto en cocina gourmet amateur y supermercados de Ciudad de México.
 
 TU TAREA: Generar la lista de compras semanal como una sola tabla Markdown, ordenada ESTRICTAMENTE ALFABÉTICO por nombre de ingrediente (A→Z). El objetivo es una lista AJUSTADA — comprar lo que realmente se necesita, sin sobrantes silenciosos.

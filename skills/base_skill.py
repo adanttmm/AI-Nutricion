@@ -78,8 +78,9 @@ class BaseSkill:
         attempt = 0
         while True:
             attempt += 1
+            token_tracker.check_budget()
             response = self._stream_with_retry(system, user_message, budget, tools=tools)
-            token_tracker.record(self.__class__.__name__, response.usage)
+            token_tracker.record(self.__class__.__name__, response.usage, self.MODEL)
             if response.stop_reason != "max_tokens":
                 return self._extract_text(response.content)
 
@@ -90,6 +91,31 @@ class BaseSkill:
                     "incompleto. Reduce el contenido de entrada o revisa el prompt."
                 )
             budget = min(budget * 2, self.MAX_TOKENS_CEILING)
+
+    @staticmethod
+    def _apply_edits(text: str, raw: str, replace_all: bool = False) -> tuple[str, list[str], list[str]]:
+        """Apply a model-returned JSON list of {"buscar", "reemplazar"} edits to text.
+        Returns (new_text, applied, missed) — edits whose "buscar" isn't found are
+        reported, never retried."""
+        import json
+        import re
+
+        m = re.search(r"\[.*\]", raw, re.DOTALL)
+        try:
+            edits = json.loads(m.group(0)) if m else []
+        except json.JSONDecodeError:
+            edits = []
+        applied, missed = [], []
+        for e in edits:
+            old, new = e.get("buscar", ""), e.get("reemplazar", "")
+            if old and old in text:
+                text = text.replace(old, new) if replace_all else text.replace(old, new, 1)
+                applied.append(new.strip().splitlines()[0][:120] if new.strip() else old[:120])
+            elif old:
+                missed.append(old.strip().splitlines()[0][:120])
+        if not edits:
+            missed.append("El editor no devolvió ediciones válidas.")
+        return text, applied, missed
 
     @staticmethod
     def _extract_text(content_blocks) -> str:

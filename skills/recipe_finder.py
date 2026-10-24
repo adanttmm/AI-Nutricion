@@ -8,6 +8,10 @@ import time
 
 class RecipeFinderSkill(BaseSkill):
 
+    # Sonnet 5 ($2/$10 vs Opus $5/$25): long output that expands dishes and
+    # portions the Opus-validated menu already fixed.
+    MODEL = "claude-sonnet-5"
+
     SYSTEM_PROMPT = """Eres un chef instructor que crea tarjetas de receta profesionales y concisas para cocineros avanzados. Escribe recetas rápidas, eficientes, fit, gourmet amateur y de comida hogareña.
 
 NIVEL DEL COCINERO: Avanzado. No explicar técnicas básicas. Ir directo a la técnica y el resultado.

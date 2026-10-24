@@ -113,7 +113,7 @@ Al final: tabla resumen con totales diarios por persona y promedios semanales.
 NO incluyas una lista de compras ni resumen de ingredientes a comprar en este documento — eso lo genera un skill aparte con cálculo exacto de cantidades. Termina el documento en la tabla resumen semanal."""
 
     def generate(
-        self, diet_plan_path: str, week_start: date = None, feedback: str = "",
+        self, diet_plan_path: str, week_start: date = None,
         ratings_context: str = "", week_notes: str = "", use_history: bool = True,
     ) -> Path:
         if week_start is None:
@@ -194,15 +194,6 @@ NO incluyas una lista de compras ni resumen de ingredientes a comprar en este do
                 "Adapta el menú teniendo en cuenta estas indicaciones — tienen prioridad sobre las preferencias generales."
             )
 
-        correction_block = ""
-        if feedback:
-            correction_block = (
-                f"\n\n⚠️  CORRECCIONES OBLIGATORIAS — EL MENÚ ANTERIOR FUE RECHAZADO POR EL VALIDADOR:\n"
-                f"{feedback}\n\n"
-                "Diseña un menú NUEVO corrigiendo EXACTAMENTE cada punto anterior. "
-                "Las metas calóricas y de macros son innegociables — ajusta porciones hasta cumplirlas."
-            )
-
         ratings_block = f"\n\n{ratings_context}" if ratings_context else ""
 
         refs = recipe_refs.menu_context()
@@ -226,12 +217,12 @@ NO incluyas una lista de compras ni resumen de ingredientes a comprar en este do
             f"{history}"
             f"{refs_block}"
             f"{ratings_block}"
-            f"{notes_block}"
-            f"{correction_block}\n\n"
+            f"{notes_block}\n\n"
             "Genera los 7 días completos con todos los tiempos de comida según el formato indicado."
         )
 
-        content = self._call_claude(self.SYSTEM_PROMPT, user_message, max_tokens=24000)
+        # ~25k output tokens on average — a 24k cap made it truncate and re-run the whole call.
+        content = self._call_claude(self.SYSTEM_PROMPT, user_message, max_tokens=48000)
 
         header = f"# 🍽️ Menú Semanal\n## Semana del {week_start.strftime('%d de %B de %Y')}\n\n"
         filename = f"menu_{week_start.strftime('%Y-%m-%d')}.md"
@@ -264,6 +255,36 @@ NO incluyas una lista de compras ni resumen de ingredientes a comprar en este do
             f.write("\n".join(unique_dishes) + "\n")
 
         return output_path
+
+    FIX_SYSTEM_PROMPT = """Eres el editor de un menú semanal ya escrito. Un auditor nutricional encontró días fuera de las metas de calorías/macros. Corrige SOLO esos puntos con ediciones mínimas de porciones — no cambies platillos, nombres ni la estructura del menú.
+
+Devuelve ÚNICAMENTE un arreglo JSON (sin texto antes ni después, sin ```), cada elemento:
+{"buscar": "<texto EXACTO copiado del menú, carácter por carácter>", "reemplazar": "<texto corregido>"}
+
+REGLAS:
+- "buscar" debe copiarse literal del menú (incluidos |, asteriscos, acentos y espacios); usa la línea completa de la tabla.
+- El mismo platillo se repite en varios días: un "buscar" que aparezca varias veces se reemplaza en TODAS sus apariciones. Si solo debe cambiar un día, incluye en "buscar" texto que sea único de ese día.
+- Ajusta gramos de ingredientes y la fila "kcal · P · C · G" del tiempo de comida afectado, de forma coherente entre sí (proteína 4 kcal/g, carbohidrato 4 kcal/g, grasa 9 kcal/g).
+- Actualiza también la tabla resumen final (totales diarios y promedios) para los días que cambies.
+- Nunca subas carbohidrato o grasa que estén por debajo de la meta: eso no es un error."""
+
+    def fix(self, diet_plan_path: str, menu_path: str, feedback: str) -> tuple[list[str], list[str]]:
+        """Apply the nutrition auditor's corrections as targeted edits instead of
+        regenerating the whole menu. Returns (applied, missed)."""
+        with open(diet_plan_path, encoding="utf-8") as f:
+            diet_plan = yaml.safe_load(f)
+        path = Path(menu_path)
+        menu = path.read_text(encoding="utf-8")
+        user_message = (
+            f"{self._build_plan_context(diet_plan, self._is_parsed_diet(diet_plan))}\n\n"
+            f"MENÚ:\n{menu}\n\n"
+            f"ERRORES ENCONTRADOS POR EL AUDITOR (corrige solo estos):\n{feedback}\n\n"
+            "Devuelve el arreglo JSON de ediciones."
+        )
+        raw = self._call_claude(self.FIX_SYSTEM_PROMPT, user_message, max_tokens=16000)
+        menu, applied, missed = self._apply_edits(menu, raw, replace_all=True)
+        path.write_text(menu, encoding="utf-8")
+        return applied, missed
 
     @staticmethod
     def _recent_history_weeks(history_text: str, weeks: int = 3) -> str:
