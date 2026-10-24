@@ -10,12 +10,13 @@ persons:
     weight_kg: 96
     goal: "pérdida de grasa"
     notes: "Plan de nutriólogo del 2016 (ganancia muscular) ya no aplica. Usar metas calculadas."
+    # Plan ajustado 2026-10-23 a 2,500 kcal (Dietas/20261023_ATM.pdf) — pendiente de aprobación del nutriólogo.
     target_overrides:
       goal: "pérdida de grasa"
-      calories: 2800.0
-      protein_g: 192.0
-      carbs_g: 317.0
-      fat_g: 85.0
+      calories: 2486.0
+      protein_g: 197.0
+      carbs_g: 281.0
+      fat_g: 65.0
   IOB:
     full_name: "Itzel"
     age: 37
@@ -23,12 +24,21 @@ persons:
     height_cm: 165
     weight_kg: 57
     goal: "pérdida de grasa"
+    # Plan ajustado 2026-10-11 (Dietas/20261011_IOB.pdf) — pendiente de aprobación de la nutrióloga.
     target_overrides:
-      goal: "pérdida de grasa"
-      calories: 1700.0
-      protein_g: 135.5
-      carbs_g: 186.4
-      fat_g: 47.8
+      goal: "pérdida de grasa (recomposición)"
+      calories: 1672.0
+      protein_g: 123.0
+      carbs_g: 209.0
+      fat_g: 46.0
+
+# Tope de gasto en la API de Anthropic (USD, sin IVA). Una actualización semanal
+# completa cuesta ~$8–10. Al 80 % se avisa; al 100 % la ejecución se detiene antes
+# de la siguiente llamada (los archivos ya generados se conservan).
+# Para pasarlo a propósito una vez: NUTRI_SIN_LIMITE=1 python main.py ...
+api_budget:
+  per_run_usd: 15
+  per_day_usd: 25
 
 household:
   primary_adults: 2

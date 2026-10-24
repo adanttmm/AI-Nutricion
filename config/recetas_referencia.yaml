@@ -1,7 +1,7 @@
 # Generado automáticamente por `python main.py actualizar-recetas-ref`
 # desde la colección de TikTok y el tablero de Pinterest del cocinero.
 # Puedes corregir campos a mano; los ids existentes nunca se re-analizan.
-actualizado: '2026-10-04'
+actualizado: '2026-10-23'
 recetas:
 - id: pinterest-399553798164680346
   platillo: Roles de canela caseros
@@ -227,6 +227,7 @@ recetas:
     pans (parchment paper) 6. arrange apples; sprinkle with cinnamon sugar (from high above) 7. bake for 1 hour, remove from
     oven and flip over--they WILL be floppy 8. '
   agregado: '2026-09-23'
+  ultimo_uso: '2026-10-12'
 - id: pinterest-399553798165382660
   platillo: Roast de venado ahumado
   cocina: Americana
@@ -3928,6 +3929,7 @@ recetas:
   url: https://mx.pinterest.com/pin/399553798215608823/
   caption: 'Página del Pin Sin título Esto contiene una imagen de:'
   agregado: '2026-09-23'
+  ultimo_uso: '2026-10-12'
 - id: pinterest-399553798215612674
   platillo: Sopa húngara de champiñones
   cocina: Otra
@@ -4692,6 +4694,7 @@ recetas:
     250g (2 cups) gluten-free flour 260 g (1⅓ cups) high-protein Greek yogurt OR whipped cottage cheese (you may need slightly
     more or less depending on your flou
   agregado: '2026-09-23'
+  ultimo_uso: '2026-10-12'
 - id: tiktok-7633081052034125078
   platillo: Mousse de chocolate y dátil alto en proteína
   cocina: Americana
@@ -7367,6 +7370,942 @@ recetas:
     Cutlets ✅ - 2,700 g (2.7 kg) Chicken Breast ✅ - Salt & black pepper ✅ - Garlic powder ✅ - Chili powder ✅ - 400g Bread
     Crumbs Nashville Glaze: ✅ - 1/2 Cup Franks Redhot ✅'
   agregado: '2026-10-04'
+- id: pinterest-399553798218451194
+  platillo: Bao buns rellenos de pollo frito coreano crujiente
+  cocina: Coreana
+  tipo: cena
+  proteina: pollo
+  tecnica: fritura doble + glaseado en salsa gochujang
+  ingredientes_clave:
+  - pollo
+  - fécula de maíz
+  - gochujang
+  - miel
+  - pan bao
+  - pepino
+  perfil: crujiente, dulce-picante, umami
+  fuente: pinterest
+  url: https://mx.pinterest.com/pin/399553798218451194/
+  caption: 'Página del Pin Easy Crispy Korean Fried Chicken Bao Buns Recipe Esto contiene una imagen de: Easy Crispy Korean
+    Fried Chicken Bao Buns Recipe'
+  agregado: '2026-10-11'
+- id: pinterest-399553798218467542
+  platillo: Tarta de curd de limón con capa de arándano azul
+  cocina: Francesa
+  tipo: postre
+  proteina: vegetal
+  tecnica: masa quebrada horneada + curd cocido
+  ingredientes_clave:
+  - limón
+  - huevo
+  - mantequilla
+  - arándanos azules
+  - azúcar
+  - masa sablé
+  perfil: ácido, cremoso, dulce y frutal
+  fuente: pinterest
+  url: https://mx.pinterest.com/pin/399553798218467542/
+  caption: 'Página del Pin Stunning Blueberry Lemon Curd Tart Esto contiene una imagen de: Stunning Blueberry Lemon Curd Tart'
+  agregado: '2026-10-11'
+- id: pinterest-399553798218467559
+  platillo: Rollitos de hojaldre con arándano, feta y queso crema
+  cocina: Americana
+  tipo: colación
+  proteina: queso
+  tecnica: enrollado y horneado
+  ingredientes_clave:
+  - hojaldre
+  - queso crema
+  - feta
+  - arándanos secos
+  - espinaca
+  perfil: salado-dulce, cremoso, hojaldrado
+  fuente: pinterest
+  url: https://mx.pinterest.com/pin/399553798218467559/
+  caption: 'Página del Pin Festive Cranberry Feta Pinwheels with Cream Cheese Esto contiene una imagen de: Festive Cranberry
+    Feta Pinwheels with Cream Cheese'
+  agregado: '2026-10-11'
+- id: pinterest-399553798218467560
+  platillo: 'Rou Jia Mo: pan chino relleno de panza de cerdo braseada'
+  cocina: China
+  tipo: comida
+  proteina: cerdo
+  tecnica: braseado lento + pan a la plancha
+  ingredientes_clave:
+  - panza de cerdo
+  - anís estrella
+  - salsa de soya
+  - pan mo
+  - cilantro
+  perfil: especiado, jugoso, aromático
+  fuente: pinterest
+  url: https://mx.pinterest.com/pin/399553798218467560/
+  caption: 'Página del Pin Rou Jia Mo- Chinese Hamburger-Braised Pork Belly Buns Esto contiene una imagen de: Rou Jia Mo-
+    Chinese Hamburger-Braised Pork Belly Buns'
+  agregado: '2026-10-11'
+- id: tiktok-7694009693471067422
+  platillo: Zanahorias asadas con glaseado de miel y balsámico y queso de cabra
+  cocina: Americana
+  tipo: comida
+  proteina: vegetal
+  tecnica: rostizado al horno con glaseado
+  ingredientes_clave:
+  - zanahoria
+  - miel
+  - vinagre balsámico
+  - tomillo
+  - queso de cabra
+  perfil: dulce, ácido, caramelizado
+  fuente: tiktok
+  url: https://www.tiktok.com/@morejoey/video/7694009693471067422
+  caption: 'Honey balsamic carrots in 35 mins 🥕 thanksgiving side sorted found this one on a blog and sent the link straight
+    to recime so i didn''t have to scroll past the whole life story to find the actual recipe recipe by caitlin at kalefornia
+    kravings 🫶 it''s free btw if you wanna try it @recime.app #thanksgiving #sidedish #easyrecipe Ingredients: (serves 4)
+    Carrots (1 lb, peeled) Avocado or olive oil (1 tb'
+  agregado: '2026-10-11'
+- id: tiktok-7694379682145357087
+  platillo: Orzo cremoso al limón y poro con albóndigas de pollo a las hierbas
+  cocina: Mediterránea
+  tipo: comida
+  proteina: pollo
+  tecnica: sellado de albóndigas + cocción del orzo en caldo
+  ingredientes_clave:
+  - orzo
+  - poro
+  - limón
+  - pollo molido
+  - ajo
+  - hierbas frescas
+  perfil: fresco, herbal, cítrico y reconfortante
+  fuente: tiktok
+  url: https://www.tiktok.com/@yarindanieli/video/7694379682145357087
+  caption: This combination works so well together, I can’t stop making it. When I’m thinking about what to make for dinner,
+    chicken and orzo are always one of my first thoughts. They’re super versatile and always a crowd-pleaser. Here we have
+    a leek-based orzo with a touch of lemon, and Mediterranean-inspired chicken meatballs packed with garlic and fresh herbs.
+    Lemon-Leek Orzo with Herbed Chicken Meatballs
+  agregado: '2026-10-11'
+- id: tiktok-7683846340702440736
+  platillo: Roux casero de curry japonés
+  cocina: Japonesa
+  tipo: salsa/base
+  proteina: vegetal
+  tecnica: roux tostado con especias
+  ingredientes_clave:
+  - mantequilla
+  - harina
+  - curry en polvo
+  - garam masala
+  - salsa inglesa
+  - ketchup
+  perfil: especiado, dulce-umami, aterciopelado
+  fuente: tiktok
+  url: https://www.tiktok.com/@cookwithjhoy/video/7683846340702440736
+  caption: 'I usually make this whenever I run out of Golden curry and make it to the asian shop. This recipe is based on
+    my own taste. I adjusted the spices until I got the flavor I personally like. Ingredients: 100g butter 100g All purpose
+    flour 24g of curry powder (any available) 1 tbsp. Garam masala 1 tbsp. Ketchup or tomato paste 1 tbsp. Worcestershire
+    sauce Pepper, garlic powder & sugar to taste. To mak'
+  agregado: '2026-10-11'
+- id: tiktok-7687320178333371661
+  platillo: Bowl de hotcakes proteicos al horno
+  cocina: Americana
+  tipo: desayuno
+  proteina: huevo y yogur griego
+  tecnica: horneado en ramekin
+  ingredientes_clave:
+  - huevo
+  - yogur griego
+  - harina de avena
+  - proteína en polvo
+  - polvo para hornear
+  perfil: esponjoso, dulce, alto en proteína
+  fuente: tiktok
+  url: https://www.tiktok.com/@jnewtrition/video/7687320178333371661
+  caption: '6-Ingredient Protein Pancake Bowl Ingredients: 1 large egg 1/4 c Greek yogurt 1/4 cup milk 1/2 c oat flour (or
+    all purpose flour) 1 scoop of protein powder 1/2 tsp baking powder Optional toppings: Banana Walnut Strawberries Chocolate
+    Chip Blueberries Almond Preheat the oven to 350 F and lightly grease a 22-oz oven-safe dish. In the dish, whisk together
+    1 large egg, ¼ c Greek or non-dairy yogurt (o'
+  agregado: '2026-10-11'
+- id: tiktok-7695056756334005511
+  platillo: Gyozas caseras de cerdo y col
+  cocina: Japonesa
+  tipo: cena
+  proteina: cerdo
+  tecnica: sellado y vapor en sartén
+  ingredientes_clave:
+  - carne molida de cerdo
+  - col
+  - nira
+  - salsa de soya
+  - mirin
+  - aceite de ajonjolí
+  perfil: jugoso, umami, base crujiente
+  fuente: tiktok
+  url: https://www.tiktok.com/@notasalaryman/video/7695056756334005511
+  caption: 'That took much longer than expected… Stuffing : - Cabbage - Ground pork - Nira (garlic chives) - 1tbsp Soy sauce
+    - 2tbsp Mirin - 1tbsp sesame oil #japanlife #japanesefood #cooking #tokyolife #food creado por not a salaryman con la
+    música original sound de s.kelly.b not a salaryman'
+  agregado: '2026-10-11'
+- id: tiktok-7694435253988920606
+  platillo: Tacos de arrachera con salsa roja y costra de queso con chile
+  cocina: Mexicana
+  tipo: comida
+  proteina: res
+  tecnica: sellado a la plancha + tortillas hechas a mano
+  ingredientes_clave:
+  - carne de res
+  - chile Anaheim
+  - queso Oaxaca
+  - tortillas de maíz
+  - salsa roja
+  - cilantro
+  perfil: ahumado, quesudo, picante y jugoso
+  fuente: tiktok
+  url: https://www.tiktok.com/@seattlehanddoc/video/7694435253988920606
+  caption: STEAK TACOS WITH SALSA ROJA with Chile Cheese Crisp Somehow, this is the first time we’ve ever made tortillas,
+    but but what a game changer! And we learned a new technique from one of our favorite chefs, @Ryan Michael Carter, in his
+    Anaheim Tacos … brilliant! INGREDIENTS CHILE CHEESE CRISP * 4 Anaheim peppers * 1 tsp + 1 TBSP neutral oil, divided *
+    1 cup shredded Oaxaca cheese * 1 cup shredded Chih
+  agregado: '2026-10-11'
+- id: tiktok-7681323926286241046
+  platillo: Noodles estilo Dan Dan altos en proteína
+  cocina: China
+  tipo: comida
+  proteina: carne molida
+  tecnica: salteado + salsa emulsionada con noodles
+  ingredientes_clave:
+  - noodles
+  - carne molida
+  - pasta de ajonjolí
+  - chile
+  - salsa de soya
+  - cebollín
+  perfil: picante, nuez, salado e intenso
+  fuente: tiktok
+  url: https://www.tiktok.com/@finntonry/video/7681323926286241046
+  caption: 5030 NOODLES | DAN DAN (ISH) NOODLES 🍜💪 52 Protein | 706 Kcal | 23 Fat | 70 Carbs Recipe out now - link in bio.
+    creado por finntonry con la música original sound - finntonry de finntonry finntonry
+  agregado: '2026-10-11'
+- id: tiktok-7694783748935568670
+  platillo: Pollo korma en olla lenta para meal prep
+  cocina: India
+  tipo: comida
+  proteina: pollo
+  tecnica: cocción lenta en salsa especiada
+  ingredientes_clave:
+  - pechuga de pollo
+  - cebolla
+  - jengibre
+  - ajo
+  - yogur
+  - especias korma
+  perfil: cremoso, especiado suave, aromático
+  fuente: tiktok
+  url: https://www.tiktok.com/@noahperlofit/video/7694783748935568670
+  caption: 'Meal Prep Chicken Korma‼️ Meal prep these bad BOYS and get my meal plans in my bio ❤️ 😱Macros For Each Serving
+    (without rice): 340 Calories 48g Protein 18g Carbs 8.5g Fat 🔥The Best Chicken Korma (makes 10): For Slow Cooker: ✅ - 1.8
+    kg boneless chicken breast ✅ - 2 large yellow onions ✅ - 8 cloves garlic ✅ - 35 g fresh ginger, grated ✅ - 2 lemons (juice
+    only) ✅ - 25g fresh cilantro ✅ - 360 g nonfat'
+  agregado: '2026-10-11'
+- id: tiktok-7695422742090304781
+  platillo: Crema de papa y poro con tocino
+  cocina: Francesa
+  tipo: comida
+  proteina: vegetal
+  tecnica: sofrito, hervido y licuado
+  ingredientes_clave:
+  - poro
+  - papa Yukon
+  - mantequilla
+  - caldo
+  - crema
+  - tocino
+  perfil: cremoso, suave, reconfortante
+  fuente: tiktok
+  url: https://www.tiktok.com/@foodiligence/video/7695422742090304781
+  caption: 'Soups so good that they’re worth making from scratch. Ep 1: Creamy Potato and Leek. Check my bio for the full
+    written recipe! #recipe #cooking #soup #easyrecipe #homecooking - 2 large leeks - 1 yellow onion - 2 tbsp butter - 3 cloves
+    garlic - 6 small Yukon Gold potatoes, peeled and diced - 1 bay leaf - 4 to 5 cups chicken or vegetable stock (enough to
+    cover potatoes) - 1/2 cup heavy cream - Salt a'
+  agregado: '2026-10-11'
+- id: tiktok-7690253524759760150
+  platillo: Pollo con miel, ajo y parmesano con papas cremosas
+  cocina: Americana
+  tipo: comida
+  proteina: pollo
+  tecnica: marinado + horneado/salteado y glaseado
+  ingredientes_clave:
+  - muslo de pollo
+  - miel
+  - ajo
+  - parmesano
+  - papas
+  perfil: dulce-salado, ajoso, cremoso y umami
+  fuente: tiktok
+  url: https://www.tiktok.com/@jalalsamfit/video/7690253524759760150
+  caption: Honey Garlic Parmesan Chicken & Potatoes🍗🍯🧀🍟 By far one of the best combos i’ve made, all made around making meal
+    prepping easy and effortless. The chicken is absolutely INCREDIBLE! Macros Per Serving (10 Total) 596 Calories | 54g Protein
+    | 51g Carbs | 19g Fat Ingredients (Makes 10 Servings) Honey Garlic Parmesan Chicken •Marinade - 1500g Raw Boneless Chicken
+    Thighs, cubed - 3 Tsp Salt - 3 Tsp Chi
+  agregado: '2026-10-23'
+- id: tiktok-7695165083705412878
+  platillo: Sopa coreana picante de tofu, res y calabacita
+  cocina: Coreana
+  tipo: comida
+  proteina: res y tofu
+  tecnica: hervido en caldo con pastas fermentadas
+  ingredientes_clave:
+  - gochujang
+  - doenjang
+  - tofu
+  - res en láminas
+  - calabacita
+  perfil: picante, fermentado, reconfortante
+  fuente: tiktok
+  url: https://www.tiktok.com/@joexfitness/video/7695165083705412878
+  caption: '⇩ Full Recipe 🥘 ⇩ Macros per serving: Protein: 38g Carbs: 21g Fat: 16g Calories: 391 Ingredients per 2 servings
+    (makes 2 portions of soup): - 1 zucchini, whole - 1 yellow onion, medium - 1/2 block medium firm tofu - 4 oz thinly sliced
+    chuck steak - 3 cups chicken bone broth - 1 tbsp gochujang (korean red chili paste) - 1/2 tbsp gochugaru (korean spicy
+    chilli flakes) - 1 tbsp doenjang (fermented so'
+  agregado: '2026-10-23'
+- id: tiktok-7695072325351263518
+  platillo: Tabule de lentejas sobre jocoque
+  cocina: Libanesa
+  tipo: cena
+  proteina: vegetal (lentejas)
+  tecnica: cocción de lentejas + picado en crudo
+  ingredientes_clave:
+  - lentejas
+  - perejil
+  - jitomate
+  - pepino
+  - limón
+  - jocoque
+  perfil: fresco, herbal, ácido y cremoso
+  fuente: tiktok
+  url: https://www.tiktok.com/@maggee.wenger/video/7695072325351263518
+  caption: TABULE DE LENTEJAS SOBRE JOCOQUE - idea para lunes sin carne! O para una ensalada o cena. Sírvanlo en taquitos
+    con hojitas de lechuga y no les podemos explicar la DELICIA! Si hay u creado por Maggee Wenger con la música original
+    sound - Maggee Wenger de Maggee Wenger
+  agregado: '2026-10-23'
+- id: tiktok-7696168827931036980
+  platillo: Pollo char siu estilo cantonés
+  cocina: China
+  tipo: comida
+  proteina: pollo
+  tecnica: marinado + horneado glaseado
+  ingredientes_clave:
+  - muslo de pollo
+  - hoisin
+  - miel
+  - cinco especias
+  - salsa de soya
+  perfil: dulce, umami, especiado y lacado
+  fuente: tiktok
+  url: https://www.tiktok.com/@shreddedandfed/video/7696168827931036980
+  caption: 'Proof that meal prep does not have to mean boring chicken. 😮‍💨 🍯🥢 CHAR SIU CHICKEN 叉燒 – 345 cal | 47P | 11F |
+    15C Ingredients (8 servings): • 1.9 kg boneless, skinless chicken thighs • 5 cloves garlic, minced • 1½ tbsp brown sugar
+    • ¼ cup honey • ¼ cup hoisin sauce • 1½ tbsp oyster sauce • ¼ cup light soy sauce • 1¼ tsp Chinese five-spice • 1¼ tsp
+    sesame oil • ¼ tsp red food colouring (optional) T'
+  agregado: '2026-10-23'
+- id: tiktok-7696414410897771798
+  platillo: Overnight oats proteicos estilo Snickers
+  cocina: Americana
+  tipo: desayuno
+  proteina: proteína en polvo y yogur griego
+  tecnica: remojo en frío y capeado
+  ingredientes_clave:
+  - harina de avena
+  - proteína vainilla
+  - yogur griego
+  - crema de cacahuate
+  - chocolate
+  perfil: dulce, cremoso, cacahuate y chocolate
+  fuente: tiktok
+  url: https://www.tiktok.com/@fitfuelbyjuliana/video/7696414410897771798
+  caption: 'It’s another oat banger 😤 This is one of my all time fav oat combos and using oat flour just makes such a lovely
+    cake batter texture it’s DELISH Recipe: 50g oat flour* (or oats blended to flour OR regular oats) 30g of vegan vanilla
+    protein powder*(important for thick texture!) 100g of Greek yoghurt or skyr (I used @Arla Dairy UK ) 5g milled flax seeds
+    10g peanut butter powder* 90ml of water or mil'
+  agregado: '2026-10-23'
+- id: tiktok-7695465630694182174
+  platillo: Ñoquis de papa dorados en mantequilla
+  cocina: Italiana
+  tipo: comida
+  proteina: vegetal
+  tecnica: masa de papa + hervido y dorado en sartén
+  ingredientes_clave:
+  - papa
+  - harina
+  - huevo
+  - mantequilla
+  - sal
+  perfil: suave, mantequilloso, tostado
+  fuente: tiktok
+  url: https://www.tiktok.com/@nkkitchenvid/video/7695465630694182174
+  caption: 'How To Make The Best Gnocchi @Nick’s Kitchen #gnocchi #gnocchirecipe #usa creado por Recipes con la música Bake
+    & Shake de ZayZonic'
+  agregado: '2026-10-23'
+- id: tiktok-7695097632418581773
+  platillo: Pollo shawarma horneado en molde de panqué
+  cocina: Libanesa
+  tipo: comida
+  proteina: pollo
+  tecnica: marinado especiado + horneado compactado
+  ingredientes_clave:
+  - muslo de pollo
+  - yogur
+  - comino
+  - paprika
+  - ajo
+  - cebolla
+  perfil: especiado, jugoso, ahumado medio oriente
+  fuente: tiktok
+  url: https://www.tiktok.com/@ketorecipes/video/7695097632418581773
+  caption: 💥CHICKEN SHAWARMA LOAF PAN CHICKEN This truly is the secret to making the easiest, best chicken right at home without
+    turning on a grill. The chicken is spiced so ridiculously well, the chicken comes out so flavorful and juicy, and you
+    can make a ton of easy meals throughout the week. Use it alongside some roasted vegetables, inside some pita, or you can
+    make high protein bowls with some rice. I u
+  agregado: '2026-10-23'
+- id: tiktok-7692561187107638541
+  platillo: Kit de hot pot coreano instantáneo congelado
+  cocina: Coreana
+  tipo: comida
+  proteina: res y tofu
+  tecnica: armado en capas + hervido en caldo
+  ingredientes_clave:
+  - res en láminas
+  - col napa
+  - tteok
+  - enoki
+  - caldo de res
+  - germinado
+  perfil: caldoso, umami, ligeramente picante
+  fuente: tiktok
+  url: https://www.tiktok.com/@joexfitness/video/7692561187107638541
+  caption: '⇩ Full Recipe 🍲 ⇩ Macros per serving: Protein: 38g Carbs: 40g Fat: 16g Calories: 453 Ingredients per 2 servings
+    (makes 2 portions of soup): - 40g bean sprouts - 4 large leaves of nappa cabbage (approximately 60g) - 4 oz thinly sliced
+    chuck steak - 1/2 block medium firm tofu - 1/2 cup sliced korean rice cakes - 30g enoki mushrooms - 3 cup beef bone broth
+    - 1 tbsp minced garlic - 1 tbsp honey - 2 tb'
+  agregado: '2026-10-23'
+- id: tiktok-7681440545964559647
+  platillo: Bowl de arroz con short rib en caldo de curry rojo
+  cocina: Thai
+  tipo: comida
+  proteina: res (short rib)
+  tecnica: braseado + caldo de curry
+  ingredientes_clave:
+  - short rib
+  - pasta de curry rojo
+  - leche de coco
+  - arroz
+  - albahaca
+  - ajonjolí
+  perfil: picante, cremoso, especiado y reconfortante
+  fuente: tiktok
+  url: https://www.tiktok.com/@britacooks/video/7681440545964559647
+  caption: 'Spicy short rib brothy rice bowl SOUPS THAT DON’T SUCK / episode 61 the ultimate comfort food! I don’t think i’ve
+    stopped thinking about this bowl since I made. A couple years ago, I got to work with a Thai chef (Jam Sanitchat) who
+    taught me her yellow curry, and I’ve been so in love with it and making it at home ever since. This is my take on a Thai
+    curry broth, using red curry paste, poured hot '
+  agregado: '2026-10-23'
+- id: tiktok-7690761479515163917
+  platillo: Kebabs mediterráneos de pollo con ensalada de jitomate
+  cocina: Mediterránea
+  tipo: cena
+  proteina: pollo
+  tecnica: marinado + asado en sartén o horno
+  ingredientes_clave:
+  - pollo molido
+  - orégano
+  - ajo
+  - jitomate cherry
+  - limón
+  perfil: herbal, cítrico, ligero y especiado
+  fuente: tiktok
+  url: https://www.tiktok.com/@ketorecipes/video/7690761479515163917
+  caption: '💥EASY MEDITERRANEAN CHICKEN KEBABS This makes 4 generously sized healthy dinner plates with 460 cals, 69g protein,
+    12 net carbs per plate. These have so much flavor, theyre so easy to make, and so good! If you are looking for a simple
+    high protein meal prep, and easy weeknight meal, or just a good healthy recipe that tastes good, you’ve got to give this
+    a try. Make it with my high protein lowcarb '
+  agregado: '2026-10-23'
+- id: tiktok-7685367787270769942
+  platillo: Pastel de rollo de canela alto en proteína en sartén
+  cocina: Americana
+  tipo: desayuno
+  proteina: proteína en polvo
+  tecnica: batido y horneado en sartén
+  ingredientes_clave:
+  - canela
+  - proteína en polvo
+  - yogur
+  - harina de avena
+  - huevo
+  perfil: dulce, esponjoso, acanelado
+  fuente: tiktok
+  url: https://www.tiktok.com/@ajfoodie0/video/7685367787270769942
+  caption: 'High Protein Cinnamon Roll Skillet Cake 🤎 Soft, fluffy and packed with protein !! basically a cinnamon roll for
+    breakfast. Save this one and follow full recipe will be posted this week 👌 #highproteinrecipes #highproteinbreakfast #cinnamonroll
+    #healthybreakfast #proteinrecipes creado por ajfoodie0 con la música original sound de ajfoodie0 ajfoodie0'
+  agregado: '2026-10-23'
+- id: tiktok-7692206415984823574
+  platillo: Papas rostizadas con garbanzos especiados y salsa de yogur
+  cocina: Mediterránea
+  tipo: comida
+  proteina: garbanzo
+  tecnica: rostizado al horno
+  ingredientes_clave:
+  - papas cambray
+  - garbanzos
+  - páprika
+  - eneldo
+  - yogur
+  - ajo
+  perfil: Crujiente, herbal, cremoso y especiado
+  fuente: tiktok
+  url: https://www.tiktok.com/@lordsoftheplantsofficial/video/7692206415984823574
+  caption: 'The BEST Recipe for Easy Plant-Based Protein 🌶️ #plantbased #budgetfriendly #recipe #protein #foodtok creado por
+    Jake con la música Dimanche Matin Doux de Cozy Jazz Vibe Glob Jake'
+  agregado: '2026-10-23'
+- id: tiktok-7682190205587115277
+  platillo: Bulgogi de ribeye con champiñones shiitake en olla
+  cocina: Coreana
+  tipo: comida
+  proteina: res (ribeye)
+  tecnica: marinado + guisado en olla
+  ingredientes_clave:
+  - ribeye en láminas
+  - salsa de soya
+  - miel
+  - aceite de ajonjolí
+  - shiitake
+  - cebollín
+  perfil: Umami dulce, salado, aromático
+  fuente: tiktok
+  url: https://www.tiktok.com/@joexfitness/video/7682190205587115277
+  caption: '⇩ Full Recipe 🍳 ⇩ Macros per pot: Protein: 33g Carbs: 58g Fat: 27g Calories: 596 Ingredients per 1 pot: - 4oz
+    thinly sliced ribeye raw (also labeled as bulgogi meat at your local korean market) - 1/3 tbsp honey - 1 tsp minced garlic
+    - 2 tbsp soy sauce - 1/3 tbsp sesame oil - 1/3 second spray oil - 1/4 tsp black pepper Assembly - 1/3 large yellow onion
+    - 1 green onion - 3 shiitake mushroom - 1 oz r'
+  agregado: '2026-10-23'
+- id: tiktok-7695838761250327809
+  platillo: Huevos rancheros con salsa roja
+  cocina: Mexicana
+  tipo: desayuno
+  proteina: huevo
+  tecnica: salsa tatemada + huevos fritos
+  ingredientes_clave:
+  - huevo
+  - jitomate
+  - chile
+  - cebolla
+  - tortilla
+  perfil: Picante, rústico, muy mexicano
+  fuente: tiktok
+  url: https://www.tiktok.com/@the_mx_foodie/video/7695838761250327809
+  caption: 'México 🇲🇽🔥 #huevosrancheros #desayuno #quedesayunar #mexico #recetasfaciles creado por The_MX_Foodie con la música
+    original sound de The_MX_Foodie The_MX_Foodie'
+  agregado: '2026-10-23'
+- id: tiktok-7696671847152176397
+  platillo: Pollo miel y ajo con arroz
+  cocina: China
+  tipo: comida
+  proteina: pollo
+  tecnica: air fryer + glaseado
+  ingredientes_clave:
+  - muslo de pollo
+  - miel
+  - ajo
+  - maicena
+  - salsa de soya
+  - ajonjolí
+  perfil: Dulce, ajo intenso, pegajoso crujiente
+  fuente: tiktok
+  url: https://www.tiktok.com/@ice.karimcooks/video/7696671847152176397
+  caption: 'SAVE THIS ‼️ 20-minute Honey Garlic Chicken 😩 🧄 (recipe 👇🏽) Macros per serving rice NOT included (X3 servings):
+    442 Calories |59g P | 15g C | 13g F For the chicken: 2lb lbs boneless skinless chicken thighs, cut into 1-inch pieces
+    Avocado oil spray 1 tbsp cornstarch 1 tsp garlic powder 1 tsp paprika Salt & Pepper, to taste Air fry at 400°F for 13-15
+    mins or until golden brown and crispy! I’m using '
+  agregado: '2026-10-23'
+- id: tiktok-7697239489118358817
+  platillo: Charola al horno de pollo y papas con salsa de cacahuate y miso
+  cocina: Otra
+  tipo: comida
+  proteina: pollo
+  tecnica: horneado en charola
+  ingredientes_clave:
+  - pollo
+  - papas
+  - miso
+  - crema de cacahuate
+  - cebolla morada
+  - cebollín
+  perfil: Umami, nuez tostada, reconfortante
+  fuente: tiktok
+  url: https://www.tiktok.com/@thegoodbite/video/7697239489118358817
+  caption: Peanut Miso Chicken & Potato Tray Bake 🥜🥘 One ridiculously flavor tray bake! Calories - 620 | Protein - 39g | Servings
+    - 4 creado por The Good Bite con la música original sound de The Good Bite The Good Bite
+  agregado: '2026-10-23'
+- id: tiktok-7691248102480645378
+  platillo: Overnight oats estilo banoffee con caramel de cacahuate
+  cocina: Americana
+  tipo: desayuno
+  proteina: proteína vegetal en polvo
+  tecnica: remojo en frío + plátano caramelizado
+  ingredientes_clave:
+  - avena
+  - plátano
+  - proteína vainilla
+  - yogur
+  - crema de cacahuate
+  - maple
+  perfil: Dulce, cremoso, caramelo y plátano
+  fuente: tiktok
+  url: https://www.tiktok.com/@fitfuelbyjuliana/video/7691248102480645378
+  caption: 'Oh my this was a yummy one 😩😩 Idk how it’s taken me song to make a banoffee inspired oat recipe but here it is
+    and wow it’s goooood !! Recipe: 50g of oats 1 mashed banana 5g of flax seeds (or chia seeds) 30g of vegan vanilla protein
+    powder 50g of yoghurt 1/2 tsp of cinnamon 170mls of liquid (I used water) For the caramel: 20g of of peanut butter (tahini
+    also works great!) 10g of maple syrup tiny s'
+  agregado: '2026-10-23'
+- id: tiktok-7694672791953624327
+  platillo: Avena horneada estilo rollo de canela
+  cocina: Americana
+  tipo: desayuno
+  proteina: huevo
+  tecnica: horneado
+  ingredientes_clave:
+  - avena
+  - huevo
+  - leche
+  - canela
+  - maple
+  - puré de manzana
+  perfil: Dulce, canela, esponjoso y cremoso
+  fuente: tiktok
+  url: https://www.tiktok.com/@nourishedbynic/video/7694672791953624327
+  caption: 'CINNAMON ROLL BAKED OATS 🤎✨ Everything you love about a cinnamon roll turned into an easy, meal prep-friendly
+    breakfast 😍 These baked oats are soft, fluffy, packed with cinnamon flavor, and taste like you''re having dessert for
+    breakfast... what could be better?! All you need is ⬇️ For the baked oats: 2 eggs 1 cup milk 3 tablespoon maple syrup
+    1 teaspoon vanilla extract ½ cup unsweetened applesauce'
+  agregado: '2026-10-23'
+- id: tiktok-7697435218717789471
+  platillo: Burritos congelados de res, papa y queso
+  cocina: Mexicana
+  tipo: comida
+  proteina: res
+  tecnica: relleno y armado + congelado
+  ingredientes_clave:
+  - bistec magro
+  - papas hash brown
+  - jalapeños
+  - queso
+  - tortillas de harina
+  perfil: Sustancioso, picante, quesoso
+  fuente: tiktok
+  url: https://www.tiktok.com/@noahperlofit/video/7697435218717789471
+  caption: 'Frozen Burritos For The Week‼️ Yes, these are not my lowest calorie recipe. but if you can afford it, 700 cal
+    for a large burrito ain’t that bad and these SLAP. They’re so good. 🔥Macros For Each: 731 Calories 64g Protein 22.5g Fat
+    68g Carbs Filling: ✅ - 3Kg Lean Steak (fully trimmed) ✅ - 1.5kg Frozen Hash Brown Potatoes (oil free) ✅ - 6 Medium Jalapeños,
+    Diced ✅ - 500g Shredded Mexican Cheese ✅ - '
+  agregado: '2026-10-23'
+- id: tiktok-7697679709739437328
+  platillo: Codillo de cerdo asado (Schweinshaxe) con salsa de cerveza
+  cocina: Alemana
+  tipo: comida
+  proteina: cerdo
+  tecnica: horneado lento + piel crujiente
+  ingredientes_clave:
+  - codillo de cerdo
+  - cerveza oscura
+  - alcaravea
+  - ajo
+  - caldo de pollo
+  perfil: Salado, crujiente, maltoso y jugoso
+  fuente: tiktok
+  url: https://www.tiktok.com/@patty.plates/video/7697679709739437328
+  caption: 'Underrated Cuts: Pork Knuckle Recipe (printable version on pattyplates.com) 1 pork knuckle 2 tbsp salt 2 tsp caraway
+    seeds 2 tsp black peppercorns 4 cloves garlic, mashed or grated 1 cup German dark beer 1 cup chicken stock 1 carrot, roughly
+    chopped 1 onion, cut into thick slices Beer Gravy 1 tbsp cornstarch, dissolved in 1 tbsp water Salt Sugar MSG Instructions
+    Pork Knuckle Using a sharp object, '
+  agregado: '2026-10-23'
+- id: tiktok-7697921222687886614
+  platillo: Udon frío con dashi y salmón a la parrilla
+  cocina: Japonesa
+  tipo: comida
+  proteina: salmón
+  tecnica: parrilla + caldo frío
+  ingredientes_clave:
+  - udon
+  - salmón
+  - dashi
+  - salsa de soya
+  - cebollín
+  perfil: Umami limpio, fresco, ligero
+  fuente: tiktok
+  url: https://www.tiktok.com/@finntonry/video/7697921222687886614
+  caption: 5030 NOODLES | GRILLED SALMON UDON WITH CHILLED DASHI 💪🍜 54 PROTEIN | 772 KCAL | 31 FAT | 75 CARBS Recipe out now
+    - link in bio. creado por finntonry con la música original sound - finntonry de finntonry finntonry
+  agregado: '2026-10-23'
+- id: tiktok-7697424202617425160
+  platillo: Ensalada de atún con edamames y pepino
+  cocina: Otra
+  tipo: comida
+  proteina: atún
+  tecnica: picado en crudo y aderezado
+  ingredientes_clave:
+  - atún
+  - edamames
+  - pepino
+  - cebolla morada
+  - cilantro
+  - pimiento
+  perfil: Fresca, cítrica, ligera y crujiente
+  fuente: tiktok
+  url: https://www.tiktok.com/@jusalud/video/7697424202617425160
+  caption: 'Ensalada con Edamames para la dieta #dieta #comida #saludable #receta #viral creado por JUSalud con la música
+    sonido original de JUSalud JUSalud'
+  agregado: '2026-10-23'
+- id: tiktok-7685528787462671629
+  platillo: Gyudon (tazón de res con arroz) en olla arrocera
+  cocina: Japonesa
+  tipo: comida
+  proteina: res
+  tecnica: cocción en olla arrocera
+  ingredientes_clave:
+  - res en láminas
+  - arroz jazmín
+  - salsa de soya
+  - mirin
+  - dashi
+  - cebolla
+  perfil: Dulce-salado, umami reconfortante
+  fuente: tiktok
+  url: https://www.tiktok.com/@joexfitness/video/7685528787462671629
+  caption: 'Click the link in my bio to apply to coach one-on-one with me ✨ ⇩ Full Recipe 🥘 ⇩ Macros per serving: Protein:
+    47g Carbs: 59g Fat: 10g Calories: 528 Ingredients per 2 servings: - 10 oz thinly sliced eye of round beef (shabushabu)
+    - 2/3 cups jasmine rice, uncooked/raw - 1/3 cup beef bone broth - 2 tbsp soy sauce - 1 tbsp mirin - 1/2 tsp dashi powder
+    - 1 yellow onion - 1/2 tbsp ginger Toppings: - 2 '
+  agregado: '2026-10-23'
+- id: tiktok-7678831481837423903
+  platillo: Hotcakes proteicos esponjosos con kéfir
+  cocina: Americana
+  tipo: desayuno
+  proteina: queso farmer / lácteo
+  tecnica: batido y cocción en sartén
+  ingredientes_clave:
+  - avena o harina
+  - farmer cheese
+  - kéfir
+  - huevo
+  - chispas de chocolate
+  perfil: Esponjoso, lácteo, ligeramente dulce
+  fuente: tiktok
+  url: https://www.tiktok.com/@noahperlofit/video/7678831481837423903
+  caption: 'Save Time & Meal Prep Fluffy Protein Pancakes‼️ These are so good, Lower calorie, and super easy. One of my favorite
+    partners @Lifeway Kefir makes this recipe SO good using their Farmer Cheese and Kefir Butter so be sure to go get some
+    for yourself!! Meal Plans linked in my bio ❤️ 🔥Macros for Each Pancake (Recipe Makes 30): ~ 149 Calories ~ 10g Protein
+    ~ 16g Carbs ~ 5g Fat Ingredients for 30 (Divi'
+  agregado: '2026-10-23'
+- id: tiktok-7689583689554054431
+  platillo: Fideos con salsa de cacahuate picante
+  cocina: China
+  tipo: comida
+  proteina: vegetal
+  tecnica: salteado y emulsión de salsa
+  ingredientes_clave:
+  - noodles
+  - crema de cacahuate
+  - chile en hojuelas
+  - salsa de soya
+  - ajo
+  - aceite de ajonjolí
+  perfil: Cremoso, picante, nuez y umami
+  fuente: tiktok
+  url: https://www.tiktok.com/@howiener/video/7689583689554054431
+  caption: 'The best Peanut Noodle Recipe? 🥜🍜 source: @clairesharrynroberto on insta creado por howiener con la música original
+    sound - howiener de howiener howiener'
+  agregado: '2026-10-23'
+- id: tiktok-7696682826313338119
+  platillo: Ensalada de garbanzos con atún y pepino
+  cocina: Mediterránea
+  tipo: comida
+  proteina: atún y garbanzo
+  tecnica: mezclado en crudo / aderezado
+  ingredientes_clave:
+  - garbanzos
+  - atún
+  - pepino
+  - cebolla morada
+  - pimiento
+  - limón
+  perfil: fresca, cítrica, ligera y proteica
+  fuente: tiktok
+  url: https://www.tiktok.com/@jusalud/video/7696682826313338119
+  caption: 'Ensalada de garbanzos para el diario #dieta #comida #saludable #salud #viral creado por JUSalud con la música
+    sonido original de JUSalud JUSalud'
+  agregado: '2026-10-23'
+- id: tiktok-7688035619645181214
+  platillo: Burritos de pollo al chipotle con miel
+  cocina: Mexicana
+  tipo: comida
+  proteina: pollo
+  tecnica: marinado + asado y armado en tortilla
+  ingredientes_clave:
+  - muslo de pollo
+  - chipotle
+  - miel
+  - frijoles con tocino
+  - arroz
+  - guacamole
+  perfil: ahumado, dulce-picante, cremoso
+  fuente: tiktok
+  url: https://www.tiktok.com/@zachs.foods/video/7688035619645181214
+  caption: 'Honey Chipotle Chicken Burritos 🤤 Full recipe in my bio :) #cooking #mealprep #burrito #chicken #mealprepping
+    For the Honey Chipotle Chicken: 2 1/2 lb chicken thighs 1/2 can chipotle peppers 1 lime 1/4 cup cilantro 2 tbsp olive
+    oil 2 tbsp honey 1 tsp salt 1 tsp garlic powder 1 tsp onion powder 1 tsp paprika 1/2 tsp oregano 1/2 tsp cumin For the
+    Beans: 4 oz bacon 1 garlic clove 1/2 yellow onion 2 1'
+  agregado: '2026-10-23'
+- id: tiktok-7698578114154122510
+  platillo: Bibimbap ligero en una olla
+  cocina: Coreana
+  tipo: comida
+  proteina: carne molida de res
+  tecnica: salteado y cocción en una sola olla
+  ingredientes_clave:
+  - carne molida
+  - arroz jazmín
+  - shiitake
+  - germen de soya
+  - espinaca
+  - aceite de ajonjolí
+  perfil: umami, sésamo, ligeramente picante
+  fuente: tiktok
+  url: https://www.tiktok.com/@joexfitness/video/7698578114154122510
+  caption: '⇩ Full Recipe 🍚 ⇩ Macros per serving: Protein: 41g Carbs: 77g Fat: 14g Calories: 598 Ingredients per 2 servings
+    (makes 2 servings): - 6 oz ground beef, 95/5, lean, raw - 1/2 tsp salt - 1/2 tsp black pepper - 1 tbsp soy sauce - 1 raw
+    carrot, medium - 3 oz spinach - 1 tbsp sesame oil - 2 cup shiitake mushrooms - 2 cup bean sprouts - 1 tsp minced garlic
+    - 1 tsp minced ginger - 2/3 cups jasmine rice, '
+  agregado: '2026-10-23'
+- id: tiktok-7681055626801335566
+  platillo: Muslos de pollo con ajo y salvia sobre arroz en una sartén
+  cocina: Americana
+  tipo: cena
+  proteina: pollo
+  tecnica: sellado + horneado en una sartén
+  ingredientes_clave:
+  - muslos de pollo
+  - arroz
+  - ajo
+  - salvia
+  - espinaca
+  - caldo
+  perfil: herbal, aromático, reconfortante
+  fuente: tiktok
+  url: https://www.tiktok.com/@jenneatsgoood/video/7681055626801335566
+  caption: 'a tried and true one-pan meal to make every fall 🙌 minimal cleanup, budget-friendly, and oh sooooo flavorful welcome
+    back to my second season of 10 days of fall dinners!! episode 2 is my fave one-pan garlic and sage chicken thighs and
+    rice ✨ recipe is in my bio! #falldinnerideas #fallrecipes #onepanmeal #glutenfreerecipes #dinnerideas creado por Jenn
+    Lueke con la música Cane Canela Cha Cha de Rosc'
+  agregado: '2026-10-23'
+- id: tiktok-7698781763979578676
+  platillo: Moong dal (lentejas amarillas especiadas)
+  cocina: India
+  tipo: comida
+  proteina: vegetal (lenteja moong)
+  tecnica: hervido + tadka con ghee
+  ingredientes_clave:
+  - moong dal
+  - cúrcuma
+  - ghee
+  - cebolla
+  - ajo
+  - jengibre
+  perfil: especiado, terroso, reconfortante
+  fuente: tiktok
+  url: https://www.tiktok.com/@shreddedandfed/video/7698781763979578676
+  caption: '8 servings of moong dal, ready whenever you need them! 🍛❄️ This comforting, protein-rich vegetarian dal is budget-friendly,
+    packed with flavour and fiber, and perfect for freezer meal prep! Make it vegan by swapping ghee for oil. 🍛 MOONG DAL
+    – 209 cal | 14P | 2F | 34C Makes 8 servings INGREDIENTS • 2½ cups dry moong dal • ½ tsp turmeric (heaping) • 3 cups water
+    • 1 tbsp ghee • ¾ cup onion (120g), '
+  agregado: '2026-10-23'
+- id: tiktok-7684803125806451981
+  platillo: Pollo frito coreano (padak) en freidora de aire
+  cocina: Coreana
+  tipo: comida
+  proteina: pollo
+  tecnica: empanizado + air fryer + glaseado
+  ingredientes_clave:
+  - pollo
+  - fécula de maíz
+  - gochujang
+  - soya
+  - ajo
+  - cebollín
+  perfil: crujiente, dulce-picante, umami
+  fuente: tiktok
+  url: https://www.tiktok.com/@joexfitness/video/7684803125806451981
+  caption: creado por Joe x Fitness con la música original sound de Joe x Fitness Joe x Fitness
+  agregado: '2026-10-23'
+- id: tiktok-7699475953801710866
+  platillo: Pasta pomodoro con sardinas
+  cocina: Italiana
+  tipo: comida
+  proteina: sardina
+  tecnica: salsa reducida + emulsión con pasta
+  ingredientes_clave:
+  - espagueti
+  - sardinas
+  - tomate
+  - ajo
+  - albahaca
+  - parmesano
+  perfil: marino, tomate intenso, herbal
+  fuente: tiktok
+  url: https://www.tiktok.com/@lennardy/video/7699475953801710866
+  caption: 'Protein pastas: Budget friendly Pomodoro-style sardine pasta #pomodoro #proteinsnack #ProteinPacked #pastapasta
+    #proteinrecipes creado por Lennard con la música Jazz in a Coffee Cup de Rusty Holler Lennard'
+  agregado: '2026-10-23'
+- id: tiktok-7699429595774274838
+  platillo: Bowl de arroz con pollo a la parrilla vietnamita
+  cocina: Otra
+  tipo: comida
+  proteina: pollo
+  tecnica: marinado + grillado sobre arroz
+  ingredientes_clave:
+  - pollo
+  - arroz
+  - zanahoria
+  - pepino
+  - cilantro
+  - cacahuate
+  perfil: fresco, agridulce, herbal y crujiente
+  fuente: tiktok
+  url: https://www.tiktok.com/@mob/video/7699429595774274838
+  caption: 'Follow @mob for all episodes of RICEBOWLS Welcome to RICEBOWLS @Justin ‘Dustbin’ Tsang is here bring us our latest
+    series RICEBOWLS A series of easy ricebowl dishes inspired by bibimbap. Today’s episode is Vietnamese Grilled Chicken
+    Rice Bowl These were soooooooo friggin delicious, you’re not going to want to miss an episode so follow along and head
+    over to mob.co.uk to get the recipes creado por '
+  agregado: '2026-10-23'
+- id: tiktok-7699469120944852244
+  platillo: Crema de calabaza con ajo y crotones
+  cocina: Otra
+  tipo: comida
+  proteina: vegetal
+  tecnica: sofrito + hervido y licuado
+  ingredientes_clave:
+  - calabaza
+  - ajo
+  - mantequilla
+  - cebolla
+  - caldo de pollo
+  - crotones
+  perfil: cremosa, dulce, aroma a ajo
+  fuente: tiktok
+  url: https://www.tiktok.com/@jujumaoo/video/7699469120944852244
+  caption: '🎃 Pumpkin Soup | Soups so good it can cure any sickness Ep. 34 I’m nominated for Food Creator of the Year at the
+    TikTok Awards SEA! 🇵🇭 You can vote daily—and if we win, the top comment decides what diabolical soup I’m making next.
+    🫠 INGREDIENTS: Pumpkin Soup: - 1 kg squash, peeled and cubed - 3 tbsp olive oil - ¼ cup butter - 15-20 cloves of garlic,
+    chopped - 1 white onion, chopped - Chicken broth'
+  agregado: '2026-10-23'
 descartados:
 - id: pinterest-399553798164757632
   url: https://mx.pinterest.com/pin/399553798164757632/
@@ -7536,3 +8475,48 @@ descartados:
 - id: tiktok-7692083781393501454
   url: https://www.tiktok.com/@barefoodtim/video/7692083781393501454
   motivo: compilado semanal sin receta específica
+- id: tiktok-7694692763845053709
+  url: https://www.tiktok.com/@barefoodtim/video/7694692763845053709
+  motivo: compilación semanal de varias recetas
+- id: tiktok-7684689022773415190
+  url: https://www.tiktok.com/@jalalsamfit/photo/7684689022773415190
+  motivo: compilación de meal prep
+- id: tiktok-7695520089524718870
+  url: https://www.tiktok.com/@annabellecassidy_/video/7695520089524718870
+  motivo: compilación de meal prep
+- id: tiktok-7696503059635260675
+  url: https://www.tiktok.com/@mob/video/7696503059635260675
+  motivo: promoción de serie sin receta
+- id: tiktok-7697274915396930829
+  url: https://www.tiktok.com/@barefoodtim/video/7697274915396930829
+  motivo: compilación semanal sin receta
+- id: tiktok-7687669178685345046
+  url: https://www.tiktok.com/@alfiecooks/video/7687669178685345046
+  motivo: anuncio de serie de sopas
+- id: tiktok-7677247361583877399
+  url: https://www.tiktok.com/@fitfoodieselma/video/7677247361583877399
+  motivo: varias recetas, no identificable
+- id: tiktok-7696961720123788574
+  url: https://www.tiktok.com/@ainsley_rodriguez/video/7696961720123788574
+  motivo: meal prep de varias recetas
+- id: tiktok-7687750652587461906
+  url: https://www.tiktok.com/@brittanymccrystal/video/7687750652587461906
+  motivo: plan semanal sin receta única
+- id: tiktok-7679100451542846733
+  url: https://www.tiktok.com/@barefoodtim/video/7679100451542846733
+  motivo: compilación semanal sin receta
+- id: tiktok-7681698991402142989
+  url: https://www.tiktok.com/@barefoodtim/video/7681698991402142989
+  motivo: compilación semanal sin receta
+- id: tiktok-7684294576781233422
+  url: https://www.tiktok.com/@barefoodtim/video/7684294576781233422
+  motivo: compilación semanal sin receta
+- id: tiktok-7698198589008252176
+  url: https://www.tiktok.com/@brittanymccrystal/video/7698198589008252176
+  motivo: plan semanal sin receta única
+- id: tiktok-7673168846970162445
+  url: https://www.tiktok.com/@barefoodtim/video/7673168846970162445
+  motivo: meal prep genérico, sin platillo
+- id: tiktok-7690708689094708488
+  url: https://www.tiktok.com/@brittanymccrystal/video/7690708689094708488
+  motivo: plan semanal, sin receta específica
