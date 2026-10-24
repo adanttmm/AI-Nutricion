@@ -8,3 +8,6 @@ data/
 outputs/shopping/
 outputs/meal_prep/
 config/parsed_diets/
+
+# Prompts de ajuste de dieta: contienen datos personales de composición corporal
+*Ajuste*.md
